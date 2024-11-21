@@ -2,6 +2,9 @@
 
 # Especificação de Projeto de Autenticação e Autorização
 
+## Time
+- Atualizar
+
 ## Objetivo
 
 O objetivo deste projeto é implementar uma solução robusta de autenticação e autorização, incluindo o gerenciamento de Usuários, Perfis e Permissões. Este sistema deve permitir a administração detalhada de acesso por perfil e permissão, além de possibilitar autenticação por métodos tradicionais e avançados.
