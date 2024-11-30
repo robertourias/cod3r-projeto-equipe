@@ -1,0 +1,37 @@
+POST http://localhost:3333/users/register
+content-type: application/json
+
+{
+  "name": "João",
+  "email": "joao@zmail.com",
+  "password": "123456"
+}
+###
+
+GET http://localhost:3333/users
+###
+
+GET http://localhost:3333/users/d3f4b17b-f4c5-4a91-b4cf-087fe00c481a
+###
+
+PUT http://localhost:3333/users
+content-type: application/json
+
+{
+  "id": "d3f4b17b-f4c5-4a91-b4cf-087fe00c481a",
+  "name": "João da Silva",
+  "email": "joao@zmail.com",
+  "password": "654321"
+}
+###
+
+DELETE http://localhost:3333/users/d3f4b17b-f4c5-4a91-b4cf-087fe00c481a
+###
+
+
+
+GET http://localhost:3333
+###
+
+POST http://localhost:3333/auth/login
+###
