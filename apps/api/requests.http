@@ -2,30 +2,61 @@ POST http://localhost:3333/users/register
 content-type: application/json
 
 {
-  "name": "João",
-  "email": "joao@zmail.com",
-  "password": "123456"
+  "token": "",
+  "user": {  
+    "name": "João",
+    "email": "joao@zmail.com",
+    "password": "123456",
+    "phone": "+55 54 99999-0000",
+    "profileUrl" : "https://profile.com/123",
+    "recoveryToken": "no-token",
+    "tokenExpiration": null,
+    "twoFactorAuth": false
+  }
 }
 ###
 
 GET http://localhost:3333/users
+content-type: application/json
+
+{
+  "token": "Bearer 123456"
+}
 ###
 
-GET http://localhost:3333/users/d3f4b17b-f4c5-4a91-b4cf-087fe00c481a
+GET http://localhost:3333/users/81c0af7e-3353-4f5c-9304-bf6ecc64d3de
+content-type: application/json
+
+{
+  "token": "Bearer 123456"
+}
 ###
 
 PUT http://localhost:3333/users
 content-type: application/json
 
 {
-  "id": "d3f4b17b-f4c5-4a91-b4cf-087fe00c481a",
-  "name": "João da Silva",
-  "email": "joao@zmail.com",
-  "password": "654321"
+  "token": "Bearer 123456",
+  "user": { 
+    "id": "054864bb-da6a-4d0b-bcf2-4c8d67613c7c",
+    "name": "João",
+    "email": "joao2@zmail.com",
+    "password": "123456",
+    "phone": "+55 00 99999-1111",
+    "profileUrl" : "https://profile.com/joao123",
+    "recoveryToken": "no-token",
+    "tokenExpiration": null,
+    "twoFactorAuth": true
+  }
 }
 ###
 
-DELETE http://localhost:3333/users/d3f4b17b-f4c5-4a91-b4cf-087fe00c481a
+DELETE http://localhost:3333/users/6330aad2-ba6a-4247-bc2a-160641c6088b
+content-type: application/json
+
+{
+  "token": "Bearer 123456"
+}
 ###
 
 

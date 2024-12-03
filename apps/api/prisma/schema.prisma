@@ -11,13 +11,82 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  name       String
-  email      String    @unique
-  password   String
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
-  disabledAt DateTime?
+  id              String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  password        String
+  phone           String?
+  profileUrl      String?
+  recoveryToken   String?
+  tokenExpiration DateTime?
+  twoFactorAuth   Boolean          @default(false)
+  createdAt       DateTime?        @default(now())
+  updatedAt       DateTime?        @updatedAt
+  disabledAt      DateTime?
+  UserPermission  UserPermission[]
+  UserProfile     UserProfile[]
 
+  //active Boolean - considered true if disabledAt has value
   @@map("users")
+}
+
+model Profile {
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  description       String?
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @updatedAt
+  disabledAt        DateTime?
+  ProfilePermission ProfilePermission[]
+  UserProfile       UserProfile[]
+
+  //active Boolean - considered true if disabledAt has value
+  @@map("profiles")
+}
+
+model Permission {
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  description       String?
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @updatedAt
+  disabledAt        DateTime?
+  ProfilePermission ProfilePermission[]
+  UserPermission    UserPermission[]
+
+  //active Boolean - considered true if disabledAt has value
+  @@map("permissions")
+}
+
+model UserPermission {
+  id           Int        @id @default(autoincrement())
+  User         User       @relation(fields: [userId], references: [id])
+  userId       String
+  Permission   Permission @relation(fields: [permissionId], references: [id])
+  permissionId Int
+
+  @@index([userId, permissionId])
+  @@map("user_permissions")
+}
+
+model UserProfile {
+  id        Int     @id @default(autoincrement())
+  User      User    @relation(fields: [userId], references: [id])
+  userId    String
+  Profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int
+
+  @@index([userId, profileId])
+  @@map("user_profile")
+}
+
+model ProfilePermission {
+  id           Int        @id @default(autoincrement())
+  Profile      Profile    @relation(fields: [profileId], references: [id])
+  profileId    Int
+  Permission   Permission @relation(fields: [permissionId], references: [id])
+  permissionId Int
+
+  @@index([profileId, permissionId])
+  @@map("profile_permissions")
 }

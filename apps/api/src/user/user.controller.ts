@@ -1,58 +1,74 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { UserProps, CreateUser, UpdateUser, DeleteUser } from '@repo/core';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, } from '@repo/core';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { BcryptProvider } from 'src/providers/BcryptProvider';
+import { JwtProvider } from 'src/providers/JwtProvider';
 import { UserPrisma } from 'src/providers/user.prisma';
+
 
 @Controller('users')
 export class UserController {
 
-  constructor(private readonly repo: UserPrisma) { }
+  constructor(
+    private readonly repo: UserPrisma,
+    private readonly crypto: BcryptProvider,
+    private readonly tokenProvider: JwtProvider
+  ) { }
+
+  //registro de usuários será aberto?
+  @Post("register")
+  async register(@Body() data: RequestProps) {
+    try {
+      const usecase = new CreateUser(this.repo, this.crypto, this.tokenProvider)
+      return await usecase.execute(data?.user)
+    } catch (error: any) {
+      console.error(error)
+      return error.message
+    }
+  }
 
   @Get()
+  @UseGuards(AuthGuard)
   async findAll() {
     try {
-      return await this.repo.findAll()
-    } catch (error) {
+      const usecase = new FindUsers(this.repo)
+      return await usecase.execute()
+    } catch (error: any) {
       return error.message
     }
   }
 
   @Get(":id")
+  @UseGuards(AuthGuard)
   async findOne(@Param('id') id: string) {
     try {
-      const user = await this.repo.findById(id)
-      if (!user) return "Nenhum usuário encontrado com ID: " + id
+      const usecase = new FindUsers(this.repo)
+      const user = await usecase.execute(id)
+      if (!user) return "Usuário não encontrado"
       return user
-    } catch (error) {
-      return error.message
-    }
-  }
-
-  @Post("register")
-  async register(@Body() user: UserProps) {
-    try {
-      const usecase = new CreateUser(this.repo)
-      return await usecase.execute(user)
-    } catch (error) {
+    } catch (error: any) {
       return error.message
     }
   }
 
   @Put()
-  async update(@Body() user: UserProps) {
+  @UseGuards(AuthGuard)
+  async update(@Body() data: RequestProps) {
     try {
-      const usecase = new UpdateUser(this.repo)
-      return await usecase.execute(user)
+      const usecase = new UpdateUser(this.repo, this.crypto)
+      return await usecase.execute(data.user)
     } catch (error: any) {
       return error.message
     }
   }
 
   @Delete(":id")
+  @UseGuards(AuthGuard)
   async delete(@Param('id') id: string) {
     try {
       const usecase = new DeleteUser(this.repo)
       return await usecase.execute(id)
-    } catch (error) {
+    } catch (error: any) {
       return error.message
     }
   }

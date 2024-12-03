@@ -1,8 +1,13 @@
-import { User, UserProps } from "./model/User"
-import { UserRepository } from './provider/UserRepository'
+import { UserProps } from "./model/User"
+
 import { CreateUser } from './service/CreateUser'
 import { UpdateUser } from './service/UpdateUser'
 import { DeleteUser } from './service/DeleteUser'
+import { FindUsers } from "./service/FindUsers"
 
-export type { UserProps, UserRepository }
-export { User, CreateUser, UpdateUser, DeleteUser }
+import { UserRepository } from './provider/UserRepository'
+import { CryptoProvider } from './provider/CryptoProvider'
+import { TokenProvider } from "./provider/TokenProvider"
+
+export type { UserProps, UserRepository, CryptoProvider, TokenProvider }
+export { CreateUser, UpdateUser, DeleteUser, FindUsers }
