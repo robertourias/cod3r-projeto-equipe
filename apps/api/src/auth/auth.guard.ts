@@ -8,17 +8,17 @@ export class AuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
 
     const request = context.switchToHttp().getRequest()
-    const { token } = request.body
+    const { authorization } = request.headers
 
-    if (token) {
-      const [tokenType, tokenValue] = token?.split(" ")
-      
+    if (authorization) {
+      const [tokenType, tokenValue] = authorization?.split(" ")
+
       //TODO: criar validação real
       if (tokenType === "Bearer" && tokenValue === "123456")
         return true
       else
         return false
-      
+
     } else {
       return false
     }

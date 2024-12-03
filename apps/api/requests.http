@@ -2,7 +2,6 @@ POST http://localhost:3333/users/register
 content-type: application/json
 
 {
-  "token": "",
   "user": {  
     "name": "João",
     "email": "joao@zmail.com",
@@ -16,27 +15,26 @@ content-type: application/json
 }
 ###
 
+POST http://localhost:3333/users/toggle/318f06e0-c802-47c6-b0d3-c241c044e3f3
+content-type: application/json
+Authorization: Bearer 123456
+###
+
 GET http://localhost:3333/users
 content-type: application/json
-
-{
-  "token": "Bearer 123456"
-}
+Authorization: Bearer 123456
 ###
 
 GET http://localhost:3333/users/81c0af7e-3353-4f5c-9304-bf6ecc64d3de
 content-type: application/json
-
-{
-  "token": "Bearer 123456"
-}
+Authorization: Bearer 123456
 ###
 
 PUT http://localhost:3333/users
 content-type: application/json
+Authorization: Bearer 123456
 
 {
-  "token": "Bearer 123456",
   "user": { 
     "id": "054864bb-da6a-4d0b-bcf2-4c8d67613c7c",
     "name": "João",
@@ -51,12 +49,9 @@ content-type: application/json
 }
 ###
 
-DELETE http://localhost:3333/users/6330aad2-ba6a-4247-bc2a-160641c6088b
+DELETE http://localhost:3333/users/054864bb-da6a-4d0b-bcf2-4c8d67613c7c
 content-type: application/json
-
-{
-  "token": "Bearer 123456"
-}
+Authorization: Bearer 123456
 ###
 
 

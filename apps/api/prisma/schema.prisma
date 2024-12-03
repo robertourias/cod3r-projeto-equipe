@@ -14,7 +14,7 @@ model User {
   id              String           @id @default(uuid())
   name            String
   email           String           @unique
-  password        String
+  password        String?
   phone           String?
   profileUrl      String?
   recoveryToken   String?

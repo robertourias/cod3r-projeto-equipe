@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, } from '@repo/core';
+import { Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
+import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, } from '@repo/core';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { BcryptProvider } from 'src/providers/BcryptProvider';
 import { JwtProvider } from 'src/providers/JwtProvider';
@@ -21,6 +21,19 @@ export class UserController {
     try {
       const usecase = new CreateUser(this.repo, this.crypto, this.tokenProvider)
       return await usecase.execute(data?.user)
+    } catch (error: any) {
+      console.error(error)
+      return error.message
+    }
+  }
+
+  @Post("toggle/:id")
+  @UseGuards(AuthGuard)
+  async toggleStatus(@Param('id') id: string) {
+    try {
+      console.log("id:", id)
+      const usecase = new ToggleUser(this.repo)
+      return await usecase.execute(id)
     } catch (error: any) {
       console.error(error)
       return error.message
@@ -62,6 +75,7 @@ export class UserController {
     }
   }
 
+  //usuários podem ser excluídos ou só inativados?
   @Delete(":id")
   @UseGuards(AuthGuard)
   async delete(@Param('id') id: string) {

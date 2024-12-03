@@ -90,7 +90,21 @@ export class UserPrisma implements UserRepository {
 
   async delete(id: string): Promise<UserProps> {
     return await this.prisma.user.delete({
-      where: { id }
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: false,
+        phone: true,
+        profileUrl: true,
+        recoveryToken: true,
+        tokenExpiration: true,
+        twoFactorAuth: true,
+        createdAt: true,
+        updatedAt: true,
+        disabledAt: true,
+      }
     })
   }
 
