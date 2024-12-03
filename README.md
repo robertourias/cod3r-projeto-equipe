@@ -1,3 +1,10 @@
+# Passos para rodar o projeto
+1) npm install
+2) cd apps/api -> npx prisma migrate dev
+3) npm run seed (dentro de apps/api)
+4) cd ../.. -> npm run dev
+
+
 # Turborepo Tailwind CSS starter
 
 This is an official starter Turborepo.
