@@ -30,7 +30,6 @@ export class ToggleUser implements UseCase<string, UserProps> {
             ...userExists,
             disabledAt: new Date()
           })
-          console.log("disabling user...", newUser)
           return newUser
 
         } else {
@@ -39,7 +38,6 @@ export class ToggleUser implements UseCase<string, UserProps> {
             ...userExists,
             disabledAt: null
           })
-          console.log("enabling user...", newUser)
           return newUser
         }
       }
