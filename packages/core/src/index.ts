@@ -3,3 +3,4 @@ export * from './common/Id'
 export * from './common/RequestProps'
 
 export * from './user'
+export * from './auth'
