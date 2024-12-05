@@ -5,6 +5,6 @@ export class AppController {
   
   @Get()
   getHello(): string {
-    return "Backend with NestJS"
+    return "Hello World with NestJS"
   }
 }

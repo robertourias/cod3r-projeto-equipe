@@ -31,7 +31,6 @@ export class UserController {
   @UseGuards(AuthGuard)
   async toggleStatus(@Param('id') id: string) {
     try {
-      console.log("id:", id)
       const usecase = new ToggleUser(this.repo)
       return await usecase.execute(id)
     } catch (error: any) {

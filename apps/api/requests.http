@@ -1,3 +1,17 @@
+// AUTH
+// login
+POST http://localhost:3333/auth/login
+content-type: application/json
+
+{
+  "email": "joao@zmail.com",
+  "password": "123456"
+}
+###
+
+
+// USERS
+// registro de novo usuário
 POST http://localhost:3333/users/register
 content-type: application/json
 
@@ -15,21 +29,25 @@ content-type: application/json
 }
 ###
 
+// ativa / desativa usuário
 POST http://localhost:3333/users/toggle/318f06e0-c802-47c6-b0d3-c241c044e3f3
 content-type: application/json
-Authorization: Bearer 123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28iLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzMzMzk2NzU2LCJleHAiOjE3MzM0MDAzNTZ9.X58W48CXof5mB5RrYzaP6M8dsG00MBpBMpdSeXn0-fI
 ###
 
+// busca todos usuários
 GET http://localhost:3333/users
 content-type: application/json
-Authorization: Bearer 123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28iLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzMzMzk2NzU2LCJleHAiOjE3MzM0MDAzNTZ9.X58W48CXof5mB5RrYzaP6M8dsG00MBpBMpdSeXn0-fI
 ###
 
+// busca usuário por id
 GET http://localhost:3333/users/81c0af7e-3353-4f5c-9304-bf6ecc64d3de
 content-type: application/json
 Authorization: Bearer 123456
 ###
 
+// atualiza dados do usuário
 PUT http://localhost:3333/users
 content-type: application/json
 Authorization: Bearer 123456
@@ -49,15 +67,15 @@ Authorization: Bearer 123456
 }
 ###
 
+// exclui usuário 
+// - somente para testes, após finalizado projeto deve ser removido
 DELETE http://localhost:3333/users/054864bb-da6a-4d0b-bcf2-4c8d67613c7c
 content-type: application/json
 Authorization: Bearer 123456
 ###
 
 
-
+// Ola Mundo
 GET http://localhost:3333
 ###
 
-POST http://localhost:3333/auth/login
-###

@@ -4,13 +4,26 @@ import { TokenProvider } from '@repo/core'
 
 export class JwtProvider implements TokenProvider {
 
+  private readonly secret = process.env.SECRET ?? "oj12lkjxs97xcv-=qw4312k4=df09s78df234"
+
+  async validate(token: string): Promise<boolean> {
+
+    try {
+      jwt.verify(token, this.secret)
+      return true
+    } catch (error) {
+      console.error("JwtProvider:",error.message)
+      return false
+    }
+
+  }
+
   // constructor(private readonly configService: ConfigService) { }
 
   async signIn(payload: any): Promise<string> {
-    // const secret1 = this.configService.get("SECRET") ?? "oj12lkjxs97xcv-=qw4312k4=df09s78df234"
-    // console.log(secret1)
-    const secret = process.env.SECRET ?? "oj12lkjxs97xcv-=qw4312k4=df09s78df234"
-    return jwt.sign(payload, secret)
+    return jwt.sign(payload, this.secret, {
+      expiresIn: "1h"    //15m, 1d, 1h, 30s
+    })
   }
 
 }
