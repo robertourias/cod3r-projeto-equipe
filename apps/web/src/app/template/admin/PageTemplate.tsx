@@ -1,4 +1,5 @@
 import Header from "./Header";
+import SideMenu from "./SideMenu";
 
 interface PageTemplate {
   title: string;
@@ -9,7 +10,8 @@ interface PageTemplate {
 }
 export default function PageTemplate(props: PageTemplate) {
   return (
-    <main className="flex w-screen h-scree">
+    <main className="flex w-screen h-screen">
+      <SideMenu />
       <Header />
       {props.children}
     </main>
