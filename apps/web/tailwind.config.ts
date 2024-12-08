@@ -4,14 +4,11 @@ import type { Config } from "tailwindcss";
 import sharedConfig from "@repo/tailwind-config";
 
 const config: Pick<Config, "content" | "presets" | "theme"> = {
-  content: ["./src/app/**/*.tsx"],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   presets: [sharedConfig],
+  //caso precise, já está semi pronto
   theme: {
-    extend: {
-      fontFamily: {
-        'Poppins': ['Poppins', 'sans-serif',],
-      },
-    },
+    extend: {},
   },
 };
 
