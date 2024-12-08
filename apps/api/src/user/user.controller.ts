@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
-import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, } from '@repo/core';
+import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, ForgotPassword, } from '@repo/core';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { BcryptProvider } from 'src/providers/BcryptProvider';
 import { JwtProvider } from 'src/providers/JwtProvider';
@@ -26,6 +26,17 @@ export class UserController {
       return error.message
     }
   }
+
+  // @Post("esqueci-senha")
+  // async forgot(@Body() email: string) {
+  //   const usecase = new ForgotPassword(this.repo);
+  //   usecase.execute(email)
+  // }
+
+  // @Put("recuperar-senha")
+  // async recovery(@Body() id: any, token: any) {
+
+  // }
 
   @Post("toggle/:id")
   @UseGuards(AuthGuard)
@@ -83,8 +94,9 @@ export class UserController {
       const usecase = new DeleteUser(this.repo)
       return await usecase.execute(id)
     } catch (error: any) {
+      
       return error.message
     }
   }
 
-}
+} 
