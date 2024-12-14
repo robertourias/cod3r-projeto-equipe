@@ -5,8 +5,8 @@
   "elements": [
     {
       "type": "text",
-      "version": 201,
-      "versionNonce": 892397767,
+      "version": 263,
+      "versionNonce": 938251850,
       "isDeleted": false,
       "id": "OqhrD9DXpx96bARAFfp9R",
       "fillStyle": "solid",
@@ -20,24 +20,24 @@
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "width": 937.5,
-      "height": 504,
+      "height": 528,
       "seed": 32228647,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1733329841343,
+      "updated": 1733415530803,
       "link": null,
       "locked": false,
       "fontSize": 20,
       "fontFamily": 3,
-      "text": "Fase 1: Estrutura Básica de Autenticação: Casos de Uso\n\n- Cadastro de Usuário: Permitir o registro de novos usuários no sistema.\n-- crud - OK\n-- ativa/inativa usuario - OK\n\n- Alteração de Nome: Permitir que o usuário altere seu nome dentro do sistema.\n-- junto ao crud ou implementar separado?\n\n- Alteração de Senha: Permitir que o usuário altere sua senha dentro do sistema.\n-- junto ao crud ou implementar separado?\n\n\n- Login de Usuário: Autenticar o usuário com base em e-mail e senha.\n\n- Recuperação de Senha: Enviar um e-mail para recuperação de senha.\n- Logout: Encerrar a sessão do usuário.\n\nDetalhes de Segurança:\n- Persistir senha criptografadas (hash de senha)\n- uso de tokens para sessão",
+      "text": "Fase 1: Estrutura Básica de Autenticação: Casos de Uso\n\n- Cadastro de Usuário: Permitir o registro de novos usuários no sistema.\n-- crud - OK\n-- ativa/inativa usuario - OK\n\n- Alteração de Nome: Permitir que o usuário altere seu nome dentro do sistema.\n-- junto ao crud ou implementar separado?\n\n- Alteração de Senha: Permitir que o usuário altere sua senha dentro do sistema.\n-- junto ao crud ou implementar separado?\n\n- Login de Usuário: Autenticar o usuário com base em e-mail e senha.\n-- ok\n\n- Recuperação de Senha: Enviar um e-mail para recuperação de senha.\n- Logout: Encerrar a sessão do usuário.\n-- somente no frontend, eliminando token dos cookies\n\nDetalhes de Segurança:\n- Persistir senha criptografadas (hash de senha)\n- uso de tokens para sessão",
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Fase 1: Estrutura Básica de Autenticação: Casos de Uso\n\n- Cadastro de Usuário: Permitir o registro de novos usuários no sistema.\n-- crud - OK\n-- ativa/inativa usuario - OK\n\n- Alteração de Nome: Permitir que o usuário altere seu nome dentro do sistema.\n-- junto ao crud ou implementar separado?\n\n- Alteração de Senha: Permitir que o usuário altere sua senha dentro do sistema.\n-- junto ao crud ou implementar separado?\n\n\n- Login de Usuário: Autenticar o usuário com base em e-mail e senha.\n\n- Recuperação de Senha: Enviar um e-mail para recuperação de senha.\n- Logout: Encerrar a sessão do usuário.\n\nDetalhes de Segurança:\n- Persistir senha criptografadas (hash de senha)\n- uso de tokens para sessão",
+      "originalText": "Fase 1: Estrutura Básica de Autenticação: Casos de Uso\n\n- Cadastro de Usuário: Permitir o registro de novos usuários no sistema.\n-- crud - OK\n-- ativa/inativa usuario - OK\n\n- Alteração de Nome: Permitir que o usuário altere seu nome dentro do sistema.\n-- junto ao crud ou implementar separado?\n\n- Alteração de Senha: Permitir que o usuário altere sua senha dentro do sistema.\n-- junto ao crud ou implementar separado?\n\n- Login de Usuário: Autenticar o usuário com base em e-mail e senha.\n-- ok\n\n- Recuperação de Senha: Enviar um e-mail para recuperação de senha.\n- Logout: Encerrar a sessão do usuário.\n-- somente no frontend, eliminando token dos cookies\n\nDetalhes de Segurança:\n- Persistir senha criptografadas (hash de senha)\n- uso de tokens para sessão",
       "lineHeight": 1.2,
-      "baseline": 499
+      "baseline": 523
     }
   ],
   "appState": {

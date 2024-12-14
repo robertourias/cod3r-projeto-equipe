@@ -1,6 +1,5 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { JwtProvider } from 'src/providers/JwtProvider';
+import { CanActivate, ExecutionContext, ForbiddenException, HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { JwtProvider } from 'src/providers/jwt.provider';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -11,34 +10,33 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext,): Promise<boolean> {
 
-    try {
-      const request = context.switchToHttp().getRequest()
-      const { authorization } = request.headers
+    // try {
+    const request = context.switchToHttp().getRequest()
+    // console.log("REQ:", request)
+    const { authorization } = request.headers
 
-      if (authorization) {
+    if (authorization) {
 
-        const [tokenType, tokenValue] = authorization?.split(" ")
-        // console.log(tokenValue)
+      const [tokenType, tokenValue] = authorization?.split(" ")
 
-        //TODO: criar validação real
-        if (tokenType != "" && tokenValue != "") {
-          if (tokenType === "Bearer" && await this.tokenProvider.validate(tokenValue))
-            return true
-          else
-            return false
-        }
-
-
-
-      } else {
-        return false
+      if (tokenType != "" && tokenValue != "") {
+        if (tokenType === "Bearer" && await this.tokenProvider.validate(tokenValue))
+          return true
+        else
+          throw new ForbiddenException("Acesso negado", { description: request.method + " " + request.url }) //, { description: "AuthGuard" }
+        // return false
       }
 
-
-    } catch (error) {
-      console.error(error.message)
-      return false
+    } else {
+      throw new ForbiddenException("Acesso negado", { description: request.method + " " + request.url }) //, { description: "AuthGuard" }
+      // return false
     }
+
+    // } catch (error) {
+    //   console.error(error.message)
+    //   throw new InternalServerErrorException("Acesso negado", { cause: error }) //, { description: "AuthGuard" }
+    //   // return false
+    // }
 
   }
 }

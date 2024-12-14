@@ -25,11 +25,14 @@ export class LoginUser implements UseCase<LoginProps, CoreResponse> {
         const token = await this.tokenProvider.signIn({ name: userExist.name, email: userExist.email })
 
         //exclui a senha do retorno
-        delete userExist.password   
+        delete userExist.password
 
         return {
-          token,
-          user: userExist
+          success: true,
+          data: {
+            token,
+            user: userExist
+          }
         }
 
       } else {
