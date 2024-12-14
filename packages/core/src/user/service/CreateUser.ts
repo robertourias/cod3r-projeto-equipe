@@ -19,7 +19,6 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
 
     //new user
     if (!data?.id) {
-
       const userExists = await this.repo.findByEmail(data?.email)
       if (userExists) {
         throw new Error(`Usuário já existe com email: ${data?.email}`)

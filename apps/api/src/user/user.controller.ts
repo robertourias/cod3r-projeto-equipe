@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
-import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, ForgotPassword, } from '@repo/core';
+import { BadRequestException, Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
+import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
+import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, GenerateToken, RecoveryPassword} from '@repo/core';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { BcryptProvider } from 'src/providers/BcryptProvider';
 import { JwtProvider } from 'src/providers/JwtProvider';
 import { UserPrisma } from 'src/providers/user.prisma';
+import { UserService } from './user.service';
+
 
 
 @Controller('users')
@@ -12,7 +15,8 @@ export class UserController {
   constructor(
     private readonly repo: UserPrisma,
     private readonly crypto: BcryptProvider,
-    private readonly tokenProvider: JwtProvider
+    private readonly tokenProvider: JwtProvider,
+    private readonly userService: UserService,
   ) { }
 
   //registro de usuários será aberto?
@@ -27,16 +31,34 @@ export class UserController {
     }
   }
 
-  // @Post("esqueci-senha")
-  // async forgot(@Body() email: string) {
-  //   const usecase = new ForgotPassword(this.repo);
-  //   usecase.execute(email)
-  // }
+  @Post("esqueci-senha")
+  async forgot(@Body() data: RequestProps) {
+    try {
+      const email = data?.user.email
+      const usecase = new GenerateToken(this.repo);
+      const user = await usecase.execute(email)
+      if(!user){
+        throw new BadRequestException("Email não encontrado");
+      }else{
+        await this.userService.sendEmail(user.email, user.recoveryToken);
+        return user
+      }
+    } catch (error) {
+      return error.message
+    }
+  }
 
-  // @Put("recuperar-senha")
-  // async recovery(@Body() id: any, token: any) {
-
-  // }
+  @Put("recuperar-senha")
+  async recovery(@Body() data: any,@Query('email') email: string, @Query('token') token: string) {
+    try {
+      const usecase = new RecoveryPassword(this.repo, this.crypto);
+      data = {...data, email, token}
+      await usecase.execute(data)
+      
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
 
   @Post("toggle/:id")
   @UseGuards(AuthGuard)

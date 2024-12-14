@@ -4,7 +4,7 @@ content-type: application/json
 {
   "user": {  
     "name": "João",
-    "email": "joao@zmail.com",
+    "email": "joao2@zmail.com",
     "password": "123456",
     "phone": "+55 54 99999-0000",
     "profileUrl" : "https://profile.com/123",
@@ -18,6 +18,26 @@ content-type: application/json
 POST http://localhost:3333/users/toggle/318f06e0-c802-47c6-b0d3-c241c044e3f3
 content-type: application/json
 Authorization: Bearer 123456
+###
+
+POST http://localhost:3333/users/esqueci-senha
+content-type: application/json
+Authorization: Bearer 123456
+
+{
+  "user": {
+    "email": "guilhermearisteu@gmail.com"
+  }
+}
+###
+
+PUT http://localhost:3333/users/recuperar-senha/?email=guilhermearisteu@gmail.com&token=a5GizH
+content-type: application/json
+Authorization: Bearer 123456
+
+{
+  "newPassword": "novaSenhaTeste"
+}
 ###
 
 GET http://localhost:3333/users
