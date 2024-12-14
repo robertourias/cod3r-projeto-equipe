@@ -1,12 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
-import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, } from '@repo/core';
+import { Body, Controller, Delete, Get, HttpException, InternalServerErrorException, Param, Post, Put, Res, UseFilters, UseGuards } from '@nestjs/common';
+import { CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, UserProps, } from '@repo/core';
+import { Response } from 'express';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { BcryptProvider } from 'src/providers/BcryptProvider';
-import { JwtProvider } from 'src/providers/JwtProvider';
+import { CustomFilter } from 'src/errors/custom/custom.filter';
+import { BcryptProvider } from 'src/providers/bcrypt.provider';
+import { JwtProvider } from 'src/providers/jwt.provider';
 import { UserPrisma } from 'src/providers/user.prisma';
 
 
 @Controller('users')
+@UseFilters(CustomFilter)
 export class UserController {
 
   constructor(
@@ -17,74 +20,120 @@ export class UserController {
 
   //registro de usuários será aberto?
   @Post("register")
-  async register(@Body() data: RequestProps) {
-    try {
-      const usecase = new CreateUser(this.repo, this.crypto, this.tokenProvider)
-      return await usecase.execute(data?.user)
-    } catch (error: any) {
-      console.error(error)
-      return error.message
+  async register(@Body() data: UserProps, @Res() res: Response) {
+
+    const usecase = new CreateUser(this.repo, this.crypto, this.tokenProvider)
+    const result = await usecase.execute(data)
+
+    if (result.success) {
+      res.status(result?.status ?? 200).json({
+        status: result.status,
+        message: result.message,
+        data: result.data
+      })
+      
+    } else {
+      throw new HttpException(result.message, result.status, { cause: result.errors })
     }
   }
 
-  @Post("toggle/:id")
-  @UseGuards(AuthGuard)
-  async toggleStatus(@Param('id') id: string) {
-    try {
-      console.log("id:", id)
-      const usecase = new ToggleUser(this.repo)
-      return await usecase.execute(id)
-    } catch (error: any) {
-      console.error(error)
-      return error.message
-    }
-  }
 
   @Get()
   @UseGuards(AuthGuard)
-  async findAll() {
-    try {
-      const usecase = new FindUsers(this.repo)
-      return await usecase.execute()
-    } catch (error: any) {
-      return error.message
+  async findAll(@Res() res: Response) {
+
+    const usecase = new FindUsers(this.repo)
+    const result = await usecase.execute()
+
+    if (result.success) {
+      res.status(result?.status ?? 200).json({
+        status: result.status,
+        message: result.message,
+        data: result.data
+      })
+
+    } else {
+      throw new HttpException(result.message, result.status, { cause: result.errors })
     }
   }
 
   @Get(":id")
   @UseGuards(AuthGuard)
-  async findOne(@Param('id') id: string) {
-    try {
-      const usecase = new FindUsers(this.repo)
-      const user = await usecase.execute(id)
-      if (!user) return "Usuário não encontrado"
-      return user
-    } catch (error: any) {
-      return error.message
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+
+    const usecase = new FindUsers(this.repo)
+    const result = await usecase.execute(id)
+
+    if (result.success) {
+      res.status(result?.status ?? 200).json({
+        status: result.status,
+        message: result.message,
+        data: result.data
+      })
+
+    } else {
+      throw new HttpException(result.message, result.status, { cause: result.errors })
     }
   }
 
   @Put()
   @UseGuards(AuthGuard)
-  async update(@Body() data: RequestProps) {
-    try {
-      const usecase = new UpdateUser(this.repo, this.crypto)
-      return await usecase.execute(data.user)
-    } catch (error: any) {
-      return error.message
+  async update(@Body() data: UserProps, @Res() res: Response) {
+
+    const usecase = new UpdateUser(this.repo, this.crypto)
+    const result = await usecase.execute(data)
+
+    if (result.success) {
+      res.status(result?.status ?? 200).json({
+        status: result.status,
+        message: result.message,
+        data: result.data
+      })
+
+    } else {
+      throw new HttpException(result.message, result.status, { cause: result.errors })
+    }
+
+  }
+
+  @Post("toggle/:id")
+  @UseGuards(AuthGuard)
+  async toggleStatus(@Param('id') id: string, @Res() res: Response) {
+
+    const usecase = new ToggleUser(this.repo)
+    const result = await usecase.execute(id)
+
+    if (result.success) {
+      res.status(result?.status ?? 200).json({
+        status: result.status,
+        message: result.message,
+        data: result.data
+      })
+
+    } else {
+      throw new HttpException(result.message, result.status, { cause: result.errors })
     }
   }
 
   //usuários podem ser excluídos ou só inativados?
   @Delete(":id")
   @UseGuards(AuthGuard)
-  async delete(@Param('id') id: string) {
-    try {
-      const usecase = new DeleteUser(this.repo)
-      return await usecase.execute(id)
-    } catch (error: any) {
-      return error.message
+  async delete(@Param('id') id: string, @Res() res: Response) {
+
+    const usecase = new DeleteUser(this.repo)
+    const result = await usecase.execute(id)
+
+    if (result.success) {
+      res.status(result?.status ?? 200).json({
+        status: result.status,
+        message: result.message,
+        data: result.data
+      })
+
+    } else {
+      throw new HttpException(result.message, result.status, { cause: result.errors })
     }
+
   }
 
 }

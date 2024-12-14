@@ -1,27 +1,42 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { CanActivate, ExecutionContext, ForbiddenException, HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { JwtProvider } from 'src/providers/jwt.provider';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
 
+  constructor(
+    private readonly tokenProvider: JwtProvider
+  ) { }
+
+  async canActivate(context: ExecutionContext,): Promise<boolean> {
+
+    // try {
     const request = context.switchToHttp().getRequest()
+    // console.log("REQ:", request)
     const { authorization } = request.headers
 
     if (authorization) {
+
       const [tokenType, tokenValue] = authorization?.split(" ")
 
-      //TODO: criar validação real
-      if (tokenType === "Bearer" && tokenValue === "123456")
-        return true
-      else
-        return false
+      if (tokenType != "" && tokenValue != "") {
+        if (tokenType === "Bearer" && await this.tokenProvider.validate(tokenValue))
+          return true
+        else
+          throw new ForbiddenException("Acesso negado", { description: request.method + " " + request.url }) //, { description: "AuthGuard" }
+        // return false
+      }
 
     } else {
-      return false
+      throw new ForbiddenException("Acesso negado", { description: request.method + " " + request.url }) //, { description: "AuthGuard" }
+      // return false
     }
+
+    // } catch (error) {
+    //   console.error(error.message)
+    //   throw new InternalServerErrorException("Acesso negado", { cause: error }) //, { description: "AuthGuard" }
+    //   // return false
+    // }
 
   }
 }
