@@ -7,6 +7,7 @@ export interface UserProps extends EntityProps {
   phone?: string,
   profileUrl?: string,
   recoveryToken?: string,
+  tokenExpiration?: string,
   twoFactorAuth?: boolean,
   UserPermission?: [],
   UserProfile?: []

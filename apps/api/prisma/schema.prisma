@@ -18,7 +18,7 @@ model User {
   phone           String?
   profileUrl      String?
   recoveryToken   String?
-  tokenExpiration DateTime?
+  tokenExpiration String?
   twoFactorAuth   Boolean          @default(false)
   createdAt       DateTime?        @default(now())
   updatedAt       DateTime?        @updatedAt
