@@ -26,12 +26,12 @@ Authorization: Bearer 123456
 
 {
   "user": {
-    "email": "guilhermearisteu@gmail.com"
+    "email": "joao@zmail.com"
   }
 }
 ###
 
-PUT http://localhost:3333/users/recuperar-senha/?email=guilhermearisteu@gmail.com&token=a5GizH
+PUT http://localhost:3333/users/recuperar-senha/?email=joao@zmail.com&token=a5GizH
 content-type: application/json
 Authorization: Bearer 123456
 
