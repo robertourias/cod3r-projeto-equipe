@@ -25,6 +25,7 @@ model User {
   disabledAt      DateTime?
   UserPermission  UserPermission[]
   UserProfile     UserProfile[]
+  Audit           Audit[]
 
   //active Boolean - considered true if disabledAt has value
   @@map("users")
@@ -89,4 +90,20 @@ model ProfilePermission {
 
   @@index([profileId, permissionId])
   @@map("profile_permissions")
+}
+
+model Audit {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  moduleName   String?
+  useCase      String?
+  User         User?    @relation(fields: [userId], references: [id])
+  userId       String?
+  message      String?
+  requestData  String?
+  responseData String?
+  host         String?
+  userAgent    String?
+
+  @@map("audits")
 }

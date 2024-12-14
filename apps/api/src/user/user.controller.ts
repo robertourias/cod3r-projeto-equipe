@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, InternalServerErrorException, Param, Post, Put, Res, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, InternalServerErrorException, Param, Post, Put, Req, Res, UseFilters, UseGuards } from '@nestjs/common';
 import { CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, UserProps, } from '@repo/core';
 import { Response } from 'express';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -20,10 +20,12 @@ export class UserController {
 
   //registro de usuários será aberto?
   @Post("register")
-  async register(@Body() data: UserProps, @Res() res: Response) {
+  async register(@Body() data: UserProps, @Res() res: Response, @Req() req: Request) {
+
+    console.log("REQUEST:", req)
 
     const usecase = new CreateUser(this.repo, this.crypto, this.tokenProvider)
-    const result = await usecase.execute(data)
+    const result = await usecase.execute(data, {})
 
     if (result.success) {
       res.status(result?.status ?? 200).json({
@@ -31,7 +33,7 @@ export class UserController {
         message: result.message,
         data: result.data
       })
-      
+
     } else {
       throw new HttpException(result.message, result.status, { cause: result.errors })
     }
