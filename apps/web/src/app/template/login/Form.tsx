@@ -46,7 +46,7 @@ export default function Form() {
             <img
               src={SenhaLogo.src}
               alt="Senha Logo"
-              className="w-5 h-5 absolute right-5 top-10"
+              className="w-5 h-5 absolute right-5 top-9"
             />
             <label
               htmlFor="senhaInput"
