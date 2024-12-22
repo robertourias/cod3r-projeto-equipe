@@ -6,7 +6,7 @@ import ReportIcon from "../../../../public/report-icon.png";
 
 export default function SideMenu() {
   return (
-    <div className="h-full w-1/6 flex flex-col">
+    <div className="h-full w-1/5 flex flex-col">
       <img src={LogoSecurity.src} alt="Logo Security" width="162" height="129" className="my-4 mx-auto" />
       <select className="bg-slate-800 text-slate-500 leading-9 w-4/5 h-10 rounded-lg mb-3.5 mx-auto font-Poppins font-semibold ">
         <option>Perfil de Acesso 1</option>

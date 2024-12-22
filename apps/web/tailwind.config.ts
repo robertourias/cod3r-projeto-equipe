@@ -8,7 +8,11 @@ const config: Pick<Config, "content" | "presets" | "theme"> = {
   presets: [sharedConfig],
   //caso precise, já está semi pronto
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'admin-inner-container': '#18181B'
+      }
+    },
   },
 };
 

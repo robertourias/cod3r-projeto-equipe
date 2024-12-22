@@ -1,3 +1,4 @@
+import ContentContainer from "../ContentContainer";
 import Header from "./Header";
 import SideMenu from "./SideMenu";
 
@@ -12,8 +13,10 @@ export default function PageTemplate(props: PageTemplate) {
   return (
     <main className="flex w-screen h-screen">
       <SideMenu />
-      <Header />
-      {props.children}
+      <div className="flex flex-col w-full ">
+        <Header />
+        <ContentContainer />
+      </div>
     </main>
   )
 }
