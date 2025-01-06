@@ -9,7 +9,7 @@ export default function Header() {
 
   const [openSearchInput, setOpenSearchInput] = useToggle(false);
 
-  console.log("OPEN", openSearchInput);
+  // console.log("OPEN", openSearchInput);
 
   return (
     <header className="flex w-full h-28 p-5 justify-between items-center">
