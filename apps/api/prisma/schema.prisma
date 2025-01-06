@@ -102,6 +102,7 @@ model Audit {
   message      String?
   requestData  String?
   responseData String?
+  beforeUpdate String?
   host         String?
   userAgent    String?
 

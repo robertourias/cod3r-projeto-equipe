@@ -6,8 +6,12 @@ export interface AuditProps extends EntityProps {
   moduleName?: string,
   useCase?: string,
   User?: UserProps,
+  userId?: string,
   message?: string,
   requestData?: any,
-  responseData?: any
-  
+  responseData?: any,
+  beforeUpdate?: any,
+  host?: string,
+  userAgent?: string
+
 }

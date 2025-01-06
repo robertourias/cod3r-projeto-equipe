@@ -1,3 +1,5 @@
+import { AuditProps } from "../model/AuditProps";
+
 export interface AuditRepository {
-  save(data: any): Promise<void>
+  save(data: AuditProps): Promise<void>
 }

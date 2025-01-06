@@ -23,4 +23,8 @@ export class JwtProvider implements TokenProvider {
     })
   }
 
+  static async getPayload(string: any): Promise<any> {
+    return await jwt.verify(string, process.env.SECRET)
+  }
+
 }
