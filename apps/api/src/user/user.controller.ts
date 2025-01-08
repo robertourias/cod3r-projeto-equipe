@@ -7,7 +7,7 @@ import { CustomFilter } from 'src/errors/custom/custom.filter';
 import { BcryptProvider } from 'src/providers/bcrypt.provider';
 import { JwtProvider } from 'src/providers/jwt.provider';
 import { UserPrisma } from 'src/providers/user.prisma';
-import { UserService } from './user.service';
+import { EmailProvider } from 'src/providers/email.provider';
 
 
 
@@ -19,7 +19,7 @@ export class UserController {
     private readonly repo: UserPrisma,
     private readonly crypto: BcryptProvider,
     private readonly tokenProvider: JwtProvider,
-    private readonly userService: UserService
+    private readonly sendEmail: EmailProvider,
   ) { }
 
   //registro de usuários será aberto?
@@ -50,7 +50,7 @@ export class UserController {
       if(!user){
         throw new BadRequestException("Email não encontrado");
       }else{
-        await this.userService.sendEmail(user.email, user.recoveryToken);
+        await this.sendEmail.sendEmailRecovery(user.email, user.recoveryToken)
         return user
       }
     } catch (error) {
