@@ -1,10 +1,17 @@
+"use client";
+
 import EmailLogo from "../../../../public/icons8-email-50.png";
 import NameLogo from "../../../../public/icons8-writing-50.png";
 import SenhaLogo from "../../../../public/icons8-lock-50.png";
 import { poppins400, poppins600 } from "../../../utils/loadFont";
+import { useState } from "react";
 import Link from "next/link";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export default function Form() {
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   return (
     <div className="text-skin-innerText bg-skin-formBackground m-auto h-auto flex flex-col min-w-96 w-1/4 items-center rounded-lg font-Poppins p-6">
       <p className={`${poppins600.className} text-2xl mb-4`}>Cadastrar</p>
@@ -85,6 +92,47 @@ export default function Form() {
               id="repeteSenhaInput"
               className="bg-skin-inputBackground rounded-lg w-full p-2 pl-12 mb-1 focus:outline-none focus:ring-2 focus:ring-skin-base"
             />
+          </div>
+          <div className="relative mb-6">
+            <label
+              htmlFor="telefoneInput"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-skin-innerText"
+            >
+              Fone
+            </label>
+            <div className="bg-skin-inputBackground rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base">
+              <PhoneInput
+                country={"br"}
+                value={phoneNumber}
+                inputProps={{
+                  className:
+                    "bg-skin-inputBackground rounded-lg w-full h-fit p-2 pl-12 focus:outline-none focus:ring-2 focus:ring-skin-base",
+                }}
+                dropdownStyle={{
+                  backgroundColor: "#09090b",
+                  color: "#fff",
+                }}
+                buttonStyle={{
+                  backgroundColor: "#09090b",
+                  color: "#fff",
+                  border: "0",
+                  outline: "0",
+                  padding: "0",
+                  height: "90%",
+                  margin: "1px",
+                  alignSelf: "center",
+                }}
+                inputStyle={{
+                  backgroundColor: "#09090b",
+                  color: "#fff",
+                }}
+                searchStyle={{
+                  backgroundColor: "#09090b",
+                  color: "#000",
+                }}
+                onChange={(value) => setPhoneNumber(value)}
+              />
+            </div>
           </div>
         </div>
         <button
