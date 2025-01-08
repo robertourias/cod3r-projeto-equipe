@@ -61,7 +61,7 @@ export default function Form() {
             />
           </div>
           <Link
-            href="https://www.cod3r.com.br/"
+            href="./troca-senha"
             className="block text-end text-gray-500 -mr-5"
           >
             Esqueceu a senha?
@@ -89,7 +89,7 @@ export default function Form() {
       </div>
       <p className="text-skin-innerText">
         Ainda não possui conta?&nbsp;
-        <Link className="text-skin-linkText" href="https://www.cod3r.com.br">
+        <Link className="text-skin-linkText" href="./cadastro">
           Cadastre-se aqui
         </Link>
       </p>

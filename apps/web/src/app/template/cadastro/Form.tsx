@@ -144,10 +144,7 @@ export default function Form() {
         <div className="p-4">
           <p>
             Já possui conta?&nbsp;
-            <Link
-              href="https://www.cod3r.com.br/"
-              className="text-end text-skin-linkText"
-            >
+            <Link href="./login" className="text-end text-skin-linkText">
               Faça login.
             </Link>
           </p>
