@@ -34,5 +34,6 @@ body {
     --button-security-bg-color-green: #22c55e;
     --button-security-bg-color-red: #ef4444;
     --button-security-bg-color-gray: #27272a;
+    --input-select-bg-color-gray: #3f3f46;
   }
 }
