@@ -46,7 +46,7 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
       }
     }
 
-    const userExists = await this.repo.findById(data.id)
+    const userExists = await this.repo.findById(data.id+"")
 
     if (!userExists) {
       return {

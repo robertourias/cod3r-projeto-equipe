@@ -1,7 +1,7 @@
 import { Id } from "./Id"
 
 export interface EntityProps {
-  id?: string               //string | number | null,
+  id?: string              //string | number | null,
   createdAt?: Date | null,
   updatedAt?: Date | null,
   disabledAt?: Date | null

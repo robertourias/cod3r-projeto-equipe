@@ -18,7 +18,7 @@ content-type: application/json
 {
   "user": {  
     "name": "João",
-    "email": "joao2@zmail.com",
+    "email": "joao@zmail.com",
     "password": "123456",
     "phone": "+55 54 99999-0000",
     "profileUrl" : "https://profile.com/123",
@@ -27,12 +27,13 @@ content-type: application/json
     "twoFactorAuth": false
   }
 }
+
 ###
 
 
 POST http://localhost:3333/users/esqueci-senha
 content-type: application/json
-Authorization: Bearer 123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gSi4gSnVuaW9yIiwiZW1haWwiOiJqb2FvQHptYWlsLmNvbSIsImlhdCI6MTczNDAwMTEyNSwiZXhwIjoxNzM0MDA0NzI1fQ.HxbyROXE6Qrh5sLiHEvVOYNgK9nsXSLdXbJUwXU4Fus
 
 {
   "user": {
