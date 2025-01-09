@@ -135,6 +135,7 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
 
       }
 
+  
 
     } else {
       //usuário não informado - logar e retornar com erro
