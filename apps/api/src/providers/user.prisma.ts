@@ -9,8 +9,9 @@ export class UserPrisma implements UserRepository {
 
   async save(user: UserProps, withPassword: boolean = false): Promise<UserProps> {
 
+    // console.log("UserPrisma.save()", user)
     const result = await this.prisma.user.upsert({
-      where: { id: user.id || '00000000-0000-0000-0000-000000000000' },
+      where: { id: user.id?.toString() || '00000000-0000-0000-0000-000000000000' },
       update: user as any,
       create: user as any,
       select: {

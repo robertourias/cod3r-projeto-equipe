@@ -70,7 +70,7 @@ async function seed() {
     data: {
       name: "ADMIN",
       description: "Administrador do sistema",
-      ProfilePermission: {
+      Permissions: {
         create: [
           { permissionId: createUsersPerm.id },
           { permissionId: updateUsersPerm.id },
@@ -87,7 +87,7 @@ async function seed() {
     data: {
       name: "USER",
       description: "",
-      ProfilePermission: {
+      Permissions: {
         create: [
           { permissionId: viewUsersPerm.id }
         ]
@@ -105,7 +105,7 @@ async function seed() {
       name: "Administrador",
       email: "admin@zmail.com.br",
       password: await bcrypt.hash("123456", process.env.SALTROUNDS ?? 10),
-      UserProfile: {
+      Profiles: {
         create: [
           { profileId: adminProfile.id }
         ]
@@ -118,7 +118,7 @@ async function seed() {
       name: "Usuário",
       email: "user@zmail.com.br",
       password: await bcrypt.hash("123456", process.env.SALTROUNDS ?? 10),
-      UserPermission: {
+      Permissions: {
         create: [
           { permissionId: viewUsersPerm.id },
           { permissionId: updateUsersPerm.id }

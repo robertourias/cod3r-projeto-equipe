@@ -1,16 +1,16 @@
-import { EntityProps } from "../../common/Entity"
+// import { EntityProps } from "../../common/Entity"
 
-export interface UserProps extends EntityProps {
-  name?: string
-  email?: string
-  password?: string,
-  phone?: string,
-  profileUrl?: string,
-  recoveryToken?: string,
-  twoFactorAuth?: boolean,
-  UserPermission?: [],
-  UserProfile?: []
-}
+// export interface UserProps extends EntityProps {
+//   name?: string
+//   email?: string
+//   password?: string,
+//   phone?: string,
+//   profileUrl?: string,
+//   recoveryToken?: string,
+//   twoFactorAuth?: boolean,
+//   UserPermission?: [],
+//   UserProfile?: []
+// }
 
 // export class User extends Entity<User, UserProps> {
 
