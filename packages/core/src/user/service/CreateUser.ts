@@ -1,19 +1,25 @@
-
+import { AuditRepository } from '../../audit';
+import { SaveAudit } from '../../audit/service/SaveAudit';
 import { CoreResponse } from '../../common/CoreResponse';
 import { UseCase } from '../../common/UseCase'
 import { isValidEmail, isValidName, isValidPassword } from '../../common/Validations';
-import { UserProps } from '../model/User';
+import { UserProps } from '../model/UserProps';
 import { CryptoProvider } from '../provider/CryptoProvider';
 import { TokenProvider } from '../provider/TokenProvider';
 import { UserRepository } from '../provider/UserRepository';
 
 export class CreateUser implements UseCase<UserProps, CoreResponse> {
 
+  private readonly auditSave: SaveAudit
+
   constructor(
     private readonly repo: UserRepository,
     private readonly crypto: CryptoProvider,
-    private readonly tokenProvider: TokenProvider
-  ) { }
+    private readonly tokenProvider: TokenProvider,
+    private readonly auditRepo: AuditRepository
+  ) {
+    this.auditSave = new SaveAudit(this.auditRepo)
+  }
 
   async execute(data: UserProps, user?: UserProps): Promise<CoreResponse> {
 
@@ -23,19 +29,29 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
 
     //Validação dos campos obrigatórios
     if (!isValidName(data.name)) {
-      errors.push("Nome deve ser informado e ter de 3 a 100 caracteres: " + data.name)
+      errors.push("Nome deve ser informado e ter de 3 a 100 caracteres. Valor informado: " + data.name)
     }
 
     if (!isValidEmail(data.email)) {
-      errors.push("E-mail deve ser válido: " + data.email)
+      errors.push("E-mail deve ser válido. Valor informado: " + data.email)
     }
 
     //TODO: passwords validation wrong
     if (!isValidPassword(data.password)) {
-      errors.push("Senha deve ter no mínimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caracter especial: " + data.password)
+      errors.push("Senha deve ter no mínimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caracter especial. Valor informado: " + data.password)
     }
 
     if (errors.length > 0) {
+
+      await this.auditSave.execute({
+        moduleName: "USER",
+        useCase: "CreateUser",
+        message: "Erro de validação",
+        responseData: JSON.stringify({ errors }),
+        host: user.host,
+        userAgent: user.userAgent
+      })
+
       return {
         success: false,
         message: "Erro de validação",
@@ -44,11 +60,21 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
       }
     }
 
+
     //verifica se o email informando já existe, caso sim, retorna com erro
     const userExists = await this.repo.findByEmail(data?.email)
 
     if (userExists) {
-      // throw new Error(`Usuário já existe com email: ${data?.email}`)
+
+      await this.auditSave.execute({
+        moduleName: "USER",
+        useCase: "CreateUser",
+        message: "Erro ao inserir usuário",
+        responseData: JSON.stringify(`Usuário já cadastrado com este e-mail: ${data?.email}`),
+        host: user.host,
+        userAgent: user.userAgent
+      })
+
       return {
         success: false,
         message: "Erro ao inserir usuário",
@@ -69,6 +95,15 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
       }
       const token = await this.tokenProvider.signIn(payload)
 
+      await this.auditSave.execute({
+        moduleName: "USER",
+        useCase: "CreateUser",
+        message: "Usuário criado com sucesso",
+        responseData: JSON.stringify({ user: { id: newUser.id, email: newUser.email }, ...user }),
+        host: user.host,
+        userAgent: user.userAgent
+      })
+
       return {
         success: true,
         status: 201,
@@ -81,6 +116,16 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
 
     } else {
       // throw new Error("Erro interno: não foi possível cadastrar o usuário")
+
+      await this.auditSave.execute({
+        moduleName: "USER",
+        useCase: "CreateUser",
+        message: "Erro interno: Não foi possível cadastrar o usuário",
+        responseData: JSON.stringify(newUser),
+        host: user.host,
+        userAgent: user.userAgent
+      })
+
       return {
         success: false,
         message: "Erro interno",

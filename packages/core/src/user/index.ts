@@ -1,4 +1,4 @@
-import { UserProps } from "./model/User"
+import { UserProps } from "./model/UserProps"
 
 import { CreateUser } from './service/CreateUser'
 import { UpdateUser } from './service/UpdateUser'
