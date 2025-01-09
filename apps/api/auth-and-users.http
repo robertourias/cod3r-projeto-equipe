@@ -28,7 +28,26 @@ content-type: application/json
 ###
 
 
-// busca todos usuários
+POST http://localhost:3333/users/esqueci-senha
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gSi4gSnVuaW9yIiwiZW1haWwiOiJqb2FvQHptYWlsLmNvbSIsImlhdCI6MTczNDAwMTEyNSwiZXhwIjoxNzM0MDA0NzI1fQ.HxbyROXE6Qrh5sLiHEvVOYNgK9nsXSLdXbJUwXU4Fus
+
+{
+  "user": {
+    "email": "joao@zmail.com"
+  }
+}
+###
+
+PUT http://localhost:3333/users/recuperar-senha/?email=joao@zmail.com&token=a5GizH
+content-type: application/json
+Authorization: Bearer 123456
+
+{
+  "newPassword": "novaSenhaTeste"
+}
+###
+
 GET http://localhost:3333/users
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDYwNzkyLCJleHAiOjE3MzY0NjQzOTJ9.dxilpFQUjkX3PyA-6c9WKAC-44HCpss8he5ZGaGVroY
