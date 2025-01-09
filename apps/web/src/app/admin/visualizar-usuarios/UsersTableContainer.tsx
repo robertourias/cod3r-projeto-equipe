@@ -2,13 +2,18 @@ import UserTableRow from "./UserTableRow";
 import { useContext } from "react";
 import { GeneralContext } from "../../context/context";
 import { poppins600 } from "../../../utils/loadFont";
+import Users from "../../../../../api/dist/model/users";
 
 interface UsersTableContainerProps {
   children?: any;
 }
 
 export default function UsersTableContainer(props: UsersTableContainerProps) {
-  const { usersList } = useContext(GeneralContext);
+  const { usersList, userName } = useContext(GeneralContext);
+
+  const foundUser = usersList.find((user: Users) => {
+    return user.nome_funcionario === userName;
+  });
 
   return (
     <div className="">
@@ -22,7 +27,7 @@ export default function UsersTableContainer(props: UsersTableContainerProps) {
             <th className={`${poppins600.className}`}>Dias de Trabalho</th>
           </tr>
         </thead>
-        <UserTableRow usersList={usersList} />
+        <UserTableRow usersList={usersList} foundUser={foundUser} />
       </table>
     </div>
   )
