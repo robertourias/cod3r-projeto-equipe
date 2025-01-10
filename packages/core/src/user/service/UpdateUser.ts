@@ -42,6 +42,7 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
 
         //TODO: validar aqui se 'usuario' tem permissão para executar esse caso de uso
 
+        //Validação dos dados
         const errors: string[] = []
 
         //ID undefined gera erro prisma
@@ -84,7 +85,7 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
           }
         }
 
-        const userExists = await this.repo.findById(data.id)
+        const userExists = await this.repo.findById(data.id.toString())
 
         if (!userExists) {
 
@@ -135,8 +136,6 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
 
       }
 
-  
-
     } else {
       //usuário não informado - logar e retornar com erro
       await this.auditSave.execute({
@@ -156,14 +155,6 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
         data: { data, user }
       }
     }
-
-
-
-
-
-
-
-
 
   }//execute
 

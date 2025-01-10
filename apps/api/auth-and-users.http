@@ -15,19 +15,16 @@ content-type: application/json
 POST http://localhost:3333/users/register
 content-type: application/json
 
-{
-  "user": {  
-    "name": "João",
-    "email": "joao@zmail.com",
-    "password": "123456",
-    "phone": "+55 54 99999-0000",
-    "profileUrl" : "https://profile.com/123",
-    "recoveryToken": "no-token",
-    "tokenExpiration": null,
-    "twoFactorAuth": false
-  }
+{ 
+  "name": "Joao J. Junior",
+  "email": "joao1@zmail.com",
+  "password": "abcABC9@",
+  "phone": "+55 54 99999-0000",
+  "profileUrl" : "https://profile.com/123",
+  "recoveryToken": "no-token",
+  "tokenExpiration": null,
+  "twoFactorAuth": false
 }
-
 ###
 
 
@@ -53,30 +50,30 @@ Authorization: Bearer 123456
 
 GET http://localhost:3333/users
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gSi4gSnVuaW9yIiwiZW1haWwiOiJqb2FvQHptYWlsLmNvbSIsImlhdCI6MTczNjExNDQ3OSwiZXhwIjoxNzM2MTE4MDc5fQ.sbf6KJFG26w5jUgTle0rU18TIynSjWqcb7yKzaKp01U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDYwNzkyLCJleHAiOjE3MzY0NjQzOTJ9.dxilpFQUjkX3PyA-6c9WKAC-44HCpss8he5ZGaGVroY
 ###
 
 // busca usuário por id
-GET http://localhost:3333/users/6b3d8bd9-55cb-4380-8cdc-24052a6f2d2b
+GET http://localhost:3333/users/938b9ed7-1d6d-4651-b44c-d75c0b54050c
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gSi4gSnVuaW9yIiwiZW1haWwiOiJqb2FvQHptYWlsLmNvbSIsImlhdCI6MTczNjExNDQ3OSwiZXhwIjoxNzM2MTE4MDc5fQ.sbf6KJFG26w5jUgTle0rU18TIynSjWqcb7yKzaKp01U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDYwNzkyLCJleHAiOjE3MzY0NjQzOTJ9.dxilpFQUjkX3PyA-6c9WKAC-44HCpss8he5ZGaGVroY
 ###
 
 
 // ativa / desativa usuário
-POST http://localhost:3333/users/toggle/318f06e0-c802-47c6-b0d3-c241c044e3f3
+POST http://localhost:3333/users/toggle/bf877570-d65c-47aa-94ae-852528968565
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gSi4gSnVuaW9yIiwiZW1haWwiOiJqb2FvQHptYWlsLmNvbSIsImlhdCI6MTczNjExNDQ3OSwiZXhwIjoxNzM2MTE4MDc5fQ.sbf6KJFG26w5jUgTle0rU18TIynSjWqcb7yKzaKp01U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDYwNzkyLCJleHAiOjE3MzY0NjQzOTJ9.dxilpFQUjkX3PyA-6c9WKAC-44HCpss8he5ZGaGVroY
 ###
 
 
 // atualiza dados do usuário
 PUT http://localhost:3333/users
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gSi4gSnVuaW9yIiwiZW1haWwiOiJqb2FvQHptYWlsLmNvbSIsImlhdCI6MTczNjExNDQ3OSwiZXhwIjoxNzM2MTE4MDc5fQ.sbf6KJFG26w5jUgTle0rU18TIynSjWqcb7yKzaKp01U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDYwNzkyLCJleHAiOjE3MzY0NjQzOTJ9.dxilpFQUjkX3PyA-6c9WKAC-44HCpss8he5ZGaGVroY
 
 {
-  "id": "aeb102ec-1d17-44d3-9f00-cf33c2876b56",
+  "id": "4df44603-1fc1-4c50-beb4-03664a04595c",
   "name": "123456",
   "email": "123456@zmail.com",
   "password": "123456Aa@",
@@ -92,7 +89,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gS
 // - somente para testes, após finalizado projeto deve ser removido
 DELETE http://localhost:3333/users/13a9b446-f4c0-43a4-9e33-f27b41b033f5
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gSi4gSnVuaW9yIiwiZW1haWwiOiJqb2FvQHptYWlsLmNvbSIsImlhdCI6MTczNjExNDQ3OSwiZXhwIjoxNzM2MTE4MDc5fQ.sbf6KJFG26w5jUgTle0rU18TIynSjWqcb7yKzaKp01U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDYwNzkyLCJleHAiOjE3MzY0NjQzOTJ9.dxilpFQUjkX3PyA-6c9WKAC-44HCpss8he5ZGaGVroY
 ###
 
 

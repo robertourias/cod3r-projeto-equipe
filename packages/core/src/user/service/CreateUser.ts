@@ -36,7 +36,6 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
       errors.push("E-mail deve ser válido. Valor informado: " + data.email)
     }
 
-    //TODO: passwords validation wrong
     if (!isValidPassword(data.password)) {
       errors.push("Senha deve ter no mínimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caracter especial. Valor informado: " + data.password)
     }
@@ -83,9 +82,9 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
       }
     }
 
+
     //cryptografa a senha
     const hash = await this.crypto.encrypt(data.password)
-
     const newUser = await this.repo.save({ ...data, password: hash })
 
     if (newUser.id) {
@@ -115,7 +114,6 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
       }
 
     } else {
-      // throw new Error("Erro interno: não foi possível cadastrar o usuário")
 
       await this.auditSave.execute({
         moduleName: "USER",

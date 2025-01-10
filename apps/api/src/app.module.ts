@@ -5,7 +5,7 @@ import { DbModule } from './db/db.module'
 import { UserModule } from './user/user.module'
 import { ConfigModule } from '@nestjs/config'
 import { SendGridModule } from '@anchan828/nest-sendgrid'
-// import { ConfigModule } from '@nestjs/config'
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [

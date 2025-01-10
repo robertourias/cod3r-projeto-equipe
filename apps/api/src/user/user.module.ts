@@ -8,10 +8,11 @@ import { AuditPrisma } from 'src/providers/audit.prisma';
 import { ConfigModule } from '@nestjs/config';
 import { UserService } from './user.service';
 import { EmailProvider } from 'src/providers/email.provider';
+import { AuditPrisma } from 'src/providers/audit.prisma';
 
 @Module({
   imports: [DbModule],
   controllers: [UserController],
-  providers: [UserPrisma, BcryptProvider, JwtProvider, AuditPrisma, UserService, EmailProvider]
+  providers: [UserPrisma, BcryptProvider, JwtProvider, UserService, EmailProvider, AuditPrisma]
 })
 export class UserModule { }
