@@ -42,12 +42,6 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
 
         //TODO: validar aqui se 'usuario' tem permissão para executar esse caso de uso
 
-        // if (userDB.UserPermission.find("USER_UPDATE")) {
-        //   //segue lógica
-        // } else {
-        //   //retorna com acesso negado.
-        // }
-
         //Validação dos dados
         const errors: string[] = []
 
@@ -141,7 +135,6 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
         }
 
       }
-
 
     } else {
       //usuário não informado - logar e retornar com erro

@@ -11,7 +11,6 @@ export class SaveAudit implements UseCase<AuditProps, void> {
   async execute(data: AuditProps) {
 
     // console.log("SaveAudit.execute() - DATA:", data)
-
     try {
       //remover senha dos campos requestData/responseData
       let requestData = undefined

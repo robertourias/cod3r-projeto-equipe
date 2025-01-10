@@ -11,7 +11,6 @@ import { UserPrisma } from 'src/providers/user.prisma';
 import { EmailProvider } from 'src/providers/email.provider';
 
 
-
 @Controller('users')
 @UseFilters(CustomFilter)
 export class UserController {

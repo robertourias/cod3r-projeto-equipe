@@ -1,6 +1,5 @@
 import { AuditRepository } from '../../audit';
 import { SaveAudit } from '../../audit/service/SaveAudit';
-
 import { CoreResponse } from '../../common/CoreResponse';
 import { UseCase } from '../../common/UseCase'
 import { isValidEmail, isValidName, isValidPassword } from '../../common/Validations';
