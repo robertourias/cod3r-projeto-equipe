@@ -13,7 +13,8 @@ import { ProfileModule } from './profile/profile.module';
     DbModule,
     UserModule,
     ConfigModule.forRoot(),
-    SendGridModule.forRoot({apikey: process.env.SEND_GRID_ACCESS_KEY})
+    SendGridModule.forRoot({apikey: process.env.SEND_GRID_ACCESS_KEY}),
+    ProfileModule
     // ConfigModule.forRoot({ isGlobal: true })
   ],
   controllers: [AppController],

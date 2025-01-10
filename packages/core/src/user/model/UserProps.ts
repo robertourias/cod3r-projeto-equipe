@@ -12,7 +12,8 @@ export interface UserProps extends EntityProps {
   Permissions?: [],
   Profiles?: ProfileProps[],
   host?: string,
-  userAgent?: string
+  userAgent?: string,
+  tokenExpiration?: string
 }
 
 // export class User extends Entity<User, UserProps> {

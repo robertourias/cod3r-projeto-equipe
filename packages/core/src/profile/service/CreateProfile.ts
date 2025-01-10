@@ -84,7 +84,7 @@ export class CreateProfile implements UseCase<ProfileProps, CoreResponse> {
           return {
             success: false,
             status: 400,
-            message: "Erro de validação",
+            message: "Erro",
             errors: ["Perfil já cadastrado: " + data.name.toUpperCase()]
           }
 
