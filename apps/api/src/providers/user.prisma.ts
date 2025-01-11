@@ -8,8 +8,10 @@ export class UserPrisma implements UserRepository {
   constructor(private readonly prisma: PrismaService) { }
 
   async save(user: UserProps, withPassword: boolean = false): Promise<UserProps> {
-    return await this.prisma.user.upsert({
-      where: { id: user.id || '00000000-0000-0000-0000-000000000000' },
+
+    // console.log("UserPrisma.save()", user)
+    const result = await this.prisma.user.upsert({
+      where: { id: user.id?.toString() || '00000000-0000-0000-0000-000000000000' },
       update: user as any,
       create: user as any,
       select: {
@@ -27,10 +29,21 @@ export class UserPrisma implements UserRepository {
         disabledAt: true,
       }
     })
+
+    //TODO: arrumar o horário ou deixar como está?
+    //prisma salva em UTC - converte de volta para data/hora local
+    // const createdDate = new Date(result.createdAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const updatedDate = new Date(result.updatedAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const disabledDate = new Date(result.disabledAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // console.log("dates: ", createdDate, updatedDate, disabledDate)
+    // result.createdAt = new Date(createdDate)
+    // result.updatedAt = new Date(updatedDate)
+    // result.disabledAt = new Date(disabledDate)
+    return result
   }
 
   async findById(id: string, withPassword: boolean = false): Promise<UserProps | null> {
-    return await this.prisma.user.findUnique({
+    const result = await this.prisma.user.findUnique({
       where: { id },
       select: {
         id: true,
@@ -47,10 +60,19 @@ export class UserPrisma implements UserRepository {
         disabledAt: true,
       }
     })
+    //prisma salva em UTC - converte de volta para data/hora local
+    // const createdDate = new Date(result.createdAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const updatedDate = new Date(result.updatedAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const disabledDate = new Date(result.disabledAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // console.log("dates: ", createdDate, updatedDate, disabledDate)
+    // result.createdAt = new Date(createdDate)
+    // result.updatedAt = new Date(updatedDate)
+    // result.disabledAt = new Date(disabledDate)
+    return result
   }
 
   async findAll(withPassword: boolean = false): Promise<UserProps[]> {
-    return await this.prisma.user.findMany({
+    const result = await this.prisma.user.findMany({
       select: {
         id: true,
         name: true,
@@ -66,10 +88,19 @@ export class UserPrisma implements UserRepository {
         disabledAt: true,
       }
     })
+    //array
+    //prisma salva em UTC - converte de volta para data/hora local
+    // const createdDate = new Date(result.createdAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const updatedDate = new Date(result.updatedAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const disabledDate = new Date(result.disabledAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // result.createdAt = new Date(createdDate)
+    // result.updatedAt = new Date(updatedDate)
+    // result.disabledAt = new Date(disabledDate)
+    return result
   }
 
   async findByEmail(email: string, withPassword: boolean = false): Promise<UserProps | null> {
-    return await this.prisma.user.findUnique({
+    const result = await this.prisma.user.findUnique({
       where: { email },
       select: {
         id: true,
@@ -86,10 +117,18 @@ export class UserPrisma implements UserRepository {
         disabledAt: true,
       }
     })
+    //prisma salva em UTC - converte de volta para data/hora local
+    // const createdDate = new Date(result.createdAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const updatedDate = new Date(result.updatedAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const disabledDate = new Date(result.disabledAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // result.createdAt = new Date(createdDate)
+    // result.updatedAt = new Date(updatedDate)
+    // result.disabledAt = new Date(disabledDate)
+    return result
   }
 
   async delete(id: string): Promise<UserProps> {
-    return await this.prisma.user.delete({
+    const result = await this.prisma.user.delete({
       where: { id },
       select: {
         id: true,
@@ -106,6 +145,14 @@ export class UserPrisma implements UserRepository {
         disabledAt: true,
       }
     })
+    //prisma salva em UTC - converte de volta para data/hora local
+    // const createdDate = new Date(result.createdAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const updatedDate = new Date(result.updatedAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // const disabledDate = new Date(result.disabledAt).toLocaleString("pt-BR", { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' })
+    // result.createdAt = new Date(createdDate)
+    // result.updatedAt = new Date(updatedDate)
+    // result.disabledAt = new Date(disabledDate)
+    return result
   }
 
 }

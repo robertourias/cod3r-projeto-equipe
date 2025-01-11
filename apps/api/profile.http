@@ -1,0 +1,72 @@
+// AUTH
+// login - get token
+POST http://localhost:3333/auth/login
+content-type: application/json
+
+{
+  "email": "joao@zmail.com",
+  "password": "abcABC9@"
+}
+###
+
+
+POST http://localhost:3333/profile
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+
+{ 
+  "name": "ADMIN1",
+  "description": "Perfil de administrador do sistema"
+}
+###
+
+
+POST http://localhost:3333/profile
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+
+{ 
+  "name": "UsersAdmin",
+  "description": "Permite gerenciar outros usuários"
+}
+###
+
+
+GET http://localhost:3333/profile
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+###
+
+
+GET http://localhost:3333/profile/4
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+###
+
+
+PUT http://localhost:3333/profile 
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+
+{ 
+  "id": 4,
+  "name": "UsersADMIN",
+  "description": "Permite gerenciar outros usuários e vincular perfis e permissões"
+}
+###
+
+
+// - somente para testes, após finalizado projeto deve ser removido
+DELETE http://localhost:3333/profile/2
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+###
+
+
+// ativa / desativa usuário
+POST http://localhost:3333/profile/toggle/4
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+###
+
+

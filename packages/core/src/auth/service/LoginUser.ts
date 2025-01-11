@@ -1,3 +1,5 @@
+import { AuditRepository } from "../../audit";
+import { SaveAudit } from "../../audit/service/SaveAudit";
 import { CoreResponse } from "../../common/CoreResponse";
 import { UseCase } from "../../common/UseCase";
 import { CryptoProvider, TokenProvider, UserProps, UserRepository } from "../../user";
@@ -5,11 +7,16 @@ import { LoginProps } from "../model/LoginProps";
 
 export class LoginUser implements UseCase<LoginProps, CoreResponse> {
 
+  private readonly auditSave: SaveAudit
+
   constructor(
     private readonly repo: UserRepository,
     private readonly crypto: CryptoProvider,
-    private readonly tokenProvider: TokenProvider
-  ) { }
+    private readonly tokenProvider: TokenProvider,
+    private readonly auditRepo: AuditRepository
+  ) {
+    this.auditSave = new SaveAudit(this.auditRepo)
+  }
 
   async execute(data: LoginProps, user?: UserProps): Promise<CoreResponse> {
 
@@ -27,6 +34,15 @@ export class LoginUser implements UseCase<LoginProps, CoreResponse> {
         //exclui a senha do retorno
         delete userExist.password
 
+        await this.auditSave.execute({
+          moduleName: "AUTH",
+          useCase: "LoginUser",
+          message: "Login com sucesso.",
+          responseData: JSON.stringify({ ...userExist }),
+          host: user.host,
+          userAgent: user.userAgent
+        })
+
         return {
           success: true,
           data: {
@@ -36,10 +52,26 @@ export class LoginUser implements UseCase<LoginProps, CoreResponse> {
         }
 
       } else {
+        this.auditSave.execute({
+          moduleName: "AUTH",
+          useCase: "LoginUser",
+          message: "Erro no login: Usuário ou senha incorretos",
+          requestData: JSON.stringify({ ...data, password: undefined }),
+          host: user.host,
+          userAgent: user.userAgent
+        })
         throw new Error("Usuário ou senha incorretos.")
       }
 
     } else {
+      this.auditSave.execute({
+        moduleName: "AUTH",
+        useCase: "LoginUser",
+        message: "Erro no login: Usuário não encontrado",
+        requestData: JSON.stringify({ ...data, password: undefined }),
+        host: user.host,
+        userAgent: user.userAgent
+      })
       throw new Error("Usuário não encontrado.")
     }
 

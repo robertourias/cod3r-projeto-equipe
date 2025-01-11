@@ -18,7 +18,7 @@ export function isValidPassword(password: string): boolean {
 }
 
 
-export function isValidName(name: string): boolean {
+export function isValidName(name: string, min: number = 3, max: number = 100): boolean {
   if (name == "" || name.length < 3 || name.length > 100) {
     return false
   }

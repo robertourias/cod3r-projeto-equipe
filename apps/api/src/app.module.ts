@@ -5,7 +5,7 @@ import { DbModule } from './db/db.module'
 import { UserModule } from './user/user.module'
 import { ConfigModule } from '@nestjs/config'
 import { SendGridModule } from '@anchan828/nest-sendgrid'
-// import { ConfigModule } from '@nestjs/config'
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -13,7 +13,8 @@ import { SendGridModule } from '@anchan828/nest-sendgrid'
     DbModule,
     UserModule,
     ConfigModule.forRoot(),
-    SendGridModule.forRoot({apikey: process.env.SEND_GRID_ACCESS_KEY})
+    SendGridModule.forRoot({apikey: process.env.SEND_GRID_ACCESS_KEY}),
+    ProfileModule
     // ConfigModule.forRoot({ isGlobal: true })
   ],
   controllers: [AppController],

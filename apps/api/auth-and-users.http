@@ -1,0 +1,99 @@
+// AUTH
+// login
+POST http://localhost:3333/auth/login
+content-type: application/json
+
+{
+  "email": "joao@zmail.com",
+  "password": "abcABC9@"
+}
+###
+
+
+// USERS
+// registro de novo usuário
+POST http://localhost:3333/users/register
+content-type: application/json
+
+{ 
+  "name": "Joao J. Junior",
+  "email": "joao1@zmail.com",
+  "password": "abcABC9@",
+  "phone": "+55 54 99999-0000",
+  "profileUrl" : "https://profile.com/123",
+  "recoveryToken": "no-token",
+  "tokenExpiration": null,
+  "twoFactorAuth": false
+}
+###
+
+
+POST http://localhost:3333/users/esqueci-senha
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm_Do28gSi4gSnVuaW9yIiwiZW1haWwiOiJqb2FvQHptYWlsLmNvbSIsImlhdCI6MTczNDAwMTEyNSwiZXhwIjoxNzM0MDA0NzI1fQ.HxbyROXE6Qrh5sLiHEvVOYNgK9nsXSLdXbJUwXU4Fus
+
+{
+  "user": {
+    "email": "joao@zmail.com"
+  }
+}
+###
+
+PUT http://localhost:3333/users/recuperar-senha/?email=joao@zmail.com&token=a5GizH
+content-type: application/json
+Authorization: Bearer 123456
+
+{
+  "newPassword": "novaSenhaTeste"
+}
+###
+
+GET http://localhost:3333/users
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+###
+
+// busca usuário por id
+GET http://localhost:3333/users/938b9ed7-1d6d-4651-b44c-d75c0b54050c
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+###
+
+
+// ativa / desativa usuário
+POST http://localhost:3333/users/toggle/bf877570-d65c-47aa-94ae-852528968565
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+###
+
+
+// atualiza dados do usuário
+PUT http://localhost:3333/users
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+
+{
+  "id": "4df44603-1fc1-4c50-beb4-03664a04595c",
+  "name": "123456",
+  "email": "123456@zmail.com",
+  "password": "123456Aa@",
+  "phone": "+55 00 99999-1111",
+  "profileUrl" : "https://profile.com/123",
+  "recoveryToken": "no-token",
+  "tokenExpiration": null,
+  "twoFactorAuth": true
+}
+###
+
+// exclui usuário 
+// - somente para testes, após finalizado projeto deve ser removido
+DELETE http://localhost:3333/users/13a9b446-f4c0-43a4-9e33-f27b41b033f5
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+###
+
+
+// Ola Mundo
+GET http://localhost:3333
+###
+
