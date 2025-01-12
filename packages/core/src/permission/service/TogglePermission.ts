@@ -2,18 +2,16 @@ import { AuditRepository } from "../../audit"
 import { SaveAudit } from "../../audit/service/SaveAudit"
 import { CoreResponse } from "../../common/CoreResponse"
 import { UseCase } from "../../common/UseCase"
-import { PermissionRepository } from "../../permission"
 import { UserProps } from "../../user"
-import { ProfileRepository } from "../provider/ProfileRepository"
+import { PermissionRepository } from "../provider/PermissionRepository"
 
-export class DeleteProfile implements UseCase<string, CoreResponse> {
+export class TogglePermission implements UseCase<string, CoreResponse> {
 
   private readonly saveAudit: SaveAudit
 
   constructor(
-    private readonly repo: ProfileRepository,
-    private readonly auditRepo: AuditRepository,
-    private readonly permissionRepo: PermissionRepository
+    private readonly repo: PermissionRepository,
+    private readonly auditRepo: AuditRepository
   ) {
     this.saveAudit = new SaveAudit(this.auditRepo)
   }
@@ -21,7 +19,7 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
 
   async execute(id: string, user?: UserProps): Promise<CoreResponse> {
 
-    // console.log("ToggleProfile: ", id, user)
+    // console.log("TogglePermission: ", id, user)
 
     if (user && user.email) {
 
@@ -43,13 +41,13 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "DELETE_PROFILES")
-        
+
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "DELETE_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,
             status: 400,
-            message: "O usuário não tem permissão para deletar um perfil",
+            message: "O usuário não tem permissão para mudar o status de uma permissão",
           }
         }
 
@@ -65,8 +63,8 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
         //Validação dos dados
         if (!id && !isNaN(+id)) {
           await this.saveAudit.execute({
-            moduleName: "PROFILE",
-            useCase: "DeleteProfile",
+            moduleName: "PERMISSION",
+            useCase: "TogglePermission",
             message: "Erro de validação",
             userId: userDB.id,
             responseData: JSON.stringify("ID inválido"),
@@ -83,69 +81,59 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
         }
 
 
-        const profileExist = await this.repo.findById(id)
+        const permissionExist = await this.repo.findById(id)
 
-        // console.debug("profileExist:", JSON.stringify(profileExist, null, 2))
-
-        if (!profileExist) {
+        if (!permissionExist) {
           return {
             success: false,
             status: 400,
             message: "Erro de validação",
-            errors: ["Perfil não encontrado com Id: " + id]
+            errors: ["Permissão não encontrada com Id:" + id]
           }
 
         } else {
 
-          //proteção para não excluir o perfil ADMIN
-          if (profileExist.name === "ADMIN") {
+          if (permissionExist.name === "ADMIN") {
             return {
               success: false,
               status: 400,
-              message: "Erro",
-              errors: ["Perfil ADMIN não pode ser excluido"]
+              message: "Erro de validação",
+              errors: ["Permissão ADMIN não pode ser desativada"]
             }
           }
 
-          //verifica se o perfil possui usuários vinculados
-          if (profileExist.Users.length > 0) {
-            console.log(profileExist.Users)
-            const linkedUser = profileExist.Users.map((userProfile) => {
-              return userProfile.User.name
+          if (permissionExist.disabledAt == null) {
+            const newPermission = await this.repo.save({
+              ...permissionExist,
+              disabledAt: new Date(),
+              Profiles: undefined,
+              Users: undefined
             })
-            return {
-              success: false,
-              status: 400,
-              message: "Erro na exclusão",
-              errors: [`Perfil \'${profileExist.name}\' possui usuários vinculados`, ...linkedUser]
-            }
-          }
 
-          //Permissões não dependem do perfil,
-          // if (profileExist.Permissions.length > 0) {
-          //   const linkedPermission = profileExist.Permissions.map((profilePermission) => {
-          //     return profilePermission.Permission.name
-          //   })
-          //   // console.log(linkedPermission)
-          //   return {
-          //     success: false,
-          //     status: 400,
-          //     message: "Erro na exclusão",
-          //     errors: [`Perfil \'${profileExist.name}\' possui permissões vinculadas`, ...linkedPermission]
-          //   }
-          // }
 
-          const result = await this.repo.delete(+profileExist.id)
-
-          if (result) {
             return {
               success: true,
               status: 200,
-              message: "Perfil excluido com sucesso.",
-              data: { profile: profileExist }
+              message: "Permissão desativada com sucesso.",
+              data: { permission: newPermission }
+            }
+
+          } else {
+
+            const newPermission = await this.repo.save({
+              ...permissionExist,
+              disabledAt: null,
+              Profiles: undefined,
+              Users: undefined
+            })
+
+            return {
+              success: true,
+              status: 200,
+              message: "Permissão ativada com sucesso.",
+              data: { permission: newPermission }
             }
           }
-
         }
 
       }
@@ -153,8 +141,8 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
     } else {
       //usuário não informado - logar e retornar com erro
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "DeleteProfile",
+        moduleName: "PERMISSION",
+        useCase: "TogglePermission",
         message: "Erro de validação",
         responseData: JSON.stringify("Usuário inválido: e-mail não informado"),
         requestData: JSON.stringify({ id, user }),

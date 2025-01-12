@@ -1,0 +1,53 @@
+// AUTH
+// login - get token
+POST http://localhost:3333/auth/login
+content-type: application/json
+
+{
+  "email": "jobn@zmail.com",
+  "password": "Abc1234@"
+}
+###
+
+
+POST http://localhost:3333/permission
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+
+{ 
+  "name": "UPDATE_PROFILE",
+  "description": "Permissão para atualizar perfil"
+}
+###
+
+
+POST http://localhost:3333/permission
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+
+{ 
+  "name": "DELETE_PROFILE",
+  "description": "Permite deletar perfis"
+}
+###
+
+
+GET http://localhost:3333/permission
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+###
+
+
+GET http://localhost:3333/permission/4
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+###
+
+
+// ativa / desativa usuário
+POST http://localhost:3333/permission/toggle/4
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+###
+
+

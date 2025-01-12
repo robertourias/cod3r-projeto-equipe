@@ -2,18 +2,16 @@ import { AuditRepository } from "../../audit"
 import { SaveAudit } from "../../audit/service/SaveAudit"
 import { CoreResponse } from "../../common/CoreResponse"
 import { UseCase } from "../../common/UseCase"
-import { PermissionRepository } from "../../permission"
 import { UserProps } from "../../user"
-import { ProfileRepository } from "../provider/ProfileRepository"
+import { PermissionRepository } from "../provider/PermissionRepository"
 
-export class FindProfile implements UseCase<string | null, CoreResponse> {
+export class FindPermission implements UseCase<string | null, CoreResponse> {
 
   private readonly saveAudit: SaveAudit
 
   constructor(
-    private readonly repo: ProfileRepository,
-    private readonly auditRepo: AuditRepository,
-    private readonly permissionRepo: PermissionRepository
+    private readonly repo: PermissionRepository,
+    private readonly auditRepo: AuditRepository
   ) {
     this.saveAudit = new SaveAudit(this.auditRepo)
   }
@@ -40,13 +38,13 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "VIEW_USERS")
-        
+
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "DELETE_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,
             status: 400,
-            message: "O usuário não tem permissão para procurar um perfil",
+            message: "O usuário não tem permissão para procurar uma permissão",
           }
         }
 
@@ -70,8 +68,8 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
     } else {
       //usuário não informado - logar e retornar com erro
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "FindProfile",
+        moduleName: "PERMISSION",
+        useCase: "FindPermission",
         message: "Erro de validação",
         responseData: JSON.stringify("Usuário inválido: e-mail não informado"),
         requestData: JSON.stringify({ id, user }),
@@ -97,12 +95,12 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
     if (result) {
 
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "FindProfile.findById",
+        moduleName: "PERMISSION",
+        useCase: "FindPermission.findById",
         message: "Consulta usuário",
         userId: user.id,
         requestData: JSON.stringify({ id }),
-        responseData: JSON.stringify({ profile: result }),
+        responseData: JSON.stringify({ permission: result }),
         host: user?.host,
         userAgent: user?.userAgent
       })
@@ -116,12 +114,12 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
     } else {
 
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "FindProfile.findById",
+        moduleName: "PERMISSION",
+        useCase: "FindPermission.findById",
         message: "Erro de validação",
         userId: user.id,
         requestData: JSON.stringify({ id }),
-        responseData: JSON.stringify("Perfil não encontrado"),
+        responseData: JSON.stringify("Permissão não encontrada"),
         host: user?.host,
         userAgent: user?.userAgent
       })
@@ -129,7 +127,7 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
       return {
         success: false,
         status: 400,
-        message: "Perfil não encontrado",
+        message: "Permissão não encontrada",
         data: result
       }
     }
@@ -144,9 +142,9 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
     if (result.length > 0) {
 
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "FindProfile.findAll",
-        message: "Consulta todos perfis",
+        moduleName: "PERMISSION",
+        useCase: "FindPermission.findAll",
+        message: "Consulta todas permissões",
         userId: user.id,
         responseData: JSON.stringify("Result omitted."),
         host: user?.host,
@@ -162,9 +160,9 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
     } else {
 
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "FindProfile.findAll",
-        message: "Nenhum perfil encontrado",
+        moduleName: "PERMISSION",
+        useCase: "FindPermission.findAll",
+        message: "Nenhuma permissão encontrada",
         userId: user.id,
         responseData: JSON.stringify("Result omitted."),
         host: user?.host,
@@ -174,7 +172,7 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
       return {
         success: false,
         status: 400,
-        message: "Nenhum perfil encontrado",
+        message: "Nenhuma permissão encontrado",
         data: result
       }
     }

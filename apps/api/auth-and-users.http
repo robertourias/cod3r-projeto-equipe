@@ -4,8 +4,8 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
-  "email": "joao@zmail.com",
-  "password": "abcABC9@"
+  "email": "jobn@zmail.com",
+  "password": "Abc1234@"
 }
 ###
 
@@ -17,8 +17,8 @@ content-type: application/json
 
 { 
   "name": "Joao J. Junior",
-  "email": "joao1@zmail.com",
-  "password": "abcABC9@",
+  "email": "jobn@zmail.com",
+  "password": "Abc1234@",
   "phone": "+55 54 99999-0000",
   "profileUrl" : "https://profile.com/123",
   "recoveryToken": "no-token",

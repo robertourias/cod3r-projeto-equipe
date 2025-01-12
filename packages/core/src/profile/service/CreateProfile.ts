@@ -6,6 +6,7 @@ import { isValidName } from "../../common/Validations"
 import { UserProps } from "../../user"
 import { ProfileProps } from "../model/ProfileProps"
 import { ProfileRepository } from "../provider/ProfileRepository"
+import { PermissionRepository } from "../../permission"
 
 export class CreateProfile implements UseCase<ProfileProps, CoreResponse> {
 
@@ -13,7 +14,8 @@ export class CreateProfile implements UseCase<ProfileProps, CoreResponse> {
 
   constructor(
     private readonly repo: ProfileRepository,
-    private readonly auditRepo: AuditRepository
+    private readonly auditRepo: AuditRepository,
+    private readonly permissionRepo: PermissionRepository
   ) {
     this.saveAudit = new SaveAudit(this.auditRepo)
   }
@@ -42,7 +44,16 @@ export class CreateProfile implements UseCase<ProfileProps, CoreResponse> {
           }
         }
 
-        //TODO: validar aqui se 'usuario' tem permissão para executar esse caso de uso
+        //valida se 'usuario' tem permissão para executar esse caso de uso
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "CREATE_PROFILES")
+        
+        if(!userHasPermission){
+          return {
+            success: false,
+            status: 400,
+            message: "O usuário não tem permissão para criar um perfil",
+          }
+        }
 
         
         //Validação dos dados

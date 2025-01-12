@@ -3,25 +3,23 @@ import { SaveAudit } from "../../audit/service/SaveAudit"
 import { CoreResponse } from "../../common/CoreResponse"
 import { UseCase } from "../../common/UseCase"
 import { isValidName } from "../../common/Validations"
-import { PermissionRepository } from "../../permission"
 import { UserProps } from "../../user"
-import { ProfileProps } from "../model/ProfileProps"
-import { ProfileRepository } from "../provider/ProfileRepository"
+import { PermissionProps } from "../model/PermissionProps"
+import { PermissionRepository } from "../provider/PermissionRepository"
 
-export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
+export class UpdatePermission implements UseCase<PermissionProps, CoreResponse> {
 
   private readonly saveAudit: SaveAudit
 
   constructor(
-    private readonly repo: ProfileRepository,
-    private readonly auditRepo: AuditRepository,
-    private readonly permissionRepo: PermissionRepository
+    private readonly repo: PermissionRepository,
+    private readonly auditRepo: AuditRepository
   ) {
     this.saveAudit = new SaveAudit(this.auditRepo)
   }
 
 
-  async execute(data: ProfileProps, user?: UserProps): Promise<CoreResponse> {
+  async execute(data: PermissionProps, user?: UserProps): Promise<CoreResponse> {
 
     if (user && user.email) {
 
@@ -43,13 +41,13 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "UPDATE_PROFILES")
-        
+
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "DELETE_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,
             status: 400,
-            message: "O usuário não tem permissão para alterar um perfil",
+            message: "O usuário não tem permissão para criar uma permissão",
           }
         }
 
@@ -72,8 +70,8 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
 
         if (errors.length > 0) {
           await this.saveAudit.execute({
-            moduleName: "PROFILE",
-            useCase: "CreateProfile",
+            moduleName: "PERMISSION",
+            useCase: "CreatePermission",
             message: "Erro de validação",
             userId: userDB.id,
             responseData: JSON.stringify({ errors }),
@@ -92,18 +90,18 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
         }
 
 
-        const profileExist = await this.repo.findById(data.id.toString())
+        const permissionExist = await this.repo.findById(data.id.toString())
 
-        if (!profileExist) {
+        if (!permissionExist) {
           return {
             success: false,
             status: 400,
             message: "Erro de validação",
-            errors: ["Perfil não encontrado: " + data.name.toUpperCase(), "Não é possível atualizar"]
+            errors: ["Permissão não encontrada: " + data.name.toUpperCase(), "Não é possível atualizar"]
           }
 
         } else {
-          const newProfile = await this.repo.save({
+          const newPermission = await this.repo.save({
             ...data,
             name: data.name.toUpperCase(),
           })
@@ -111,8 +109,8 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
           return {
             success: true,
             status: 200,
-            message: "Perfil atualizado com sucesso.",
-            data: { profile: newProfile }
+            message: "Permissão atualizada com sucesso.",
+            data: { permission: newPermission }
           }
         }
 
@@ -121,8 +119,8 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
     } else {
       //usuário não informado - logar e retornar com erro
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "CreateProfile",
+        moduleName: "PERMISSION",
+        useCase: "CreatePermission",
         message: "Erro de validação",
         responseData: JSON.stringify("Usuário inválido: e-mail não informado"),
         requestData: JSON.stringify({ data, user }),

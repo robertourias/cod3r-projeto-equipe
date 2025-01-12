@@ -3,25 +3,25 @@ import { SaveAudit } from "../../audit/service/SaveAudit"
 import { CoreResponse } from "../../common/CoreResponse"
 import { UseCase } from "../../common/UseCase"
 import { isValidName } from "../../common/Validations"
-import { PermissionRepository } from "../../permission"
 import { UserProps } from "../../user"
-import { ProfileProps } from "../model/ProfileProps"
-import { ProfileRepository } from "../provider/ProfileRepository"
+import { PermissionProps } from "../model/PermissionProps"
+import { PermissionRepository } from "../provider/PermissionRepository"
 
-export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
+export class CreatePermission implements UseCase<PermissionProps, CoreResponse> {
 
   private readonly saveAudit: SaveAudit
 
   constructor(
-    private readonly repo: ProfileRepository,
+    private readonly repo: PermissionRepository,
     private readonly auditRepo: AuditRepository,
-    private readonly permissionRepo: PermissionRepository
   ) {
     this.saveAudit = new SaveAudit(this.auditRepo)
   }
 
 
-  async execute(data: ProfileProps, user?: UserProps): Promise<CoreResponse> {
+  async execute(data: PermissionProps, user?: UserProps): Promise<CoreResponse> {
+
+    // console.log("CreatePermission", data, user)
 
     if (user && user.email) {
 
@@ -38,32 +38,27 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
             success: false,
             status: 400,
             message: "Usuário não encontrado com e-mail " + user.email,
-            data: { data, user }
           }
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "UPDATE_PROFILES")
-        
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "CREATE_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,
             status: 400,
-            message: "O usuário não tem permissão para alterar um perfil",
+            message: "O usuário não tem permissão para criar uma permissão",
+            data: { data, user }
           }
         }
 
+        
         //Validação dos dados
         const errors: string[] = []
 
-        //ID undefined gera erro prisma
-        if (!data.id) {
-          errors.push("ID precisa ser informado")
-        }
-
         //Validação dos campos obrigatórios
         if (!isValidName(data.name, 5, 20)) {
-          errors.push("Nome deve ser informado e ter de 5 a 20 caracteres. ")
+          errors.push("Nome deve ser informado e ter de 5 a 20 caracteres. Valor informado: " + data.name)
         }
 
         if (data.description.length < 5) {
@@ -72,12 +67,12 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
 
         if (errors.length > 0) {
           await this.saveAudit.execute({
-            moduleName: "PROFILE",
-            useCase: "CreateProfile",
+            moduleName: "PERMISSION",
+            useCase: "CreatePermission",
             message: "Erro de validação",
             userId: userDB.id,
             responseData: JSON.stringify({ errors }),
-            requestData: JSON.stringify({ data, user }),
+            // requestData: JSON.stringify({ id: data.id }),
             host: host,
             userAgent: userAgent
           })
@@ -86,24 +81,23 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
             success: false,
             message: "Erro de validação",
             status: 400,
-            errors: errors,
-            data: data
+            errors: errors
           }
         }
 
 
-        const profileExist = await this.repo.findById(data.id.toString())
+        const permissionExist = await this.repo.findByName(data.name.toUpperCase())
 
-        if (!profileExist) {
+        if (permissionExist) {
           return {
             success: false,
             status: 400,
-            message: "Erro de validação",
-            errors: ["Perfil não encontrado: " + data.name.toUpperCase(), "Não é possível atualizar"]
+            message: "Erro",
+            errors: ["Permissão já cadastrada: " + data.name.toUpperCase()]
           }
 
         } else {
-          const newProfile = await this.repo.save({
+          const newPermission = await this.repo.save({
             ...data,
             name: data.name.toUpperCase(),
           })
@@ -111,8 +105,8 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
           return {
             success: true,
             status: 200,
-            message: "Perfil atualizado com sucesso.",
-            data: { profile: newProfile }
+            message: "Permission criado com sucesso.",
+            data: { permission: newPermission }
           }
         }
 
@@ -121,8 +115,8 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
     } else {
       //usuário não informado - logar e retornar com erro
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "CreateProfile",
+        moduleName: "PERMISSION",
+        useCase: "CreatePermission",
         message: "Erro de validação",
         responseData: JSON.stringify("Usuário inválido: e-mail não informado"),
         requestData: JSON.stringify({ data, user }),

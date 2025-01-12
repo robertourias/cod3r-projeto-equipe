@@ -2,6 +2,7 @@ import { AuditRepository } from "../../audit"
 import { SaveAudit } from "../../audit/service/SaveAudit"
 import { CoreResponse } from "../../common/CoreResponse"
 import { UseCase } from "../../common/UseCase"
+import { PermissionRepository } from "../../permission"
 import { UserProps } from "../../user"
 import { ProfileRepository } from "../provider/ProfileRepository"
 
@@ -11,7 +12,8 @@ export class ToggleProfile implements UseCase<string, CoreResponse> {
 
   constructor(
     private readonly repo: ProfileRepository,
-    private readonly auditRepo: AuditRepository
+    private readonly auditRepo: AuditRepository,
+    private readonly permissionRepo: PermissionRepository
   ) {
     this.saveAudit = new SaveAudit(this.auditRepo)
   }
@@ -40,7 +42,16 @@ export class ToggleProfile implements UseCase<string, CoreResponse> {
           }
         }
 
-        //TODO: validar aqui se 'usuario' tem permissão para executar esse caso de uso
+        //valida se 'usuario' tem permissão para executar esse caso de uso
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "TOGGLE_PROFILES")
+        
+        if(!userHasPermission){
+          return {
+            success: false,
+            status: 400,
+            message: "O usuário não tem permissão para alterar o status de um perfil",
+          }
+        }
 
         if (id && isNaN(+id)) {
           return {
