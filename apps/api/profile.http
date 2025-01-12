@@ -4,15 +4,15 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
-  "email": "joao@zmail.com",
-  "password": "abcABC9@"
+  "email": "admin@zmail.com.br",
+  "password": "123456"
 }
 ###
 
 
 POST http://localhost:3333/profile
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDE0LCJleHAiOjE3MzY2OTY2MTR9.23_8N2MRh1BYiQ9m_h312vTPBnaefSNxm4zaUQvFNy4
 
 { 
   "name": "ADMIN1",
@@ -23,7 +23,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKL
 
 POST http://localhost:3333/profile
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDE0LCJleHAiOjE3MzY2OTY2MTR9.23_8N2MRh1BYiQ9m_h312vTPBnaefSNxm4zaUQvFNy4
 
 { 
   "name": "UsersAdmin",
@@ -34,19 +34,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKL
 
 GET http://localhost:3333/profile
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDE0LCJleHAiOjE3MzY2OTY2MTR9.23_8N2MRh1BYiQ9m_h312vTPBnaefSNxm4zaUQvFNy4
 ###
 
 
 GET http://localhost:3333/profile/4
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDE0LCJleHAiOjE3MzY2OTY2MTR9.23_8N2MRh1BYiQ9m_h312vTPBnaefSNxm4zaUQvFNy4
 ###
 
 
 PUT http://localhost:3333/profile 
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDE0LCJleHAiOjE3MzY2OTY2MTR9.23_8N2MRh1BYiQ9m_h312vTPBnaefSNxm4zaUQvFNy4
 
 { 
   "id": 4,
@@ -59,14 +59,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKL
 // - somente para testes, após finalizado projeto deve ser removido
 DELETE http://localhost:3333/profile/2
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDE0LCJleHAiOjE3MzY2OTY2MTR9.23_8N2MRh1BYiQ9m_h312vTPBnaefSNxm4zaUQvFNy4
 ###
 
 
 // ativa / desativa usuário
 POST http://localhost:3333/profile/toggle/4
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9hbyBKLiBKdW5pb3IiLCJlbWFpbCI6ImpvYW9Aem1haWwuY29tIiwiaWF0IjoxNzM2NDcxOTA1LCJleHAiOjE3MzY0NzU1MDV9.4SrbrU3bnl8C3fSQspkew77wj9f_eFi6kGWnCy0WI7s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDE0LCJleHAiOjE3MzY2OTY2MTR9.23_8N2MRh1BYiQ9m_h312vTPBnaefSNxm4zaUQvFNy4
 ###
 
 

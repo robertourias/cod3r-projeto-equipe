@@ -1,4 +1,5 @@
 import { EntityProps } from "../../common/Entity"
+import { PermissionProps } from "../../permission"
 import { ProfileProps } from "../../profile"
 
 export interface UserProps extends EntityProps {
@@ -9,7 +10,7 @@ export interface UserProps extends EntityProps {
   profileUrl?: string,
   recoveryToken?: string,
   twoFactorAuth?: boolean,
-  Permissions?: [],
+  Permissions?: PermissionProps[],
   Profiles?: ProfileProps[],
   host?: string,
   userAgent?: string,

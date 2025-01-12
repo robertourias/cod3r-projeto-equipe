@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module'
 import { ConfigModule } from '@nestjs/config'
 import { SendGridModule } from '@anchan828/nest-sendgrid'
 import { ProfileModule } from './profile/profile.module';
+import { PermissionModule } from './permission/permission.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ProfileModule } from './profile/profile.module';
     UserModule,
     ConfigModule.forRoot(),
     SendGridModule.forRoot({apikey: process.env.SEND_GRID_ACCESS_KEY}),
-    ProfileModule
+    ProfileModule,
+    PermissionModule
     // ConfigModule.forRoot({ isGlobal: true })
   ],
   controllers: [AppController],

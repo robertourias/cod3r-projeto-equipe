@@ -2,18 +2,16 @@ import { AuditRepository } from "../../audit"
 import { SaveAudit } from "../../audit/service/SaveAudit"
 import { CoreResponse } from "../../common/CoreResponse"
 import { UseCase } from "../../common/UseCase"
-import { PermissionRepository } from "../../permission"
 import { UserProps } from "../../user"
-import { ProfileRepository } from "../provider/ProfileRepository"
+import { PermissionRepository } from "../provider/PermissionRepository"
 
-export class DeleteProfile implements UseCase<string, CoreResponse> {
+export class DeletePermission implements UseCase<string, CoreResponse> {
 
   private readonly saveAudit: SaveAudit
 
   constructor(
-    private readonly repo: ProfileRepository,
+    private readonly repo: PermissionRepository,
     private readonly auditRepo: AuditRepository,
-    private readonly permissionRepo: PermissionRepository
   ) {
     this.saveAudit = new SaveAudit(this.auditRepo)
   }
@@ -21,7 +19,7 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
 
   async execute(id: string, user?: UserProps): Promise<CoreResponse> {
 
-    // console.log("ToggleProfile: ", id, user)
+    // console.log("TogglePermission: ", id, user)
 
     if (user && user.email) {
 
@@ -43,13 +41,13 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "DELETE_PROFILES")
-        
+
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "DELETE_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,
             status: 400,
-            message: "O usuário não tem permissão para deletar um perfil",
+            message: "O usuário não tem permissão para deletar uma permissão",
           }
         }
 
@@ -66,7 +64,7 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
         if (!id && !isNaN(+id)) {
           await this.saveAudit.execute({
             moduleName: "PROFILE",
-            useCase: "DeleteProfile",
+            useCase: "DeletePermission",
             message: "Erro de validação",
             userId: userDB.id,
             responseData: JSON.stringify("ID inválido"),
@@ -83,11 +81,11 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
         }
 
 
-        const profileExist = await this.repo.findById(id)
+        const permissionExist = await this.repo.findById(id)
 
-        // console.debug("profileExist:", JSON.stringify(profileExist, null, 2))
+        // console.debug("permissionExist:", JSON.stringify(permissionExist, null, 2))
 
-        if (!profileExist) {
+        if (!permissionExist) {
           return {
             success: false,
             status: 400,
@@ -98,7 +96,7 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
         } else {
 
           //proteção para não excluir o perfil ADMIN
-          if (profileExist.name === "ADMIN") {
+          if (permissionExist.name === "ADMIN") {
             return {
               success: false,
               status: 400,
@@ -108,41 +106,41 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
           }
 
           //verifica se o perfil possui usuários vinculados
-          if (profileExist.Users.length > 0) {
-            console.log(profileExist.Users)
-            const linkedUser = profileExist.Users.map((userProfile) => {
-              return userProfile.User.name
+          if (permissionExist.Users.length > 0) {
+            console.log(permissionExist.Users)
+            const linkedUser = permissionExist.Users.map((userPermission) => {
+              return userPermission.User.name
             })
             return {
               success: false,
               status: 400,
               message: "Erro na exclusão",
-              errors: [`Perfil \'${profileExist.name}\' possui usuários vinculados`, ...linkedUser]
+              errors: [`Perfil \'${permissionExist.name}\' possui usuários vinculados`, ...linkedUser]
             }
           }
 
           //Permissões não dependem do perfil,
-          // if (profileExist.Permissions.length > 0) {
-          //   const linkedPermission = profileExist.Permissions.map((profilePermission) => {
-          //     return profilePermission.Permission.name
+          // if (permissionExist.Permissions.length > 0) {
+          //   const linkedPermission = permissionExist.Permissions.map((permissionPermission) => {
+          //     return permissionPermission.Permission.name
           //   })
           //   // console.log(linkedPermission)
           //   return {
           //     success: false,
           //     status: 400,
           //     message: "Erro na exclusão",
-          //     errors: [`Perfil \'${profileExist.name}\' possui permissões vinculadas`, ...linkedPermission]
+          //     errors: [`Perfil \'${permissionExist.name}\' possui permissões vinculadas`, ...linkedPermission]
           //   }
           // }
 
-          const result = await this.repo.delete(+profileExist.id)
+          const result = await this.repo.delete(+permissionExist.id)
 
           if (result) {
             return {
               success: true,
               status: 200,
-              message: "Perfil excluido com sucesso.",
-              data: { profile: profileExist }
+              message: "Permissão excluida com sucesso.",
+              data: { permission: permissionExist }
             }
           }
 
@@ -153,8 +151,8 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
     } else {
       //usuário não informado - logar e retornar com erro
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "DeleteProfile",
+        moduleName: "PERMISSION",
+        useCase: "DeletePermission",
         message: "Erro de validação",
         responseData: JSON.stringify("Usuário inválido: e-mail não informado"),
         requestData: JSON.stringify({ id, user }),

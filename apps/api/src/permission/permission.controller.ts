@@ -1,28 +1,26 @@
 import { Response } from 'express';
 import { Body, Controller, Delete, Get, Headers, HttpException, Param, Post, Put, Res, UseFilters, UseGuards } from '@nestjs/common';
-import { CreateProfile, DeleteProfile, FindProfile, ProfileProps, ToggleProfile, UpdateProfile } from "@repo/core"
+import { CreatePermission, DeletePermission, FindPermission, PermissionProps, TogglePermission, UpdatePermission } from "@repo/core"
 import { AuditPrisma } from 'src/providers/audit.prisma';
-import { ProfilePrisma } from 'src/providers/profile.prisma';
+import { PermissionPrisma } from 'src/providers/permission.prisma';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { JwtProvider } from 'src/providers/jwt.provider';
 import { CustomFilter } from 'src/errors/custom/custom.filter';
-import { PermissionPrisma } from 'src/providers/permission.prisma';
 
 
-@Controller('profile')
+@Controller('permission')
 @UseGuards(AuthGuard)
 @UseFilters(CustomFilter)
-export class ProfileController {
+export class PermissionController {
 
   constructor(
-    private readonly repo: ProfilePrisma,
-    private readonly auditProvider: AuditPrisma,
-    private readonly permissionRepo: PermissionPrisma
+    private readonly repo: PermissionPrisma,
+    private readonly auditProvider: AuditPrisma
   ) { }
 
   @Post()
   async create(
-    @Body() data: ProfileProps,
+    @Body() data: PermissionProps,
     @Res() res: Response,
     @Headers("host") host: string,
     @Headers("user-agent") userAgent: string,
@@ -33,7 +31,7 @@ export class ProfileController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new CreateProfile(this.repo, this.auditProvider, this.permissionRepo)
+    const usecase = new CreatePermission(this.repo, this.auditProvider)
     const result = await usecase.execute(data, user)
 
     if (result.success) {
@@ -61,7 +59,7 @@ export class ProfileController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new FindProfile(this.repo, this.auditProvider, this.permissionRepo)
+    const usecase = new FindPermission(this.repo, this.auditProvider)
     const result = await usecase.execute(undefined, user)
 
     if (result.success) {
@@ -90,7 +88,7 @@ export class ProfileController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new FindProfile(this.repo, this.auditProvider, this.permissionRepo)
+    const usecase = new FindPermission(this.repo, this.auditProvider)
     const result = await usecase.execute(id, user)
 
     if (result.success) {
@@ -108,7 +106,7 @@ export class ProfileController {
 
   @Put()
   async update(
-    @Body() data: ProfileProps,
+    @Body() data: PermissionProps,
     @Res() res: Response,
     @Headers("host") host: string,
     @Headers("user-agent") userAgent: string,
@@ -118,9 +116,8 @@ export class ProfileController {
     const [tokenType, tokenValue] = authorization?.split(" ")
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
-    console.log(payload)
 
-    const usecase = new UpdateProfile(this.repo, this.auditProvider, this.permissionRepo)
+    const usecase = new UpdatePermission(this.repo, this.auditProvider)
     const result = await usecase.execute(data, user)
 
     if (result.success) {
@@ -151,7 +148,7 @@ export class ProfileController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new ToggleProfile(this.repo, this.auditProvider, this.permissionRepo)
+    const usecase = new TogglePermission(this.repo, this.auditProvider)
     const result = await usecase.execute(id, user)
 
     if (result.success) {
@@ -180,7 +177,7 @@ export class ProfileController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new DeleteProfile(this.repo, this.auditProvider, this.permissionRepo)
+    const usecase = new DeletePermission(this.repo, this.auditProvider)
     const result = await usecase.execute(id, user)
 
     if (result.success) {
