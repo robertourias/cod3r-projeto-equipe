@@ -1,11 +1,30 @@
+"use client";
+
 import LogoSecurity from "../../../../public/logo-security.png";
 import GoogleLogo from "../../../../public/icons8-google-50.png";
 import EmailLogo from "../../../../public/icons8-email-50.png";
 import SenhaLogo from "../../../../public/icons8-eye-50.png";
+import SenhaLogoHide from "../../../../public/icons8-hide-50.png";
 import { poppins400, poppins600 } from "../../../utils/loadFont";
 import Link from "next/link";
 
 export default function Form() {
+  function togglePassword() {
+    let passwordImage = document.getElementById(
+      "password-image"
+    ) as HTMLImageElement;
+    let passwordToggle = document.getElementById(
+      "senhaInput"
+    ) as HTMLInputElement;
+    if (passwordToggle && passwordToggle.type === "password") {
+      passwordToggle.type = "text";
+      passwordImage.src = SenhaLogoHide.src;
+    } else {
+      passwordToggle.type = "password";
+      passwordImage.src = SenhaLogo.src;
+    }
+  }
+
   return (
     <div className="text-skin-innerText bg-skin-formBackground m-auto h-auto flex flex-col min-w-96 w-1/4 items-center rounded-lg font-Poppins p-6">
       <img
@@ -44,9 +63,11 @@ export default function Form() {
           />
           <div className="relative">
             <img
+              id="password-image"
               src={SenhaLogo.src}
               alt="Senha Logo"
               className="w-5 h-5 absolute right-5 top-9"
+              onClick={togglePassword}
             />
             <label
               htmlFor="senhaInput"
@@ -61,7 +82,7 @@ export default function Form() {
             />
           </div>
           <Link
-            href="https://www.cod3r.com.br/"
+            href="./troca-senha"
             className="block text-end text-gray-500 -mr-5"
           >
             Esqueceu a senha?
@@ -89,7 +110,7 @@ export default function Form() {
       </div>
       <p className="text-skin-innerText">
         Ainda não possui conta?&nbsp;
-        <Link className="text-skin-linkText" href="https://www.cod3r.com.br">
+        <Link className="text-skin-linkText" href="./cadastro">
           Cadastre-se aqui
         </Link>
       </p>

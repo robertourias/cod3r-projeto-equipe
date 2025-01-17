@@ -25,6 +25,8 @@ const config: Pick<Config, "content" | "presets" | "theme"> = {
           buttonBackgroundGreen: "var(--button-security-bg-color-green)",
           buttonBackgroundRed: "var(--button-security-bg-color-red)",
           buttonBackgroundGray: "var(--button-security-bg-color-gray)",
+          selectInputBackground: "var(--input-select-bg-color-gray)",
+          tableBackground: "var(--table-bg-color)",
         },
       },
       borderColor: {
