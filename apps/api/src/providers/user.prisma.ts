@@ -27,6 +27,7 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
+        workingHours: true
       }
     })
 
@@ -58,6 +59,7 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
+        workingHours: true
       }
     })
     //prisma salva em UTC - converte de volta para data/hora local
@@ -86,6 +88,7 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
+        workingHours: true
       }
     })
     //array
@@ -115,6 +118,7 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
+        workingHours: true
       }
     })
     //prisma salva em UTC - converte de volta para data/hora local
@@ -143,6 +147,7 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
+        workingHours: true
       }
     })
     //prisma salva em UTC - converte de volta para data/hora local

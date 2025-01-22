@@ -9,6 +9,7 @@ import { BcryptProvider } from 'src/providers/bcrypt.provider';
 import { JwtProvider } from 'src/providers/jwt.provider';
 import { UserPrisma } from 'src/providers/user.prisma';
 import { EmailProvider } from 'src/providers/email.provider';
+import { PermissionPrisma } from 'src/providers/permission.prisma';
 
 
 @Controller('users')
@@ -20,7 +21,8 @@ export class UserController {
     private readonly crypto: BcryptProvider,
     private readonly tokenProvider: JwtProvider,
     private readonly sendEmail: EmailProvider,
-    private readonly auditProvider: AuditPrisma
+    private readonly auditProvider: AuditPrisma,
+    private readonly permissionRepo: PermissionPrisma
   ) { }
 
   //registro de usuários será aberto?
@@ -90,7 +92,7 @@ export class UserController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new FindUsers(this.repo, this.auditProvider)
+    const usecase = new FindUsers(this.repo, this.auditProvider, this.permissionRepo)
     const result = await usecase.execute(undefined, user)
 
     if (result.success) {
@@ -119,7 +121,7 @@ export class UserController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new FindUsers(this.repo, this.auditProvider)
+    const usecase = new FindUsers(this.repo, this.auditProvider, this.permissionRepo)
     const result = await usecase.execute(id, user)
 
 
@@ -149,7 +151,7 @@ export class UserController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new UpdateUser(this.repo, this.crypto, this.auditProvider)
+    const usecase = new UpdateUser(this.repo, this.crypto, this.auditProvider, this.permissionRepo)
     const result = await usecase.execute(data, user)
 
     if (result.success) {
@@ -180,7 +182,7 @@ export class UserController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new ToggleUser(this.repo, this.auditProvider)
+    const usecase = new ToggleUser(this.repo, this.auditProvider, this.permissionRepo)
     const result = await usecase.execute(id, user)
 
     if (result.success) {
@@ -210,7 +212,7 @@ export class UserController {
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
 
-    const usecase = new DeleteUser(this.repo, this.auditProvider)
+    const usecase = new DeleteUser(this.repo, this.auditProvider, this.permissionRepo)
     const result = await usecase.execute(id, user)
 
     if (result.success) {

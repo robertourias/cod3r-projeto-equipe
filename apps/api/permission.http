@@ -4,15 +4,15 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
-  "email": "jobn@zmail.com",
-  "password": "Abc1234@"
+  "email": "admin@zmail.com.br",
+  "password": "123456Aa@"
 }
 ###
 
 
 POST http://localhost:3333/permission
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
 
 { 
   "name": "UPDATE_PROFILE",
@@ -23,7 +23,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc
 
 POST http://localhost:3333/permission
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
 
 { 
   "name": "DELETE_PROFILE",
@@ -34,20 +34,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc
 
 GET http://localhost:3333/permission
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
 ###
 
 
-GET http://localhost:3333/permission/4
+GET http://localhost:3333/permission/2
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
 ###
 
 
 // ativa / desativa usuário
 POST http://localhost:3333/permission/toggle/4
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM2NjkzMDk5LCJleHAiOjE3MzY2OTY2OTl9.bUnVDKRQHbqvJGX15ZiThdPmxvuDNOsQrLFJXBLfvg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
 ###
 
 

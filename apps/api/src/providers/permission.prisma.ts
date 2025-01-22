@@ -41,7 +41,7 @@ export class PermissionPrisma implements PermissionRepository {
         Profiles: {
           select: {
             id: true,
-            Permission: true,
+            Profile: true,
           }
         },
         Users: {
@@ -74,7 +74,26 @@ export class PermissionPrisma implements PermissionRepository {
 
   async userHasPermission(userId: string, permissionName: string): Promise<boolean> {
     // Verifica se há uma permissão associada ao usuário através de seus perfis
+
+    //TODO: refatorar?: essa validação deveria estar no core?
     const hasPermission = await this.prisma.permission.findFirst({
+      where: {
+        name: permissionName,
+        Users: {
+          some: {
+            Permission: {
+              Users: {
+                some: {
+                  userId: userId
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    const hasProfilePermission = await this.prisma.permission.findFirst({
       where: {
         name: permissionName,
         Profiles: {
@@ -90,9 +109,14 @@ export class PermissionPrisma implements PermissionRepository {
         },
       },
     });
+
+    // console.log("hasPermission:", hasPermission)
+    // console.log("hasProfilePermission:", hasProfilePermission)
+
     // Retorna verdadeiro se a permissão existir
-    return Boolean(hasPermission);
+    return Boolean(hasPermission) || Boolean(hasProfilePermission)
   }
+
 
   async findUserByEmail(email: string): Promise<UserProps> {
     const result = await this.prisma.user.findUnique({

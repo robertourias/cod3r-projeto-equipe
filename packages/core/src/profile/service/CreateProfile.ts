@@ -45,7 +45,7 @@ export class CreateProfile implements UseCase<ProfileProps, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "CREATE_PROFILES")
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "CREATE_PROFILE")
         
         if(!userHasPermission){
           return {

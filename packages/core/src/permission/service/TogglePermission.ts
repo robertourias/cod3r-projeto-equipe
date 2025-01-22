@@ -42,7 +42,7 @@ export class TogglePermission implements UseCase<string, CoreResponse> {
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
 
-        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "DELETE_PERMISSION")
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "TOGGLE_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,

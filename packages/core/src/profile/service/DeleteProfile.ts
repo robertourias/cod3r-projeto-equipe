@@ -43,7 +43,7 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "DELETE_PROFILES")
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "DELETE_PROFILE")
         
         if(!userHasPermission){
           return {

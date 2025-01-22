@@ -20,6 +20,7 @@ model User {
   recoveryToken   String?
   tokenExpiration String?
   twoFactorAuth   Boolean          @default(false)
+  workingHours    String?
   createdAt       DateTime?        @default(now())
   updatedAt       DateTime?        @updatedAt
   disabledAt      DateTime?
