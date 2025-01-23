@@ -46,8 +46,8 @@ export class DeleteUser implements UseCase<string, CoreResponse> {
         if (!userHasPermission) {
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para deletar usuários",
+            status: 401,
+            message: "Não autorizado: excluir usuário",
           }
         }
 

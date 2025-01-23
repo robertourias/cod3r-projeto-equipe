@@ -43,8 +43,8 @@ export class FindPermission implements UseCase<string | null, CoreResponse> {
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para procurar uma permissão",
+            status: 401,
+            message: "Não autorizado: visualizar permissão",
           }
         }
 

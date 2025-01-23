@@ -48,8 +48,8 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
         if (!userHasPermission) {
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para atualizar usuários",
+            status: 401,
+            message: "Não autorizado: atualizar usuário",
           }
         }
         //Validação dos dados

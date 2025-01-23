@@ -46,8 +46,8 @@ export class UpdatePermission implements UseCase<PermissionProps, CoreResponse> 
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para criar uma permissão",
+            status: 401,
+            message: "Não autorizado: alterar permissão",
           }
         }
 

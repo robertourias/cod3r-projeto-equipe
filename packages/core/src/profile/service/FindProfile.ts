@@ -45,8 +45,8 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para procurar um perfil",
+            status: 401,
+            message: "Não autorizado: visualizar perfil",
           }
         }
 

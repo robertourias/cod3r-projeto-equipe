@@ -45,8 +45,8 @@ export class ToggleUser implements UseCase<string, CoreResponse> {
         if (!userHasPermission) {
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para alterar o status de usuários",
+            status: 401,
+            message: "Não autorizado: alterar status de usuário",
           }
         }
 

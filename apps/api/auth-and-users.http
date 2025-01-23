@@ -27,7 +27,7 @@ content-type: application/json
 
 { 
   "name": "Joao J. Junior",
-  "email": "jobn@zmail.com",
+  "email": "jobn1@zmail.com",
   "password": "Abc1234@",
   "phone": "+55 54 99999-0000",
   "profileUrl" : "https://profile.com/123",
