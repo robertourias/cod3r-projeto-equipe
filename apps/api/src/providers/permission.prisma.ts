@@ -1,11 +1,67 @@
 import { Injectable } from '@nestjs/common';
-import { PermissionProps, PermissionRepository, UserProps } from '@repo/core';
+import { PermissionProfileProps, PermissionProps, PermissionRepository, ProfileProps, UserProps } from '@repo/core';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class PermissionPrisma implements PermissionRepository {
 
   constructor(private readonly prisma: PrismaService) { }
+
+  async findProfileById(id: string): Promise<ProfileProps | null> {
+    return await this.prisma.profile.findFirst({
+      where: {
+        id: +id
+      }
+    })
+  }
+
+  async findPermissionOnProfile(permissionId: number, profileId: number): Promise<PermissionProfileProps | null> {
+    return await this.prisma.profilePermission.findFirst({
+      where: {
+        profileId: +profileId,
+        permissionId: +permissionId
+      },
+      select: {
+        permissionId: true,
+        profileId: true,
+        Permission: true,
+        Profile: true
+      }
+    })
+  }
+
+  async addPermissionToProfile(permissionId: number, profileId: number): Promise<PermissionProfileProps | null> {
+    return await this.prisma.profilePermission.create({
+      data: {
+        profileId: +profileId,
+        permissionId: +permissionId
+      },
+      select: {
+        permissionId: true,
+        profileId: true,
+        Permission: true,
+        Profile: true
+      }
+    })
+  }
+
+  async removePermissionFromProfile(permissionId: number, profileId: number): Promise<PermissionProfileProps | null> {
+    return await this.prisma.profilePermission.delete({
+      where: {
+        profileId_permissionId: {
+          profileId: +profileId,
+          permissionId: +permissionId
+        }
+      },
+      select: {
+        permissionId: true,
+        profileId: true,
+        Permission: true,
+        Profile: true
+      }
+    })
+  }
+
 
   async findByName(name: string): Promise<PermissionProps | null> {
     return await this.prisma.permission.findUnique({

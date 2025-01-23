@@ -12,7 +12,7 @@ content-type: application/json
 
 POST http://localhost:3333/permission
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NjY4NjM0LCJleHAiOjE3Mzc2NzIyMzR9.X77vbaosDS7WaNgz2rbKMqUE6GwAJ0WE1SLvJmr9Evs
 
 { 
   "name": "UPDATE_PROFILE",
@@ -21,33 +21,45 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc
 ###
 
 
-POST http://localhost:3333/permission
-content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
-
-{ 
-  "name": "DELETE_PROFILE",
-  "description": "Permite deletar perfis"
-}
-###
-
-
 GET http://localhost:3333/permission
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NjY4NjM0LCJleHAiOjE3Mzc2NzIyMzR9.X77vbaosDS7WaNgz2rbKMqUE6GwAJ0WE1SLvJmr9Evs
 ###
 
 
 GET http://localhost:3333/permission/2
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NjY4NjM0LCJleHAiOjE3Mzc2NzIyMzR9.X77vbaosDS7WaNgz2rbKMqUE6GwAJ0WE1SLvJmr9Evs
 ###
 
 
 // ativa / desativa usuário
 POST http://localhost:3333/permission/toggle/4
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NTc4MDk0LCJleHAiOjE3Mzc1ODE2OTR9.ZPonxvMwT9j7FYOpV8AkLSE9rRMFTUPl_fB5cjQCUjA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NjY4NjM0LCJleHAiOjE3Mzc2NzIyMzR9.X77vbaosDS7WaNgz2rbKMqUE6GwAJ0WE1SLvJmr9Evs
+###
+
+
+//vincula permissão a um perfil
+POST http://localhost:3333/permission/addToProfile
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NjY4NjM0LCJleHAiOjE3Mzc2NzIyMzR9.X77vbaosDS7WaNgz2rbKMqUE6GwAJ0WE1SLvJmr9Evs
+
+{ 
+  "permissionId": "14",
+  "profileId": "1"
+}
+###
+
+//vincula permissão a um perfil
+POST http://localhost:3333/permission/removeFromProfile
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NjY4NjM0LCJleHAiOjE3Mzc2NzIyMzR9.X77vbaosDS7WaNgz2rbKMqUE6GwAJ0WE1SLvJmr9Evs
+
+{ 
+  "permissionId": "12",
+  "profileId": "2"
+}
 ###
 
 

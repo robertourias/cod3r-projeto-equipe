@@ -139,6 +139,34 @@ async function seed() {
     }
   })
 
+  const addPermissionToProfile = await prisma.permission.create({
+    data: {
+      name: "ADD_PERMISSION_PROFILE",
+      description: "Vincular permissão a um perfil"
+    }
+  })
+
+  const removePermissionFromProfile = await prisma.permission.create({
+    data: {
+      name: "REMOVE_PERMISSION_PROFILE",
+      description: "Remover permissão de um perfil"
+    }
+  })
+
+  const addPermissionToUser = await prisma.permission.create({
+    data: {
+      name: "ADD_PERMISSION_USER",
+      description: "Vincular permissão a um usuário"
+    }
+  })
+
+  const removePermissionFromUser = await prisma.permission.create({
+    data: {
+      name: "REMOVE_PERMISSION_USER",
+      description: "Remover permissão de um usuário"
+    }
+  })
+
   console.log("Permissions...");
 
 
@@ -166,6 +194,10 @@ async function seed() {
           { permissionId: updatePermission.id },
           { permissionId: deletePermission.id },
           { permissionId: togglePermission.id },
+          { permissionId: addPermissionToProfile.id },
+          { permissionId: removePermissionFromProfile.id },
+          { permissionId: addPermissionToUser.id },
+          { permissionId: removePermissionFromUser.id },
         ]
       }
     }

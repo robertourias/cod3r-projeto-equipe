@@ -5,6 +5,22 @@ import { FindPermission } from "./service/FindPermission"
 import { UpdatePermission } from "./service/UpdatePermission"
 import { TogglePermission } from "./service/TogglePermission"
 import { DeletePermission } from "./service/DeletePermission"
+import { PermissionProfileProps } from "./model/PermissionProfileProps"
+import { AddPermissionToProfile } from "./service/AddPermissionToProfile"
+import { RemovePermissionFromProfile } from "./service/RemovePermissionFromProfile"
 
-export type { PermissionProps, PermissionRepository }
-export { CreatePermission, FindPermission, UpdatePermission, TogglePermission, DeletePermission }
+export type {
+  PermissionProps,
+  PermissionRepository,
+  PermissionProfileProps
+}
+
+export {
+  CreatePermission,
+  FindPermission,
+  UpdatePermission,
+  TogglePermission,
+  DeletePermission,
+  AddPermissionToProfile,
+  RemovePermissionFromProfile
+}
