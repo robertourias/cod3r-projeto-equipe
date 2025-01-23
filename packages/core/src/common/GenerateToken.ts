@@ -1,5 +1,5 @@
-import { UseCase } from "../../common/UseCase";
-import { UserProps, UserRepository } from "..";
+import { UseCase } from "./UseCase";
+import { UserProps, UserRepository } from "../user";
 
 
 export class GenerateToken implements UseCase<string, UserProps> {
