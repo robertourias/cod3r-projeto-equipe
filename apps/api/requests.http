@@ -3,11 +3,11 @@ content-type: application/json
 
 {
   "user": {  
-    "name": "João",
-    "email": "joao@zmail.com",
-    "password": "123456",
-    "phone": "+55 54 99999-0000",
-    "profileUrl" : "https://profile.com/123",
+    "name": "Carlos",
+    "email": "carlos@zmail.com",
+    "password": "789410",
+    "phone": "+55 21 99999-0000",
+    "profileUrl" : "https://profile.com/124",
     "recoveryToken": "no-token",
     "tokenExpiration": null,
     "twoFactorAuth": false

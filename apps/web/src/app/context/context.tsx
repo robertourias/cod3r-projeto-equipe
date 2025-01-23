@@ -26,6 +26,16 @@ export const GeneralContext = createContext<GeneralContextType>({
 
 export default function ContextProvider({ children }: { children: React.ReactNode }) {
 
+  fetch('http://localhost:3333/users', {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer 123456'
+    },
+  })
+    .then(response => response.json())
+    .then(data => console.log("DATA", data));
+
   const [userName, setUserName] = useState("");
 
   const [selectedUser, setSelectedUser] = useState<Users | null>(initialSelectedUser);
