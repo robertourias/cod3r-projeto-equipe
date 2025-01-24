@@ -2,26 +2,23 @@ import { AuditRepository } from "../../audit"
 import { SaveAudit } from "../../audit/service/SaveAudit"
 import { CoreResponse } from "../../common/CoreResponse"
 import { UseCase } from "../../common/UseCase"
-import { isValidName } from "../../common/Validations"
-import { PermissionRepository } from "../../permission"
 import { UserProps } from "../../user"
-import { ProfileProps } from "../model/ProfileProps"
-import { ProfileRepository } from "../provider/ProfileRepository"
+import { PermissionUserProps } from "../model/PermissionUserProps"
+import { PermissionRepository } from "../provider/PermissionRepository"
 
-export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
+export class AddPermissionToUser implements UseCase<PermissionUserProps, CoreResponse> {
 
   private readonly saveAudit: SaveAudit
 
   constructor(
-    private readonly repo: ProfileRepository,
-    private readonly auditRepo: AuditRepository,
-    private readonly permissionRepo: PermissionRepository
+    private readonly repo: PermissionRepository,
+    private readonly auditRepo: AuditRepository
   ) {
     this.saveAudit = new SaveAudit(this.auditRepo)
   }
 
 
-  async execute(data: ProfileProps, user?: UserProps): Promise<CoreResponse> {
+  async execute(data: PermissionUserProps, user?: UserProps): Promise<CoreResponse> {
 
     if (user && user.email) {
 
@@ -43,13 +40,13 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "UPDATE_PROFILE")
-        
-        if(!userHasPermission){
+
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "ADD_PERMISSION_USER")
+        if (!userHasPermission) {
           return {
             success: false,
             status: 401,
-            message: "Não autorizado: alterar perfil",
+            message: "Não autorizado: vincular permissão a perfil",
           }
         }
 
@@ -57,23 +54,17 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
         const errors: string[] = []
 
         //ID undefined gera erro prisma
-        if (!data.id) {
-          errors.push("ID precisa ser informado")
+        if (!data.permissionId) {
+          errors.push("ID da permissão precisa ser informado")
         }
-
-        //Validação dos campos obrigatórios
-        if (!isValidName(data.name, 5, 20)) {
-          errors.push("Nome deve ser informado e ter de 5 a 20 caracteres. ")
-        }
-
-        if (data.description.length < 5) {
-          errors.push("Descrição precisa ter no mínimo 5 caracteres")
+        if (!data.userId) {
+          errors.push("ID do usuário precisa ser informado")
         }
 
         if (errors.length > 0) {
           await this.saveAudit.execute({
-            moduleName: "PROFILE",
-            useCase: "CreateProfile",
+            moduleName: "PERMISSION",
+            useCase: "AddPermissionToUser",
             message: "Erro de validação",
             userId: userDB.id,
             responseData: JSON.stringify({ errors }),
@@ -91,38 +82,51 @@ export class UpdateProfile implements UseCase<ProfileProps, CoreResponse> {
           }
         }
 
+        //verifica se a permissão e perfil existem
+        const permissionExist = await this.repo.findById(data.permissionId.toString())
+        const userExist = await this.repo.findUserById(data.userId.toString())
 
-        const profileExist = await this.repo.findById(data.id.toString())
+        //verifica se já existe o vinculo
+        const permissionExistOnUser = await this.repo.findPermissionOnUser(data.permissionId, data.userId)
 
-        if (!profileExist) {
+        if (!permissionExist) {
+          errors.push("Permissão não encontrada: " + data.permissionId)
+        }
+
+        if (!userExist) {
+          errors.push("Usuário não encontrado: " + data.userId)
+        }
+
+        if (permissionExistOnUser) {
+          errors.push(`Permissão \'${permissionExistOnUser?.Permission?.name}\' já vinculada ao usuário \'${permissionExistOnUser?.User?.name}\' `)
+        }
+
+        if (errors.length > 0) {
           return {
             success: false,
             status: 400,
-            message: "Erro de validação",
-            errors: ["Perfil não encontrado: " + data.name.toUpperCase(), "Não é possível atualizar"]
+            message: "Não é possível vincular a permissão ao usuário",
+            errors: [...errors]
           }
+        }
 
-        } else {
-          const newProfile = await this.repo.save({
-            ...data,
-            name: data.name.toUpperCase(),
-          })
+        const newPermissionOnUser = await this.repo.addPermissionToUser(data.permissionId, data.userId)
 
-          return {
-            success: true,
-            status: 200,
-            message: "Perfil atualizado com sucesso.",
-            data: { profile: newProfile }
-          }
+        return {
+          success: true,
+          status: 200,
+          message: "Permissão vinculada ao usuário com sucesso.",
+          data: { ...newPermissionOnUser }
         }
 
       }
 
+
     } else {
       //usuário não informado - logar e retornar com erro
       await this.saveAudit.execute({
-        moduleName: "PROFILE",
-        useCase: "CreateProfile",
+        moduleName: "PERMISSION",
+        useCase: "AddPermissionToUser",
         message: "Erro de validação",
         responseData: JSON.stringify("Usuário inválido: e-mail não informado"),
         requestData: JSON.stringify({ data, user }),

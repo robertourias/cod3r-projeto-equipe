@@ -46,8 +46,8 @@ export class CreatePermission implements UseCase<PermissionProps, CoreResponse> 
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para criar uma permissão",
+            status: 401,
+            message: "Não autorizado: criar permissão",
             data: { data, user }
           }
         }

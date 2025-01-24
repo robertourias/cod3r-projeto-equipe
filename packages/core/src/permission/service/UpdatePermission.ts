@@ -42,12 +42,12 @@ export class UpdatePermission implements UseCase<PermissionProps, CoreResponse> 
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
 
-        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "DELETE_PERMISSION")
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "UPDATE_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para criar uma permissão",
+            status: 401,
+            message: "Não autorizado: alterar permissão",
           }
         }
 

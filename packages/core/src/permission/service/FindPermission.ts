@@ -39,12 +39,12 @@ export class FindPermission implements UseCase<string | null, CoreResponse> {
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
 
-        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "DELETE_PERMISSION")
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "FIND_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para procurar uma permissão",
+            status: 401,
+            message: "Não autorizado: visualizar permissão",
           }
         }
 

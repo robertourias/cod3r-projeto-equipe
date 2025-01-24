@@ -40,13 +40,13 @@ export class FindProfile implements UseCase<string | null, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "VIEW_USERS")
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "FIND_PROFILE")
         
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para procurar um perfil",
+            status: 401,
+            message: "Não autorizado: visualizar perfil",
           }
         }
 

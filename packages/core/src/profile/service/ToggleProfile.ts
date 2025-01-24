@@ -43,13 +43,13 @@ export class ToggleProfile implements UseCase<string, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "TOGGLE_PROFILES")
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "TOGGLE_PROFILE")
         
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para alterar o status de um perfil",
+            status: 401,
+            message: "Não autorizado: alterar status de perfil",
           }
         }
 

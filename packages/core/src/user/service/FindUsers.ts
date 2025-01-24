@@ -2,6 +2,7 @@ import { AuditRepository } from '../../audit';
 import { SaveAudit } from '../../audit/service/SaveAudit';
 import { CoreResponse } from '../../common/CoreResponse';
 import { UseCase } from '../../common/UseCase'
+import { PermissionRepository } from '../../permission';
 import { UserProps } from '../model/UserProps';
 import { UserRepository } from '../provider/UserRepository';
 
@@ -11,7 +12,8 @@ export class FindUsers implements UseCase<string | null, CoreResponse> {
 
   constructor(
     private readonly repo: UserRepository,
-    private readonly auditRepo: AuditRepository
+    private readonly auditRepo: AuditRepository,
+    private readonly permissionRepo: PermissionRepository
   ) {
     this.auditSave = new SaveAudit(this.auditRepo)
   }
@@ -39,7 +41,16 @@ export class FindUsers implements UseCase<string | null, CoreResponse> {
           }
         }
 
-        //TODO: validar aqui se 'usuario' tem permissão para executar esse caso de uso
+        //valida se 'usuario' tem permissão para executar esse caso de uso
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "FIND_USER")
+
+        if (!userHasPermission) {
+          return {
+            success: false,
+            status: 401,
+            message: "Não autorizado: visualizar usuário",
+          }
+        }
 
         if (id) {
           return await this.findById(id, { ...userDB, host: host, userAgent: userAgent }, withPassword)

@@ -41,13 +41,12 @@ export class DeletePermission implements UseCase<string, CoreResponse> {
         }
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
-
         const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "DELETE_PERMISSION")
         if(!userHasPermission){
           return {
             success: false,
-            status: 400,
-            message: "O usuário não tem permissão para deletar uma permissão",
+            status: 401,
+            message: "Não autorizado: excluir permissão",
           }
         }
 

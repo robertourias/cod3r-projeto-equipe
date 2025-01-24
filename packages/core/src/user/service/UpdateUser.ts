@@ -3,6 +3,7 @@ import { SaveAudit } from '../../audit/service/SaveAudit';
 import { CoreResponse } from '../../common/CoreResponse';
 import { UseCase } from '../../common/UseCase'
 import { isValidEmail, isValidName, isValidPassword } from '../../common/Validations';
+import { PermissionRepository } from '../../permission';
 import { UserProps } from '../model/UserProps';
 import { CryptoProvider } from '../provider/CryptoProvider';
 import { UserRepository } from '../provider/UserRepository';
@@ -14,7 +15,8 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
   constructor(
     private readonly repo: UserRepository,
     private readonly crypto: CryptoProvider,
-    private readonly auditRepo: AuditRepository
+    private readonly auditRepo: AuditRepository,
+    private readonly permissionRepo: PermissionRepository
   ) {
     this.auditSave = new SaveAudit(this.auditRepo)
   }
@@ -40,8 +42,16 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
           }
         }
 
-        //TODO: validar aqui se 'usuario' tem permissão para executar esse caso de uso
+        //valida se 'usuario' tem permissão para executar esse caso de uso
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "UPDATE_USER")
 
+        if (!userHasPermission) {
+          return {
+            success: false,
+            status: 401,
+            message: "Não autorizado: atualizar usuário",
+          }
+        }
         //Validação dos dados
         const errors: string[] = []
 
@@ -59,8 +69,7 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
           errors.push("E-mail deve ser válido. Valor informado: " + data.email)
         }
 
-        //TODO: passwords validation wrong
-        if (!isValidPassword(data.password)) {
+        if (data.password && !isValidPassword(data.password)) {
           errors.push("Senha deve ter no mínimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caracter especial. Valor informado: " + data.password)
         }
 
@@ -108,8 +117,16 @@ export class UpdateUser implements UseCase<UserProps, CoreResponse> {
           }
 
         } else {
-          //criptografa a senha
-          const hash = await this.crypto.encrypt(data.password)
+
+          let hash = undefined
+          
+          //se exister senha, criptografar,
+          //se não, usuário não qr alterar a senha
+          if (data.password) {
+            //criptografa a senha
+            hash = await this.crypto.encrypt(data.password)
+          }
+
           const newUser = await this.repo.save({ ...data, password: hash })
 
           await this.auditSave.execute({

@@ -20,6 +20,7 @@ model User {
   recoveryToken   String?
   tokenExpiration String?
   twoFactorAuth   Boolean          @default(false)
+  workingHours    String?
   createdAt       DateTime?        @default(now())
   updatedAt       DateTime?        @updatedAt
   disabledAt      DateTime?
@@ -38,7 +39,7 @@ model UserProfile {
   Profile   Profile @relation(fields: [profileId], references: [id])
   profileId Int
 
-  // @@index([userId, profileId])
+  @@unique([userId, profileId])
   @@map("user_profile")
 }
 
@@ -77,7 +78,7 @@ model UserPermission {
   Permission   Permission @relation(fields: [permissionId], references: [id])
   permissionId Int
 
-  // @@index([userId, permissionId])
+  @@unique([userId, permissionId])
   @@map("user_permissions")
 }
 
@@ -88,7 +89,7 @@ model ProfilePermission {
   Permission   Permission @relation(fields: [permissionId], references: [id])
   permissionId Int
 
-  // @@index([profileId, permissionId])
+  @@unique([profileId, permissionId])
   @@map("profile_permissions")
 }
 
