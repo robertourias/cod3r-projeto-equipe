@@ -1,3 +1,4 @@
+import { GenerateToken } from "../../../dist";
 import { AuditRepository } from "../../audit";
 import { SaveAudit } from "../../audit/service/SaveAudit";
 import { CoreResponse } from "../../common/CoreResponse";
@@ -26,8 +27,23 @@ export class LoginUser implements UseCase<LoginProps, CoreResponse> {
     if (userExist) {
       //comparar senhas
       const senhaIgual = await this.crypto.compare(userExist.password, data.password)
-
+      
       if (senhaIgual) {
+        //verifica se o usuário possui o 2FA ativo e se o token já foi informado
+        if(userExist.twoFactorAuth){
+          if(!data.token){
+            // const email = data?.email
+            // const usecase = new GenerateToken(this.repo);
+            // await usecase.execute(email)
+            return {
+              success: true,
+              data: {
+                twoFactorAuth: true,
+                status: "pending"
+              }
+            }
+          }
+        }
         //gerar token
         const token = await this.tokenProvider.signIn({ name: userExist.name, email: userExist.email })
 
