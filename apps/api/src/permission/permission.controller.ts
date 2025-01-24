@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { Body, Controller, Delete, Get, Headers, HttpException, Param, Post, Put, Res, UseFilters, UseGuards } from '@nestjs/common';
-import { AddPermissionToProfile, CreatePermission, DeletePermission, FindPermission, PermissionProfileProps, PermissionProps, RemovePermissionFromProfile, TogglePermission, UpdatePermission } from "@repo/core"
+import { AddPermissionToProfile, AddPermissionToUser, CreatePermission, DeletePermission, FindPermission, PermissionProfileProps, PermissionProps, PermissionUserProps, RemovePermissionFromProfile, RemovePermissionFromUser, TogglePermission, UpdatePermission } from "@repo/core"
 import { AuditPrisma } from 'src/providers/audit.prisma';
 import { PermissionPrisma } from 'src/providers/permission.prisma';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -249,5 +249,61 @@ export class PermissionController {
     }
   }//removeFromProfile
 
+
+  @Post("addToUser")
+  async addToUser(
+    @Body() data: PermissionUserProps,
+    @Res() res: Response,
+    @Headers("host") host: string,
+    @Headers("user-agent") userAgent: string,
+    @Headers("authorization") authorization: string
+  ) {
+
+    const [tokenType, tokenValue] = authorization?.split(" ")
+    const payload = await JwtProvider.getPayload(tokenValue)
+    const user = { email: payload.email, host, userAgent }
+
+    const usecase = new AddPermissionToUser(this.repo, this.auditProvider)
+    const result = await usecase.execute(data, user)
+
+    if (result.success) {
+      res.status(result?.status ?? 200).json({
+        status: result.status,
+        message: result.message,
+        data: result.data
+      })
+
+    } else {
+      throw new HttpException(result.message, result.status, { cause: result.errors })
+    }
+  }//addToUser
+
+  @Post("removeFromUser")
+  async removeFromUser(
+    @Body() data: PermissionUserProps,
+    @Res() res: Response,
+    @Headers("host") host: string,
+    @Headers("user-agent") userAgent: string,
+    @Headers("authorization") authorization: string
+  ) {
+
+    const [tokenType, tokenValue] = authorization?.split(" ")
+    const payload = await JwtProvider.getPayload(tokenValue)
+    const user = { email: payload.email, host, userAgent }
+
+    const usecase = new RemovePermissionFromUser(this.repo, this.auditProvider)
+    const result = await usecase.execute(data, user)
+
+    if (result.success) {
+      res.status(result?.status ?? 200).json({
+        status: result.status,
+        message: result.message,
+        data: result.data
+      })
+
+    } else {
+      throw new HttpException(result.message, result.status, { cause: result.errors })
+    }
+  }//removeFromUser
 
 }

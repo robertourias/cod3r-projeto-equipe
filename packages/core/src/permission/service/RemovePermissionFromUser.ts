@@ -3,10 +3,10 @@ import { SaveAudit } from "../../audit/service/SaveAudit"
 import { CoreResponse } from "../../common/CoreResponse"
 import { UseCase } from "../../common/UseCase"
 import { UserProps } from "../../user"
-import { PermissionProfileProps } from "../model/PermissionProfileProps"
+import { PermissionUserProps } from "../model/PermissionUserProps"
 import { PermissionRepository } from "../provider/PermissionRepository"
 
-export class RemovePermissionFromProfile implements UseCase<PermissionProfileProps, CoreResponse> {
+export class RemovePermissionFromUser implements UseCase<PermissionUserProps, CoreResponse> {
 
   private readonly saveAudit: SaveAudit
 
@@ -18,7 +18,7 @@ export class RemovePermissionFromProfile implements UseCase<PermissionProfilePro
   }
 
 
-  async execute(data: PermissionProfileProps, user?: UserProps): Promise<CoreResponse> {
+  async execute(data: PermissionUserProps, user?: UserProps): Promise<CoreResponse> {
 
     if (user && user.email) {
 
@@ -41,12 +41,12 @@ export class RemovePermissionFromProfile implements UseCase<PermissionProfilePro
 
         //valida se 'usuario' tem permissão para executar esse caso de uso
 
-        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "REMOVE_PERMISSION_PROFILE")
+        const userHasPermission = await this.repo.userHasPermission(userDB.id.toString(), "REMOVE_PERMISSION_USER")
         if (!userHasPermission) {
           return {
             success: false,
             status: 401,
-            message: "Não autorizado: desvincular permissão de perfil",
+            message: "Não autorizado: remover permissão de usuário",
           }
         }
 
@@ -57,14 +57,14 @@ export class RemovePermissionFromProfile implements UseCase<PermissionProfilePro
         if (!data.permissionId) {
           errors.push("ID da permissão precisa ser informado")
         }
-        if (!data.profileId) {
-          errors.push("ID do perfil precisa ser informado")
+        if (!data.userId) {
+          errors.push("ID do usuário precisa ser informado")
         }
 
         if (errors.length > 0) {
           await this.saveAudit.execute({
             moduleName: "PERMISSION",
-            useCase: "RemovePermissionFromProfile",
+            useCase: "RemovePermissionFromUser",
             message: "Erro de validação",
             userId: userDB.id,
             responseData: JSON.stringify({ errors }),
@@ -84,39 +84,39 @@ export class RemovePermissionFromProfile implements UseCase<PermissionProfilePro
 
         //verifica se a permissão e perfil existem
         const permissionExist = await this.repo.findById(data.permissionId.toString())
-        const profileExist = await this.repo.findProfileById(data.profileId.toString())
+        const userExist = await this.repo.findUserById(data.userId)
 
         //verifica se já existe o vinculo
-        const permissionExistOnProfile = await this.repo.findPermissionOnProfile(data.permissionId, data.profileId)
+        const permissionExistOnUser = await this.repo.findPermissionOnUser(data.permissionId, data.userId)
 
         if (!permissionExist) {
           errors.push("Permissão não encontrada: " + data.permissionId)
         }
 
-        if (!profileExist) {
-          errors.push("Perfil não encontrado: " + data.profileId)
+        if (!userExist) {
+          errors.push("Usuário não encontrado: " + data.userId)
         }
 
-        if (!permissionExistOnProfile) {
-          errors.push(`Permissão \'${permissionExist?.name}\' não está vinculada ao perfil \'${profileExist?.name}\' `)
+        if (!permissionExistOnUser) {
+          errors.push(`Permissão \'${permissionExist?.name}\' não está vinculada ao usuário \'${userExist?.name}\' `)
         }
 
         if (errors.length > 0) {
           return {
             success: false,
             status: 400,
-            message: "Não é possível remover a permissão do perfil",
+            message: "Não é possível remover a permissão do usuário",
             errors: [...errors]
           }
         }
 
-        const removedPermissionOnProfile = await this.repo.removePermissionFromProfile(data.permissionId, data.profileId)
+        const removedPermissionOnUser = await this.repo.removePermissionFromUser(data.permissionId, data.userId)
 
         return {
           success: true,
           status: 200,
-          message: "Permissão removida do perfil com sucesso.",
-          data: { ...removedPermissionOnProfile }
+          message: "Permissão removida do usuário com sucesso.",
+          data: { ...removedPermissionOnUser }
         }
 
       }
@@ -126,7 +126,7 @@ export class RemovePermissionFromProfile implements UseCase<PermissionProfilePro
       //usuário não informado - logar e retornar com erro
       await this.saveAudit.execute({
         moduleName: "PERMISSION",
-        useCase: "RemovePermissionFromProfile",
+        useCase: "RemovePermissionFromUser",
         message: "Erro de validação",
         responseData: JSON.stringify("Usuário inválido: e-mail não informado"),
         requestData: JSON.stringify({ data, user }),

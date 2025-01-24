@@ -105,8 +105,8 @@ export class AddPermissionToProfile implements UseCase<PermissionProfileProps, C
           return {
             success: false,
             status: 400,
-            message: "Erro de validação",
-            errors: [...errors, "Não é possível vincular a permissão ao perfil"]
+            message: "Não é possível vincular a permissão ao perfil",
+            errors: [...errors]
           }
         }
 

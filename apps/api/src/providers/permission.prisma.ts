@@ -1,11 +1,99 @@
 import { Injectable } from '@nestjs/common';
-import { PermissionProfileProps, PermissionProps, PermissionRepository, ProfileProps, UserProps } from '@repo/core';
+import { PermissionProfileProps, PermissionProps, PermissionRepository, PermissionUserProps, ProfileProps, UserProps } from '@repo/core';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class PermissionPrisma implements PermissionRepository {
 
   constructor(private readonly prisma: PrismaService) { }
+
+  async findUserById(id: string): Promise<UserProps | null> {
+    return await this.prisma.user.findFirst({
+      where: {
+        id
+      }
+    })
+  }
+
+  async findPermissionOnUser(permissionId: number, userId: string): Promise<PermissionUserProps | null> {
+    return await this.prisma.userPermission.findFirst({
+      where: {
+        userId: userId,
+        permissionId: +permissionId
+      },
+      select: {
+        permissionId: true,
+        userId: true,
+        Permission: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
+        User: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    })
+  }
+
+  async addPermissionToUser(permissionId: number, userId: string): Promise<PermissionUserProps | null> {
+    return await this.prisma.userPermission.create({
+      data: {
+        userId: userId,
+        permissionId: +permissionId
+      },
+      select: {
+        permissionId: true,
+        userId: true,
+        Permission: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
+        User: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    })
+  }
+
+  async removePermissionFromUser(permissionId: number, userId: string): Promise<PermissionUserProps | null> {
+    return await this.prisma.userPermission.delete({
+      where: {
+        userId_permissionId: {
+          userId: userId,
+          permissionId: +permissionId
+        }
+      },
+      select: {
+        permissionId: true,
+        userId: true,
+        Permission: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
+        User: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    })
+  }
 
   async findProfileById(id: string): Promise<ProfileProps | null> {
     return await this.prisma.profile.findFirst({
@@ -24,8 +112,18 @@ export class PermissionPrisma implements PermissionRepository {
       select: {
         permissionId: true,
         profileId: true,
-        Permission: true,
-        Profile: true
+        Permission: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
+        Profile: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
       }
     })
   }
@@ -39,8 +137,18 @@ export class PermissionPrisma implements PermissionRepository {
       select: {
         permissionId: true,
         profileId: true,
-        Permission: true,
-        Profile: true
+        Permission: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
+        Profile: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
       }
     })
   }
@@ -56,8 +164,18 @@ export class PermissionPrisma implements PermissionRepository {
       select: {
         permissionId: true,
         profileId: true,
-        Permission: true,
-        Profile: true
+        Permission: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
+        Profile: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
       }
     })
   }

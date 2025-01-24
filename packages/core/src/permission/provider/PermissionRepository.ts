@@ -2,6 +2,7 @@ import { ProfileProps } from "../../profile"
 import { UserProps } from "../../user"
 import { PermissionProfileProps } from "../model/PermissionProfileProps"
 import { PermissionProps } from "../model/PermissionProps"
+import { PermissionUserProps } from "../model/PermissionUserProps"
 
 export interface PermissionRepository {
   save(permission: PermissionProps): Promise<PermissionProps>
@@ -17,7 +18,8 @@ export interface PermissionRepository {
   addPermissionToProfile(permissionId: number, profileId: number): Promise<PermissionProfileProps | null>
   removePermissionFromProfile(permissionId: number, profileId: number): Promise<PermissionProfileProps | null>
 
-  // findUserById(id: string): Promise<UserProps | null>
-  // addPermissionToUser(permissionId: number, profileId: number): Promise<any>
-  // removePermissionFromUser(permissionId: number, profileId: number): Promise<any>
+  findUserById(id: string): Promise<UserProps | null>
+  findPermissionOnUser(permissionId: number, userId: string): Promise<PermissionUserProps | null>
+  addPermissionToUser(permissionId: number, userId: string): Promise<PermissionUserProps | null>
+  removePermissionFromUser(permissionId: number, userId: string): Promise<PermissionUserProps | null>
 }

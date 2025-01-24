@@ -8,11 +8,16 @@ import { DeletePermission } from "./service/DeletePermission"
 import { PermissionProfileProps } from "./model/PermissionProfileProps"
 import { AddPermissionToProfile } from "./service/AddPermissionToProfile"
 import { RemovePermissionFromProfile } from "./service/RemovePermissionFromProfile"
+import { PermissionUserProps } from "./model/PermissionUserProps"
+import { AddPermissionToUser } from "./service/AddPermissionToUser"
+import { RemovePermissionFromUser } from "./service/RemovePermissionFromUser"
+
 
 export type {
   PermissionProps,
   PermissionRepository,
-  PermissionProfileProps
+  PermissionProfileProps,
+  PermissionUserProps,
 }
 
 export {
@@ -22,5 +27,7 @@ export {
   TogglePermission,
   DeletePermission,
   AddPermissionToProfile,
-  RemovePermissionFromProfile
+  RemovePermissionFromProfile,
+  AddPermissionToUser,
+  RemovePermissionFromUser
 }
