@@ -1,4 +1,3 @@
-import { GenerateToken } from "../../../dist";
 import { AuditRepository } from "../../audit";
 import { SaveAudit } from "../../audit/service/SaveAudit";
 import { CoreResponse } from "../../common/CoreResponse";
