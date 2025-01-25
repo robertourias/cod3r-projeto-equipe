@@ -14,7 +14,7 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
-  "email": "guilhermearisteu@gmail.com",
+  "email": "jobn2@zmail.com",
   "password": "Abc1234@",
   "token": "JCK4YE"
 }
