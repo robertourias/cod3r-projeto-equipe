@@ -41,21 +41,17 @@ export class AuthController {
               throw new BadRequestException("Email não encontrado");
             }else{
               await this.sendEmail.sendEmail2FA(user.email, user.recoveryToken)
-              // return { message: '2FA required', status: 'pending' }
-              res.status(202).json({
-                status: "pending",
-                data:{message: '2FA required'}
+
+              return res.status(401).json({
+                status: result.status,
+                data: result.data
               })
             }
           } catch (error) {
             return error.message
           }
         }
-        const verifyToken = new VerifyToken(this.repo)
-        const token = await verifyToken.execute(email);
-        if(!token){
-          throw new BadRequestException("Token inválido");
-        }
+        
       }
       res.status(result?.status ?? 200).json({
         status: result.status,
