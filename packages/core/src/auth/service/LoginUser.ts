@@ -3,6 +3,7 @@ import { AuditRepository } from "../../audit";
 import { SaveAudit } from "../../audit/service/SaveAudit";
 import { CoreResponse } from "../../common/CoreResponse";
 import { UseCase } from "../../common/UseCase";
+import { VerifyToken } from "../../common/VerifyToken";
 import { CryptoProvider, TokenProvider, UserProps, UserRepository } from "../../user";
 import { LoginProps } from "../model/LoginProps";
 
