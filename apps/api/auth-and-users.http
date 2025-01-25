@@ -14,8 +14,9 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
-  "email": "user1@zmail.com.br",
-  "password": "123456Gg@"
+  "email": "jobn2@zmail.com",
+  "password": "Abc1234@",
+  "token": "JCK4YE"
 }
 ###
 
@@ -27,13 +28,13 @@ content-type: application/json
 
 { 
   "name": "Joao J. Junior",
-  "email": "jobn1@zmail.com",
+  "email": "jobn2@zmail.com",
   "password": "Abc1234@",
   "phone": "+55 54 99999-0000",
   "profileUrl" : "https://profile.com/123",
   "recoveryToken": "no-token",
   "tokenExpiration": null,
-  "twoFactorAuth": false,
+  "twoFactorAuth": true,
   "workingHours": "Segunda à sexta das 8:00-12:00 e 13:30-17:30"
 }
 ###
