@@ -16,7 +16,7 @@ export class ProfilePrisma implements ProfileRepository {
   }
 
   async save(profile: ProfileProps): Promise<ProfileProps> {
-    console.log("profile:", profile)
+    // console.log("profile:", profile)
     return await this.prisma.profile.upsert({
       where: { id: profile.id ? +profile.id : -1 },
       update: profile as any,

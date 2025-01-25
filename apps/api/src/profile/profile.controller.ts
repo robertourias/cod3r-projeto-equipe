@@ -118,7 +118,7 @@ export class ProfileController {
     const [tokenType, tokenValue] = authorization?.split(" ")
     const payload = await JwtProvider.getPayload(tokenValue)
     const user = { email: payload.email, host, userAgent }
-    console.log(payload)
+    // console.log(payload)
 
     const usecase = new UpdateProfile(this.repo, this.auditProvider, this.permissionRepo)
     const result = await usecase.execute(data, user)

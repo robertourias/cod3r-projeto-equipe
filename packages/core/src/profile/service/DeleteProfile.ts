@@ -109,7 +109,7 @@ export class DeleteProfile implements UseCase<string, CoreResponse> {
 
           //verifica se o perfil possui usuários vinculados
           if (profileExist.Users.length > 0) {
-            console.log(profileExist.Users)
+            // console.log(profileExist.Users)
             const linkedUser = profileExist.Users.map((userProfile) => {
               return userProfile.User.name
             })
