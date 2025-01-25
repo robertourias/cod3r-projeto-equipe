@@ -1,50 +1,181 @@
+import { AuditRepository } from '../../audit';
+import { SaveAudit } from '../../audit/service/SaveAudit';
+import { CoreResponse } from '../../common/CoreResponse';
 import { UseCase } from '../../common/UseCase'
-import { UserProps } from '../model/User';
+import { PermissionRepository } from '../../permission';
+import { UserProps } from '../model/UserProps';
 import { UserRepository } from '../provider/UserRepository';
 
-export class ToggleUser implements UseCase<string, UserProps> {
+export class ToggleUser implements UseCase<string, CoreResponse> {
+
+  private readonly auditSave: SaveAudit
 
   constructor(
     private readonly repo: UserRepository,
-  ) { }
+    private readonly auditRepo: AuditRepository,
+    private readonly permissionRepo: PermissionRepository
+  ) {
+    this.auditSave = new SaveAudit(this.auditRepo)
+  }
 
-  async execute(id: string, user?: UserProps): Promise<UserProps> {
+  async execute(id: string, user?: UserProps): Promise<CoreResponse> {
 
-    //TODO: validar aqui se 'user' tem permissão para executar esse caso de uso
+    //só executar caso de uso se um usuário válido tiver sido informado
+    if (user && user.email) {
 
-    if (id == null || id == undefined || id == "") {
-      throw new Error("Usuário inválido")
+      if (user.email) {
 
-    } else {
+        const host = user?.host
+        const userAgent = user?.userAgent
+        const userDB = await this.repo.findByEmail(user.email)
 
-      const userExists = await this.repo.findById(id)
+        //usuário não encontrado
+        if (!userDB) {
+          return {
+            success: false,
+            status: 400,
+            message: "Usuário não encontrado com e-mail " + user.email,
+            data: { id, user }
+          }
+        }
 
-      if (!userExists) {
-        throw new Error("Usuário não encontrado")
+        //valida se 'usuario' tem permissão para executar esse caso de uso
+        const userHasPermission = await this.permissionRepo.userHasPermission(userDB.id.toString(), "TOGGLE_USER")
 
-      } else {
+        if (!userHasPermission) {
+          return {
+            success: false,
+            status: 401,
+            message: "Não autorizado: alterar status de usuário",
+          }
+        }
 
-        if (userExists.disabledAt == null) {
-          //inativa usuário
-          const newUser = await this.repo.save({
-            ...userExists,
-            disabledAt: new Date()
+        if (id == null || id == undefined || id == "") {
+
+          await this.auditSave.execute({
+            moduleName: "USER",
+            useCase: "ToggleUser",
+            message: "Erro de validação",
+            userId: userDB.id,
+            responseData: JSON.stringify("ID precisa ser informado"),
+            host: host,
+            userAgent: userAgent
           })
-          console.log("disabling user...", newUser)
-          return newUser
+
+          return {
+            success: false,
+            message: "Erro de validação",
+            status: 400,
+            errors: ["ID precisa ser informado"]
+          }
 
         } else {
-          //ativa usuário
-          const newUser = await this.repo.save({
-            ...userExists,
-            disabledAt: null
-          })
-          console.log("enabling user...", newUser)
-          return newUser
+
+          const userExists = await this.repo.findById(id)
+
+          if (!userExists) {
+
+            await this.auditSave.execute({
+              moduleName: "USER",
+              useCase: "ToggleUser",
+              message: "Erro ao alterar usuário",
+              userId: userDB.id,
+              responseData: JSON.stringify("Usuário não encontrado"),
+              requestData: JSON.stringify({ id }),
+              host: host,
+              userAgent: userAgent
+            })
+
+            return {
+              success: false,
+              message: "Erro ao alterar usuário",
+              status: 400,
+              errors: [`Usuário não encontrado com ID: ${id}`]
+            }
+
+          } else {
+
+            if (userExists.disabledAt == null) {
+              //inativa usuário
+              const newUser = await this.repo.save({
+                ...userExists,
+                disabledAt: new Date()
+              })
+
+              await this.auditSave.execute({
+                moduleName: "USER",
+                useCase: "ToggleUser",
+                message: "Usuário desativado com sucesso",
+                userId: userDB.id,
+                responseData: JSON.stringify({ user: { id: newUser.id, email: newUser.email } }),
+                requestData: JSON.stringify({ id }),
+                host: host,
+                userAgent: userAgent
+              })
+
+              return {
+                success: true,
+                status: 200,
+                message: "Usuário desativado com sucesso",
+                data: {
+                  user: newUser
+                }
+              }
+
+            } else {
+              //ativa usuário
+              const newUser = await this.repo.save({
+                ...userExists,
+                disabledAt: null
+              })
+
+              await this.auditSave.execute({
+                moduleName: "USER",
+                useCase: "ToggleUser",
+                message: "Usuário ativado com sucesso",
+                userId: userDB.id,
+                responseData: JSON.stringify({ user: { id: newUser.id, email: newUser.email } }),
+                requestData: JSON.stringify({ id }),
+                host: host,
+                userAgent: userAgent
+              })
+
+              return {
+                success: true,
+                status: 200,
+                message: "Usuário ativado com sucesso",
+                data: {
+                  user: newUser
+                }
+              }
+            }
+          }
+
         }
+
       }
 
+
+    } else {
+      //usuário não informado - logar e retornar com erro
+      await this.auditSave.execute({
+        moduleName: "USER",
+        useCase: "FindUser",
+        message: "Erro de validação",
+        responseData: JSON.stringify("Usuário inválido: e-mail não informado"),
+        requestData: JSON.stringify({ id, user }),
+        host: user?.host,
+        userAgent: user?.userAgent
+      })
+
+      return {
+        success: false,
+        status: 400,
+        message: "E-mail não informado",
+        data: { id, user }
+      }
     }
-  }
+
+  }//execute
 
 }

@@ -18,41 +18,54 @@ model User {
   phone           String?
   profileUrl      String?
   recoveryToken   String?
-  tokenExpiration DateTime?
+  tokenExpiration String?
   twoFactorAuth   Boolean          @default(false)
+  workingHours    String?
   createdAt       DateTime?        @default(now())
   updatedAt       DateTime?        @updatedAt
   disabledAt      DateTime?
-  UserPermission  UserPermission[]
-  UserProfile     UserProfile[]
+  Permissions     UserPermission[]
+  Profiles        UserProfile[]
+  Audit           Audit[]
 
   //active Boolean - considered true if disabledAt has value
   @@map("users")
 }
 
+model UserProfile {
+  id        Int     @id @default(autoincrement())
+  User      User    @relation(fields: [userId], references: [id])
+  userId    String
+  Profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int
+
+  @@unique([userId, profileId])
+  @@map("user_profile")
+}
+
 model Profile {
-  id                Int                 @id @default(autoincrement())
-  name              String              @unique
-  description       String?
-  createdAt         DateTime?           @default(now())
-  updatedAt         DateTime?           @updatedAt
-  disabledAt        DateTime?
-  ProfilePermission ProfilePermission[]
-  UserProfile       UserProfile[]
+  id          Int                 @id @default(autoincrement())
+  name        String              @unique
+  description String?
+  createdAt   DateTime?           @default(now())
+  updatedAt   DateTime?           @updatedAt
+  disabledAt  DateTime?
+  Permissions ProfilePermission[]
+  Users       UserProfile[]
 
   //active Boolean - considered true if disabledAt has value
   @@map("profiles")
 }
 
 model Permission {
-  id                Int                 @id @default(autoincrement())
-  name              String              @unique
-  description       String?
-  createdAt         DateTime?           @default(now())
-  updatedAt         DateTime?           @updatedAt
-  disabledAt        DateTime?
-  ProfilePermission ProfilePermission[]
-  UserPermission    UserPermission[]
+  id          Int                 @id @default(autoincrement())
+  name        String              @unique
+  description String?
+  createdAt   DateTime?           @default(now())
+  updatedAt   DateTime?           @updatedAt
+  disabledAt  DateTime?
+  Profiles    ProfilePermission[]
+  Users       UserPermission[]
 
   //active Boolean - considered true if disabledAt has value
   @@map("permissions")
@@ -65,19 +78,8 @@ model UserPermission {
   Permission   Permission @relation(fields: [permissionId], references: [id])
   permissionId Int
 
-  @@index([userId, permissionId])
+  @@unique([userId, permissionId])
   @@map("user_permissions")
-}
-
-model UserProfile {
-  id        Int     @id @default(autoincrement())
-  User      User    @relation(fields: [userId], references: [id])
-  userId    String
-  Profile   Profile @relation(fields: [profileId], references: [id])
-  profileId Int
-
-  @@index([userId, profileId])
-  @@map("user_profile")
 }
 
 model ProfilePermission {
@@ -87,6 +89,23 @@ model ProfilePermission {
   Permission   Permission @relation(fields: [permissionId], references: [id])
   permissionId Int
 
-  @@index([profileId, permissionId])
+  @@unique([profileId, permissionId])
   @@map("profile_permissions")
+}
+
+model Audit {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  moduleName   String?
+  useCase      String?
+  User         User?    @relation(fields: [userId], references: [id])
+  userId       String?
+  message      String?
+  requestData  String?
+  responseData String?
+  beforeUpdate String?
+  host         String?
+  userAgent    String?
+
+  @@map("audits")
 }

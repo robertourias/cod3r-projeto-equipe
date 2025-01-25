@@ -1,27 +1,63 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
+import { AuditPrisma } from 'src/providers/audit.prisma';
+import { JwtProvider } from 'src/providers/jwt.provider';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
 
+  constructor(
+    private readonly tokenProvider: JwtProvider,
+    private readonly auditProvider: AuditPrisma
+  ) { }
+
+  async canActivate(context: ExecutionContext,): Promise<boolean> {
+
+    // try {
     const request = context.switchToHttp().getRequest()
-    const { authorization } = request.headers
+    // console.log("REQ:", request)
+    const { authorization, host } = request.headers
+    const userAgent = request.headers["user-agent"]
 
     if (authorization) {
+
       const [tokenType, tokenValue] = authorization?.split(" ")
 
-      //TODO: criar validação real
-      if (tokenType === "Bearer" && tokenValue === "123456")
-        return true
-      else
-        return false
+      if (tokenType != "" && tokenValue != "") {
+        if (tokenType === "Bearer" && await this.tokenProvider.validate(tokenValue)) {
+          return true
+        } else {
+          // console.log("authGuard.canActivate()")
+          await this.auditProvider.save({
+            moduleName: "AUTHGUARD",
+            useCase: "tokenValidate",
+            message: "Acesso Negado",
+            requestData: JSON.stringify({ description: "Invalid token", method: request.method, url: request.url }),
+            host: host,
+            userAgent: userAgent
+          })
+          throw new ForbiddenException("Acesso negado", { description: request.method + " " + request.url }) //, { description: "AuthGuard" }
+        }
+        // return false
+      }
 
     } else {
-      return false
+      await this.auditProvider.save({
+        moduleName: "AUTHGUARD",
+        useCase: "tokenValidate",
+        message: "Acesso Negado",
+        requestData: JSON.stringify({ description: "No token provided", method: request.method, url: request.url }),
+        host: host,
+        userAgent: userAgent
+      })
+      throw new ForbiddenException("Acesso negado", { description: request.method + " " + request.url }) //, { description: "AuthGuard" }
+      // return false
     }
+
+    // } catch (error) {
+    //   console.error(error.message)
+    //   throw new InternalServerErrorException("Acesso negado", { cause: error }) //, { description: "AuthGuard" }
+    //   // return false
+    // }
 
   }
 }

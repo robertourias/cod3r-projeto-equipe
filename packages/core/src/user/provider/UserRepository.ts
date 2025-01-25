@@ -1,4 +1,4 @@
-import { UserProps } from '../model/User'
+import { UserProps } from '../model/UserProps'
 
 export interface UserRepository {
   save(user: UserProps, withPassword?: boolean): Promise<UserProps>

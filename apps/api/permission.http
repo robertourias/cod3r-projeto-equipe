@@ -1,0 +1,87 @@
+// AUTH
+// login - get token
+POST http://localhost:3333/auth/login
+content-type: application/json
+
+{
+  "email": "admin@zmail.com.br",
+  "password": "123456Aa@"
+}
+###
+
+
+POST http://localhost:3333/permission
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+
+{ 
+  "name": "UPDATE_PROFILE",
+  "description": "Permissão para atualizar perfil"
+}
+###
+
+
+GET http://localhost:3333/permission
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+###
+
+
+GET http://localhost:3333/permission/2
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+###
+
+
+// ativa / desativa usuário
+POST http://localhost:3333/permission/toggle/4
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+###
+
+
+//adiciona permissão a um perfil
+POST http://localhost:3333/permission/addToProfile
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+
+{ 
+  "permissionId": "14",
+  "profileId": "1"
+}
+###
+
+//remove permissão de um perfil
+POST http://localhost:3333/permission/removeFromProfile
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+
+{ 
+  "permissionId": "12",
+  "profileId": "2"
+}
+###
+
+
+//adiciona permissão a um usuário
+POST http://localhost:3333/permission/addToUser
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+
+{ 
+  "permissionId": "2",
+  "userId": "d0ac7682-3757-4881-beed-50687fbc0f12"
+}
+###
+
+//remove permissão de um usuário
+POST http://localhost:3333/permission/removeFromUser
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+
+{ 
+  "permissionId": "2",
+  "userId": "d0ac7682-3757-4881-beed-50687fbc0f12"
+}
+###
+

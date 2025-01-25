@@ -1,4 +1,6 @@
 import { EntityProps } from "../../common/Entity"
+import { PermissionProps } from "../../permission"
+import { ProfileProps } from "../../profile"
 
 export interface UserProps extends EntityProps {
   name?: string
@@ -8,8 +10,12 @@ export interface UserProps extends EntityProps {
   profileUrl?: string,
   recoveryToken?: string,
   twoFactorAuth?: boolean,
-  UserPermission?: [],
-  UserProfile?: []
+  Permissions?: PermissionProps[],
+  Profiles?: ProfileProps[],
+  host?: string,
+  userAgent?: string,
+  tokenExpiration?: string,
+  workingHours?: string
 }
 
 // export class User extends Entity<User, UserProps> {
