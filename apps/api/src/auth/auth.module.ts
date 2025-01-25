@@ -5,10 +5,11 @@ import { UserPrisma } from '../providers/user.prisma';
 import { JwtProvider } from 'src/providers/jwt.provider';
 import { BcryptProvider } from 'src/providers/bcrypt.provider';
 import { AuditPrisma } from 'src/providers/audit.prisma';
+import { EmailProvider } from 'src/providers/email.provider';
 
 @Module({
   imports: [DbModule],
   controllers: [AuthController],
-  providers: [UserPrisma, JwtProvider, BcryptProvider, AuditPrisma]
+  providers: [UserPrisma, JwtProvider, BcryptProvider, AuditPrisma, EmailProvider]
 })
 export class AuthModule { }
