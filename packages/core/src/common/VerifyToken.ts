@@ -1,5 +1,5 @@
 import { UserRepository, /*UserProps*/ } from "..";
-import { UserProps } from "../../dist";
+//import { UserProps } from "../../dist";
 // import { UseCase } from "./UseCase";
 
 export class VerifyToken /*implements UseCase<UserProps, UserProps>*/ {
