@@ -9,10 +9,10 @@ export default function Header() {
 
   const [openSearchInput, setOpenSearchInput] = useToggle(false);
 
-  console.log("OPEN", openSearchInput);
+  // console.log("OPEN", openSearchInput);
 
   return (
-    <header className="flex w-4/5 h-28 p-5 justify-between items-center">
+    <header className="flex w-full h-28 p-5 justify-between items-center">
       <h1 className={`${poppins600.className} text-2xl`}>Administrador</h1>
       <div className="flex w-2/4 justify-end">
         <div className="flex items-center">
