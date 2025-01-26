@@ -26,7 +26,6 @@ export default function UsersTableContainer(props: UsersTableContainerProps) {
             <th className={`${poppins600.className}`}>Perfil</th>
             <th className={`${poppins600.className}`}>Ativo</th>
             <th className={`${poppins600.className}`}>Horário de Trabalho</th>
-            <th className={`${poppins600.className}`}>Dias de Trabalho</th>
           </tr>
         </thead>
         <UserTableRow usersList={usersList} foundUser={foundUser} />
