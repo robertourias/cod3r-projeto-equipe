@@ -4,8 +4,8 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
-  "email": "admin@zmail.com.br",
-  "password": "123456Aa@"
+  "email": "gloriamaria@globo.com",
+  "password": "Ga39712Glo@"
 }
 ###
 
@@ -27,14 +27,14 @@ POST http://localhost:3333/users/register
 content-type: application/json
 
 { 
-  "name": "Joao J. Junior",
-  "email": "jobn2@zmail.com",
-  "password": "Abc1234@",
-  "phone": "+55 54 99999-0000",
-  "profileUrl" : "https://profile.com/123",
+  "name": "Glória Maria da Globo",
+  "email": "gloriamaria@globo.com",
+  "password": "Ga39712Glo@",
+  "phone": "+55 65 99999-0000",
+  "profileUrl" : "https://profile.com/127",
   "recoveryToken": "no-token",
   "tokenExpiration": null,
-  "twoFactorAuth": true,
+  "twoFactorAuth": false,
   "workingHours": "Segunda à sexta das 8:00-12:00 e 13:30-17:30"
 }
 ###

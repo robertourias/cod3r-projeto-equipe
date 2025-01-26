@@ -1,7 +1,13 @@
 export default interface Users {
-  nome_funcionario: string,
-  perfil_usuario: string,
-  ativo: boolean,
-  horario_trabalho: string,
-  dias_trabalho: string
+  name: string,
+  email: string,
+  password: boolean,
+  phone: string,
+  recoveryToken: string,
+  tokenExpiration: string,
+  twoFactorAuth: boolean,
+  createdAt: Date,
+  updatedAt: Date,
+  disabledAt: Date,
+  workingHours: string,
 }

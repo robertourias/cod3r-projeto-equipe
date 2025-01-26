@@ -1,7 +1,6 @@
 'use client'
 
-import { ChangeEvent, createContext, useState } from "react";
-import usersList from "../../../../api/mock/users.json";
+import { ChangeEvent, createContext, useEffect, useState } from "react";
 import Users from "../../../../api/dist/model/users"
 
 interface GeneralContextType {
@@ -26,15 +25,22 @@ export const GeneralContext = createContext<GeneralContextType>({
 
 export default function ContextProvider({ children }: { children: React.ReactNode }) {
 
-  fetch('http://localhost:3333/users', {
-    method: "GET",
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer 123456'
-    },
-  })
-    .then(response => response.json())
-    .then(data => console.log("DATA", data));
+  const [usersList, setUsersList] = useState<Users[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3333/users', {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3ODU2MDg5LCJleHAiOjE3Mzc4NTk2ODl9.QQ70ZdjyVTnLNRaovcnYuleCbyRUBdtxBeUcDduoHe4'
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setUsersList(data.data);
+      });
+  }, []);
+
 
   const [userName, setUserName] = useState("");
 

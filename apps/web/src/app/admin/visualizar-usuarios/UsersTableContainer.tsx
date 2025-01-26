@@ -11,8 +11,10 @@ interface UsersTableContainerProps {
 export default function UsersTableContainer(props: UsersTableContainerProps) {
   const { usersList, userName } = useContext(GeneralContext);
 
+  console.log("usersList", usersList);
+
   const foundUser = usersList.find((user: Users) => {
-    return user.nome_funcionario === userName;
+    return user.name === userName;
   });
 
   return (
