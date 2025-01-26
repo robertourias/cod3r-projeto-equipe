@@ -7,8 +7,23 @@ import SenhaLogo from "../../../../public/icons8-eye-50.png";
 import SenhaLogoHide from "../../../../public/icons8-hide-50.png";
 import { poppins400, poppins600 } from "../../../utils/loadFont";
 import Link from "next/link";
+import { ChangeEvent, useState } from "react";
 
 export default function Form() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function getInputEmail(e: ChangeEvent<HTMLInputElement>) {
+    console.log("VALUES", e.target.value);
+    setEmail(e.target.value);
+  }
+
+  function getInputPassword(e: ChangeEvent<HTMLInputElement>) {
+    console.log("VALUES", e.target.value);
+    setPassword(e.target.value);
+  }
+
   function togglePassword() {
     let passwordImage = document.getElementById(
       "password-image"
@@ -59,7 +74,8 @@ export default function Form() {
           <input
             type="email"
             id="emailInput"
-            className="bg-skin-inputBackground rounded-lg w-full p-2 mb-6 focus:outline-none focus:ring-2 focus:ring-skin-base"
+            className="bg-skin-inputBackground rounded-lg w-full p-2 mb-6 focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
+            onChange={(e) => getInputEmail(e)}
           />
           <div className="relative">
             <img
@@ -78,7 +94,8 @@ export default function Form() {
             <input
               type="password"
               id="senhaInput"
-              className="bg-skin-inputBackground rounded-lg w-full p-2 mb-1 focus:outline-none focus:ring-2 focus:ring-skin-base"
+              className="bg-skin-inputBackground rounded-lg w-full p-2 mb-1 focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
+              onChange={(e) => getInputPassword(e)}
             />
           </div>
           <Link
@@ -90,7 +107,23 @@ export default function Form() {
         </div>
         <button
           type="submit"
-          className="block bg-skin-buttonBackgroundGreen w-3/4 font-semibold p-2 rounded-lg text-white mb-2"
+          className="block bg-green-600 w-3/4 font-semibold p-2 rounded-lg text-white mb-2"
+          onClick={(e) => {
+            e.preventDefault();
+            console.log("Email", email, "Senha", password);
+            fetch('http://localhost:3333/auth/login', {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify({
+                "email": email,
+                "password": password
+              })
+            })
+              .then(response => response.json())
+              .then(data => console.log("LOGIN RES", data));
+          }}
         >
           Login
         </button>
@@ -117,6 +150,6 @@ export default function Form() {
       <p className="text-gray-500 text-sm">
         ou faça login pelo Google clicando no G acima.
       </p>
-    </div>
+    </div >
   );
 }
