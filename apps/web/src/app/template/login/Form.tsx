@@ -15,12 +15,10 @@ export default function Form() {
   const [password, setPassword] = useState("");
 
   function getInputEmail(e: ChangeEvent<HTMLInputElement>) {
-    console.log("VALUES", e.target.value);
     setEmail(e.target.value);
   }
 
   function getInputPassword(e: ChangeEvent<HTMLInputElement>) {
-    console.log("VALUES", e.target.value);
     setPassword(e.target.value);
   }
 

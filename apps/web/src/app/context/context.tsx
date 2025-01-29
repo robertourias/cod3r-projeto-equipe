@@ -8,6 +8,12 @@ interface GeneralContextType {
   selectedUser: Users | null;
   userName: string;
   setUserName: (name: string) => void;
+  formData: {
+    name: string,
+    email: string,
+    confirmPassword: string
+  },
+  setFormData: (data: any) => void;
   getInputValues: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -21,11 +27,18 @@ export const GeneralContext = createContext<GeneralContextType>({
   userName: initialUserName,
   setUserName: (name: string) => { },
   getInputValues: (e: ChangeEvent<HTMLInputElement>) => { },
+  formData: {
+    name: "",
+    email: "",
+    confirmPassword: ""
+  },
+  setFormData: () => { }
 });
 
 export default function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [usersList, setUsersList] = useState<Users[]>([]);
+  const [formData, setFormData] = useState<any>({});
 
   useEffect(() => {
     fetch('http://localhost:3333/users', {
@@ -51,7 +64,7 @@ export default function ContextProvider({ children }: { children: React.ReactNod
   }
 
   return (
-    <GeneralContext.Provider value={{ usersList, selectedUser, userName, setUserName, getInputValues }}>
+    <GeneralContext.Provider value={{ usersList, selectedUser, userName, setUserName, getInputValues, formData, setFormData }}>
       {children}
     </GeneralContext.Provider>
   )

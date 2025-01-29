@@ -1,3 +1,4 @@
+import GeneralContext from "../../context/context";
 import Form from "./Form";
 
 interface PageTemplate {

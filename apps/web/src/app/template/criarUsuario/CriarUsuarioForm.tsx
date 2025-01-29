@@ -1,13 +1,20 @@
 "use client";
 
+import { useContext } from "react";
 import { poppins400, poppins600 } from "../../../utils/loadFont";
+import { GeneralContext } from "../../context/context";
 
 export default function Form() {
+
+  const { formData } = useContext(GeneralContext);
+
+  console.log("PREVIOUS FORM DATA", formData);
+
   return (
     <div className="text-skin-innerText bg-skin-formBackground m-auto h-auto flex flex-col w-1/2 min-w-96 items-center rounded-lg font-Poppins p-0 pb-6">
       <form
-        method="post"
-        action="https://www.cod3r.com.br/"
+        // method="post"
+        // action="https://www.cod3r.com.br/"
         className={`${poppins400.className} w-full items-center flex flex-col pb-4`}
       >
         <p
@@ -19,7 +26,8 @@ export default function Form() {
           <div className="relative">
             <label
               htmlFor="nameInput"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-skin-innerText"
+              // className="block mb-2 text-sm font-medium text-gray-900 dark:text-skin-innerText"
+              className="block mb-2 text-sm font-medium text-white"
             >
               Nome
             </label>
@@ -27,14 +35,15 @@ export default function Form() {
           <input
             type="text"
             id="nameInput"
-            className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base"
+            className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
+          // className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base"
           />
         </div>
         <div className="flex m-auto w-3/4 pb-10 justify-between text-center">
           <select
             name="profile"
             id="profile"
-            className="w-1/3 m-auto mr-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base"
+            className="w-1/3 m-auto mr-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
           >
             <option value="0" selected>
               Perfil
@@ -46,7 +55,7 @@ export default function Form() {
           <select
             name="daysWeek"
             id="daysWeek"
-            className="w-1/3 m-auto ml-2 mr-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base"
+            className="w-1/3 m-auto ml-2 mr-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
           >
             <option value="0" selected>
               Dias de trabalho
@@ -58,7 +67,7 @@ export default function Form() {
           <select
             name="Active"
             id="active"
-            className="w-1/3 m-auto ml-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base"
+            className="w-1/3 m-auto ml-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
           >
             <option value="0" selected>
               Ativo
