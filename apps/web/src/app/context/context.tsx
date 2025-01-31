@@ -1,18 +1,19 @@
 'use client'
 
+import { UserProps } from "@repo/core";
 import { ChangeEvent, createContext, useEffect, useState } from "react";
-import Users from "../../../../api/dist/model/users"
+// import Users from "../../../../api/dist/model/users"
 
 interface GeneralContextType {
-  usersList: Users[];
-  selectedUser: Users | null;
+  usersList: UserProps[];
+  selectedUser: UserProps | null;
   userName: string;
   setUserName: (name: string) => void;
   formData: {
     name: string,
     email: string,
     confirmPassword: string
-    phoneNumber: string,
+    phone: string,
   },
   setFormData: (data: any) => void;
   getInputValues: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -20,8 +21,8 @@ interface GeneralContextType {
   // setToken: () => void;
 }
 
-const initialUsersList: Users[] = [];
-const initialSelectedUser: Users | null = null;
+const initialUsersList: UserProps[] = [];
+const initialSelectedUser: UserProps | null = null;
 const initialUserName: string = "";
 
 export const GeneralContext = createContext<GeneralContextType>({
@@ -34,7 +35,7 @@ export const GeneralContext = createContext<GeneralContextType>({
     name: "",
     email: "",
     confirmPassword: "",
-    phoneNumber: ""
+    phone: ""
   },
   setFormData: () => { },
   // token: "",
@@ -43,7 +44,7 @@ export const GeneralContext = createContext<GeneralContextType>({
 
 export default function ContextProvider({ children }: { children: React.ReactNode }) {
 
-  const [usersList, setUsersList] = useState<Users[]>([]);
+  const [usersList, setUsersList] = useState<UserProps[]>([]);
   const [formData, setFormData] = useState<any>({});
   const [token, setToken] = useState("");
 
@@ -52,7 +53,7 @@ export default function ContextProvider({ children }: { children: React.ReactNod
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRmVybmFuZGEiLCJlbWFpbCI6ImZlQGhvdG1haWwuY29tIiwiaWF0IjoxNzM4MjA2OTQ0LCJleHAiOjE3MzgyMTA1NDR9.ysLK1lMS4uBH6Bbmh-PWqiaiXap1qghGGEUTz_Xyy6c'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM4Mjg2NDkzLCJleHAiOjE3MzgyOTAwOTN9.v9zfD3-tJCCbjvJBqYxE5nLLWKWnl-XM3e18HbrKeCg'
       },
     })
       .then(response => response.json())
@@ -65,7 +66,7 @@ export default function ContextProvider({ children }: { children: React.ReactNod
 
   const [userName, setUserName] = useState("");
 
-  const [selectedUser, setSelectedUser] = useState<Users | null>(initialSelectedUser);
+  const [selectedUser, setSelectedUser] = useState<UserProps | null>(initialSelectedUser);
 
   function getInputValues(e: ChangeEvent<HTMLInputElement>) {
     setUserName(e.target.value);

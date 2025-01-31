@@ -9,11 +9,11 @@ import { useEffect, useState } from "react";
 export default function UserTablePage() {
 
   return (
-    <PageTemplate title="Visualizar usuários">
-      <ContentContainer>
-        <SearchBar />
-        <UsersTableContainer />
-      </ContentContainer>
-    </PageTemplate>
+    // <PageTemplate title="Visualizar usuários">
+    <ContentContainer>
+      <SearchBar />
+      <UsersTableContainer />
+    </ContentContainer>
+    // </PageTemplate>
   );
 }

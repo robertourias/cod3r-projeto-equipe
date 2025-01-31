@@ -11,11 +11,13 @@ interface PageTemplate {
 }
 export default function PageTemplate(props: PageTemplate) {
   return (
-    <main className="flex w-screen h-screen">
+    <main className="flex flex-1 w-screen h-screen">
       <SideMenu />
-      <div className="flex flex-col w-full ">
+      <div className="flex flex-col w-full h-full">
         <Header />
-        {props.children}
+        <div className="h-full">
+          {props.children}
+        </div>
       </div>
     </main>
   )
