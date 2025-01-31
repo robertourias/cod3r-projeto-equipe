@@ -63,7 +63,7 @@ Authorization: Bearer 123456
 
 GET http://localhost:3333/users
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR2zDs3JpYSBNYXJpYSBkYSBHbG9ibyIsImVtYWlsIjoiZ2xvcmlhbWFyaWFAZ2xvYm8uY29tIiwiaWF0IjoxNzM4MTIwODMyLCJleHAiOjE3MzgxMjQ0MzJ9.9o6PWnrtOctb9jCh4CQqM3LJld5pi2xUljnX4P1Ap04
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM4Mjk4MzQ4LCJleHAiOjE3MzgzMDE5NDh9.ZOtR6tFYZafYtr7jfjb_s8iZZg4YLF51SW4PybaN2dE
 ###
 
 // busca usuário por id
