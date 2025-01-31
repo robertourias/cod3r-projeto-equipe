@@ -1,9 +1,10 @@
+import { UserProps } from "@repo/core";
 import Users from "../../../../../api/dist/model/users";
 import { poppins200, poppins400 } from "../../../utils/loadFont";
 
 interface UserTableRowProps {
-  usersList: Users[];
-  foundUser: Users | undefined;
+  usersList: UserProps[];
+  foundUser: UserProps | undefined;
 }
 export default function UserTableRow(props: UserTableRowProps) {
 
