@@ -54,7 +54,7 @@ export default function Form() {
       </p>
       <form
         method="post"
-        action="https://www.cod3r.com.br/"
+        action="/admin"
         className={`${poppins400.className} w-full items-center flex flex-col`}
       >
         <div className="mb-6 w-3/4">
@@ -125,7 +125,7 @@ export default function Form() {
             })
               .then(response => response.json())
               .then(data => {
-                if (data.data.token) {
+                if (data.data?.token) {
                   router.push("/admin/visualizar-usuarios");
                 } else {
                   alert("Por favor, verifique email e senha");

@@ -2,7 +2,8 @@ import UserTableRow from "./UserTableRow";
 import { useContext } from "react";
 import { GeneralContext } from "../../context/context";
 import { poppins600 } from "../../../utils/loadFont";
-import Users from "../../../../../api/dist/model/users";
+import { UserProps } from "@repo/core";
+// import Users from "../../../../../api/dist/model/users";
 
 interface UsersTableContainerProps {
   children?: any;
@@ -13,7 +14,7 @@ export default function UsersTableContainer(props: UsersTableContainerProps) {
 
   console.log("usersList", usersList);
 
-  const foundUser = usersList.find((user: Users) => {
+  const foundUser = usersList.find((user: UserProps) => {
     return user.name === userName;
   });
 

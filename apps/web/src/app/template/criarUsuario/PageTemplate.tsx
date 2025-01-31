@@ -10,7 +10,7 @@ interface PageTemplate {
 }
 export default function PageTemplate(props: PageTemplate) {
   return (
-    <main className="flex w-screen h-screen">
+    <main className="flex w-full h-full">
       <Form />
       {props.children}
     </main>
