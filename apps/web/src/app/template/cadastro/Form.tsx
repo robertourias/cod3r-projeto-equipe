@@ -201,7 +201,7 @@ export default function Form() {
         <div className="p-4">
           <p>
             Já possui conta?&nbsp;
-            <Link href="./login" className="text-end text-skin-linkText">
+            <Link href="/" className="text-end text-skin-linkText">
               Faça login.
             </Link>
           </p>

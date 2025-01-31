@@ -14,7 +14,7 @@ import { GeneralContext } from "../../context/context";
 export default function Form() {
 
   const router = useRouter();
-  const { setToken, setFormData } = useContext(GeneralContext);
+  const { setToken, setFormData, setSelectedUser } = useContext(GeneralContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -101,10 +101,7 @@ export default function Form() {
               onChange={(e) => getInputPassword(e)}
             />
           </div>
-          <Link
-            href="./troca-senha"
-            className="block text-end text-gray-500 -mr-5"
-          >
+          <Link href="./troca-senha" className="block text-center text-sm text-gray-500 mt-1 " >
             Esqueceu a senha?
           </Link>
         </div>
@@ -115,7 +112,7 @@ export default function Form() {
           className="block bg-green-600 w-3/4 font-semibold p-2 rounded-lg text-white mb-2"
           onClick={(e) => {
             e.preventDefault();
-            console.log("Email", email, "Senha", password);
+            // console.log("Email", email, "Senha", password);
             fetch('http://localhost:3333/auth/login', {
               method: "POST",
               headers: {
@@ -133,9 +130,10 @@ export default function Form() {
                     email: email,
                     confirmPassword: password
                   }
-                  setToken(data.data.token);
+                  setToken(data.data.token)
+                  setSelectedUser(data.data.user)
                   setFormData(formData)
-                  router.push("/admin/visualizar-usuarios");
+                  router.push("/admin");
                 } else {
                   alert("Por favor, verifique email e senha");
                 }
@@ -144,29 +142,29 @@ export default function Form() {
         >
           Login
         </button>
-        <div className="flex items-center w-3/4">
+        {/* <div className="flex items-center w-3/4">
           <hr className="w-full my-4 border-skin-base border-1" />
           <p className="inline p-1 text-skin-innerText">ou</p>
           <hr className="w-full my-4 border-skin-base border-1" />
-        </div>
+        </div> */}
       </form>
-      <div className="m-4 w-fit h-fit">
+      {/* <div className="m-4 w-fit h-fit">
         <Link
           href="https://www.cod3r.com.br"
           className="rounded-full block bg-skin-buttonBackgroundRed p-5"
         >
           <img src={GoogleLogo.src} alt="Google Logo" className="w-5 h-5" />
         </Link>
-      </div>
-      <p className="text-skin-innerText">
-        Ainda não possui conta?&nbsp;
-        <Link className="text-skin-linkText" href="./cadastro">
+      </div> */}
+      <p className="text-skin-innerText text-center">
+        Ainda não possui conta?&nbsp;<br />
+        <Link className="text-skin-linkText underline" href="./cadastro">
           Cadastre-se aqui
         </Link>
       </p>
-      <p className="text-gray-500 text-sm">
+      {/* <p className="text-gray-500 text-sm">
         ou faça login pelo Google clicando no G acima.
-      </p>
+      </p> */}
     </div >
   );
 }

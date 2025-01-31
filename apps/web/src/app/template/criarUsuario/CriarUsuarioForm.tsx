@@ -10,7 +10,7 @@ export default function Form() {
   const router = useRouter();
   const { formData } = useContext(GeneralContext);
 
-  console.log("PREVIOUS FORM DATA", formData);
+  // console.log("PREVIOUS FORM DATA", formData);
 
   function handleSubmitNewUser(e: any) {
     e.preventDefault();
@@ -32,7 +32,12 @@ export default function Form() {
         "twoFactorAuth": false,
         "workingHours": "Segunda à sexta das 8:00-12:00 e 13:30-17:30"
       })
-    });
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("DATA DATA", data);
+        // setUsersList([data.data]);
+      });
   }
 
   return (
@@ -45,7 +50,7 @@ export default function Form() {
         >
           Criar Usuário
         </p>
-        <div className="mb-6 w-3/4 pt-4">
+        <div className="mb-6 w-3/4 pt-2">
           <div className="relative">
             <label
               htmlFor="nameInput"
@@ -62,8 +67,28 @@ export default function Form() {
           // className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base"
           />
         </div>
-        <div className="flex m-auto w-3/4 pb-10 justify-between text-center">
-          {/* <select
+
+        <div className="mb-6 w-3/4 ">
+          <div className="relative">
+            <label
+              htmlFor="passwordInput"
+              className="block mb-2 text-sm font-medium text-white"
+            >
+              Senha
+            </label>
+          </div>
+          <input
+            type="password"
+            id="passwordInput"
+            className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
+            placeholder={formData.confirmPassword}
+          // className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base"
+          />
+        </div>
+
+
+        <div className="flex m-auto w-3/4 py-4 pb-10 justify-between text-center">
+          <select
             name="profile"
             id="profile"
             className="w-1/3 m-auto mr-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
@@ -97,19 +122,19 @@ export default function Form() {
             </option>
             <option value="1">Sim</option>
             <option value="2">Não</option>
-          </select> */}
+          </select>
         </div>
         <div className="flex w-3/4">
           <button
             type="button"
-            className="block bg-skin-buttonBackgroundGreen w-1/5 min-w-32 ml-auto mr-4 font-semibold p-2 rounded-lg text-white mb-2"
+            className="block bg-green-600 bg-skin-buttonBackgroundGreen w-1/5 min-w-32 ml-auto mr-4 font-semibold p-2 rounded-lg text-white mb-2"
             onClick={(e) => handleSubmitNewUser(e)}
           >
             Salvar
           </button>
           <button
             type="submit"
-            className="block bg-skin-buttonBackgroundBlue w-1/5 min-w-32 mr-auto ml-4 font-semibold p-2 rounded-lg text-white mb-2"
+            className="block bg-red-600 bg-skin-buttonBackgroundBlue w-1/5 min-w-32 mr-auto ml-4 font-semibold p-2 rounded-lg text-white mb-2"
           >
             Cancelar
           </button>

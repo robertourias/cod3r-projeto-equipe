@@ -61,7 +61,22 @@ export class ProfilePrisma implements ProfileRepository {
   }
 
   async findAll(): Promise<ProfileProps[]> {
-    return await this.prisma.profile.findMany({})
+    return await this.prisma.profile.findMany({
+      include: {
+        Permissions: {
+          select: {
+            Permission: {
+              select: {
+                id: true,
+                name: true,
+                disabledAt: true
+              }
+            }
+
+          }
+        }
+      }
+    })
   }
 
   async delete(id: number): Promise<ProfileProps> {
