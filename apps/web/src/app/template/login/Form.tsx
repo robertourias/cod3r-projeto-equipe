@@ -8,11 +8,14 @@ import SenhaLogoHide from "../../../../public/icons8-hide-50.png";
 import { poppins400, poppins600 } from "../../../utils/loadFont";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useContext } from "react";
+import { GeneralContext } from "../../context/context";
 
 export default function Form() {
 
   const router = useRouter();
+  const { setToken, setFormData } = useContext(GeneralContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -125,7 +128,13 @@ export default function Form() {
             })
               .then(response => response.json())
               .then(data => {
-                if (data.data?.token) {
+                if (data.data.token) {
+                  const formData = {
+                    email: email,
+                    confirmPassword: password
+                  }
+                  setToken(data.data.token);
+                  setFormData(formData)
                   router.push("/admin/visualizar-usuarios");
                 } else {
                   alert("Por favor, verifique email e senha");

@@ -8,13 +8,13 @@ interface UserTableRowProps {
 }
 export default function UserTableRow(props: UserTableRowProps) {
 
-  //console.log("foundUser", props.foundUser);
+  const objToArray: any = Array(props.usersList);
+  console.log(objToArray)
 
   return (
     <tbody className="">
-      {
-        props.foundUser === undefined
-          ?
+      <>
+        {props.foundUser === undefined && props.usersList.length > 0 &&
           (
             props.usersList.map((user, i: number) => {
               return (
@@ -27,7 +27,8 @@ export default function UserTableRow(props: UserTableRowProps) {
               )
             })
           )
-          :
+        }
+        {props.foundUser &&
           (
             <tr className="" key={0}>
               <td className={`${poppins200.className} opacity-25 p-1`}>{props.foundUser.name}</td>
@@ -36,8 +37,16 @@ export default function UserTableRow(props: UserTableRowProps) {
               <td className={`${poppins200.className} opacity-25 p-1`}>{props.foundUser.workingHours}</td>
             </tr>
           )
-      }
+        }
+        {Object.keys(props.usersList).length && (
+          <tr className="" key={0}>
+            <td className={`${poppins200.className} opacity-25 p-1`}>{objToArray[0].name}</td>
+            <td className={`${poppins400.className} border-solid border-2 border-sky-500 rounded-xl p-1`}>{''}</td>
+            <td className={`${poppins200.className} opacity-25 p-1`}>A{''}</td>
+            <td className={`${poppins200.className} opacity-25 p-1`}>{objToArray[0].workingHours}</td>
+          </tr>
+        )}
+      </>
     </tbody>
   )
 }
-

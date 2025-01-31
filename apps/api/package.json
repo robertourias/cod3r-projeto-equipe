@@ -78,8 +78,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "prisma": {
-    "schema": "apps/api/prisma/schema.prisma"
   }
 }
