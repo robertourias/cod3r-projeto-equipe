@@ -4,8 +4,8 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
-  "email": "admin@zmail.com.br",
-  "password": "123456Aa@"
+  "email": "fe@hotmail.com",
+  "password": "Fe39712Aro@"
 }
 ###
 
@@ -14,9 +14,9 @@ POST http://localhost:3333/auth/login
 content-type: application/json
 
 {
-  "email": "jobn2@zmail.com",
-  "password": "Abc1234@",
-  "token": "JCK4YE"
+  "email": "fe@hotmail.com",
+  "password": "Fe39712Aro@",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRmVybmFuZGEiLCJlbWFpbCI6ImZlQGhvdG1haWwuY29tIiwiaWF0IjoxNzM4MjgxMjk3LCJleHAiOjE3MzgyODQ4OTd9.JHzpIZj5otAZgZt-WL78k2UzI6Vc2s1Xg3FrXqBG8bk"
 }
 ###
 
@@ -27,18 +27,19 @@ POST http://localhost:3333/users/register
 content-type: application/json
 
 { 
-  "name": "Joao J. Junior",
-  "email": "jobn2@zmail.com",
-  "password": "Abc1234@",
-  "phone": "+55 54 99999-0000",
-  "profileUrl" : "https://profile.com/123",
+  "name": "Glória Maria da Globo",
+  "email": "gloriamaria@globo.com",
+  "password": "Ga39712Glo@",
+  "phone": "+55 65 99999-0000",
+  "profileUrl" : "https://profile.com/127",
   "recoveryToken": "no-token",
   "tokenExpiration": null,
-  "twoFactorAuth": true,
+  "twoFactorAuth": false,
   "workingHours": "Segunda à sexta das 8:00-12:00 e 13:30-17:30"
 }
 ###
 
+//Fe39712Aro@
 
 POST http://localhost:3333/users/esqueci-senha
 content-type: application/json
@@ -62,7 +63,7 @@ Authorization: Bearer 123456
 
 GET http://localhost:3333/users
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3NzE3MTMyLCJleHAiOjE3Mzc3MjA3MzJ9.5W-4Na7-W9Nfab3U_zH4Rpx8tJgJakTnS7Fs6umxHKA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR2zDs3JpYSBNYXJpYSBkYSBHbG9ibyIsImVtYWlsIjoiZ2xvcmlhbWFyaWFAZ2xvYm8uY29tIiwiaWF0IjoxNzM4MTIwODMyLCJleHAiOjE3MzgxMjQ0MzJ9.9o6PWnrtOctb9jCh4CQqM3LJld5pi2xUljnX4P1Ap04
 ###
 
 // busca usuário por id

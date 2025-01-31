@@ -11,8 +11,10 @@ interface UsersTableContainerProps {
 export default function UsersTableContainer(props: UsersTableContainerProps) {
   const { usersList, userName } = useContext(GeneralContext);
 
+  console.log("usersList", usersList);
+
   const foundUser = usersList.find((user: Users) => {
-    return user.nome_funcionario === userName;
+    return user.name === userName;
   });
 
   return (
@@ -24,7 +26,6 @@ export default function UsersTableContainer(props: UsersTableContainerProps) {
             <th className={`${poppins600.className}`}>Perfil</th>
             <th className={`${poppins600.className}`}>Ativo</th>
             <th className={`${poppins600.className}`}>Horário de Trabalho</th>
-            <th className={`${poppins600.className}`}>Dias de Trabalho</th>
           </tr>
         </thead>
         <UserTableRow usersList={usersList} foundUser={foundUser} />
