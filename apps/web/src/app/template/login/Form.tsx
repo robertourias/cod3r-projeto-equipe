@@ -7,10 +7,12 @@ import SenhaLogo from "../../../../public/icons8-eye-50.png";
 import SenhaLogoHide from "../../../../public/icons8-hide-50.png";
 import { poppins400, poppins600 } from "../../../utils/loadFont";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export default function Form() {
 
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -103,6 +105,8 @@ export default function Form() {
             Esqueceu a senha?
           </Link>
         </div>
+        {/* console.log("LOGIN RES", data) */}
+        {/* router.push("/criarUsuario") */}
         <button
           type="submit"
           className="block bg-green-600 w-3/4 font-semibold p-2 rounded-lg text-white mb-2"
@@ -120,7 +124,13 @@ export default function Form() {
               })
             })
               .then(response => response.json())
-              .then(data => console.log("LOGIN RES", data));
+              .then(data => {
+                if (data.data.token) {
+                  router.push("/admin/visualizar-usuarios");
+                } else {
+                  alert("Por favor, verifique email e senha");
+                }
+              });
           }}
         >
           Login

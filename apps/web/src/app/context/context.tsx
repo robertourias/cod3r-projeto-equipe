@@ -12,9 +12,12 @@ interface GeneralContextType {
     name: string,
     email: string,
     confirmPassword: string
+    phoneNumber: string,
   },
   setFormData: (data: any) => void;
   getInputValues: (e: ChangeEvent<HTMLInputElement>) => void;
+  // token: string;
+  // setToken: () => void;
 }
 
 const initialUsersList: Users[] = [];
@@ -30,22 +33,26 @@ export const GeneralContext = createContext<GeneralContextType>({
   formData: {
     name: "",
     email: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    phoneNumber: ""
   },
-  setFormData: () => { }
+  setFormData: () => { },
+  // token: "",
+  // setToken: () => { }
 });
 
 export default function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [usersList, setUsersList] = useState<Users[]>([]);
   const [formData, setFormData] = useState<any>({});
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     fetch('http://localhost:3333/users', {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImVtYWlsIjoiYWRtaW5Aem1haWwuY29tLmJyIiwiaWF0IjoxNzM3ODU2MDg5LCJleHAiOjE3Mzc4NTk2ODl9.QQ70ZdjyVTnLNRaovcnYuleCbyRUBdtxBeUcDduoHe4'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRmVybmFuZGEiLCJlbWFpbCI6ImZlQGhvdG1haWwuY29tIiwiaWF0IjoxNzM4MjA2OTQ0LCJleHAiOjE3MzgyMTA1NDR9.ysLK1lMS4uBH6Bbmh-PWqiaiXap1qghGGEUTz_Xyy6c'
       },
     })
       .then(response => response.json())
@@ -54,6 +61,7 @@ export default function ContextProvider({ children }: { children: React.ReactNod
       });
   }, []);
 
+  console.log("USERS LIST", usersList);
 
   const [userName, setUserName] = useState("");
 

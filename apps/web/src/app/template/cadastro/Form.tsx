@@ -52,15 +52,12 @@ export default function Form() {
     const formData = {
       name: name,
       email: email,
-      confirmPassword: confirmPassword
+      confirmPassword: confirmPassword,
+      phoneNumber: phoneNumber
     }
 
     setFormData(formData);
     router.push("/criarUsuario")
-    // setTimeout(() => {
-    //   console.log("formData", formData);
-    // }, 2000);
-
   }
 
   return (
@@ -80,7 +77,7 @@ export default function Form() {
             />
             <label
               htmlFor="nameInput"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-skin-innerText"
+              className="block mb-2 text-sm font-medium text-white dark:text-skin-innerText"
             >
               Nome
             </label>
@@ -99,7 +96,7 @@ export default function Form() {
             />
             <label
               htmlFor="emailInput"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-skin-innerText"
+              className="block mb-2 text-sm font-medium text-white  dark:text-skin-innerText"
             >
               E-mail
             </label>
@@ -118,7 +115,7 @@ export default function Form() {
             />
             <label
               htmlFor="senhaInput"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-skin-innerText"
+              className="block mb-2 text-sm font-medium text-white dark:text-skin-innerText"
             >
               Senha
             </label>
@@ -137,7 +134,7 @@ export default function Form() {
             />
             <label
               htmlFor="repeteSenhaInput"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-skin-innerText"
+              className="block mb-2 text-sm font-medium text-white dark:text-skin-innerText"
             >
               Repita a senha
             </label>
@@ -151,7 +148,7 @@ export default function Form() {
           <div className="relative mb-6">
             <label
               htmlFor="telefoneInput"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-skin-innerText"
+              className="block mb-2 text-sm font-medium text-white dark:text-skin-innerText"
             >
               Fone
             </label>
