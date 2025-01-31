@@ -6,6 +6,7 @@ import { ChangeEvent, createContext, useState } from "react";
 interface GeneralContextType {
   usersList: UserProps[];
   selectedUser: UserProps | null;
+  setSelectedUser: (user: UserProps) => void;
   userName: string;
   setUserName: (name: string) => void;
   setUsersList: (list: UserProps[]) => void;
@@ -29,6 +30,7 @@ export const GeneralContext = createContext<GeneralContextType>({
   usersList: initialUsersList,
   selectedUser: initialSelectedUser,
   userName: initialUserName,
+  setSelectedUser: () => { },
   setUserName: () => { },
   setUsersList: () => { },
   getInputValues: () => { },
@@ -49,7 +51,7 @@ export default function ContextProvider({ children }: { children: React.ReactNod
   const [formData, setFormData] = useState<any>({});
   const [token, setToken] = useState("");
 
-  console.log("USERS LIST", usersList);
+  // console.log("USERS LIST", usersList);
 
   const [userName, setUserName] = useState("");
 
@@ -60,7 +62,19 @@ export default function ContextProvider({ children }: { children: React.ReactNod
   }
 
   return (
-    <GeneralContext.Provider value={{ usersList, selectedUser, userName, setUserName, setUsersList, getInputValues, formData, setFormData, token, setToken }}>
+    <GeneralContext.Provider value={{ 
+      usersList, 
+      selectedUser, 
+      setSelectedUser, 
+      userName, 
+      setUserName, 
+      setUsersList, 
+      getInputValues, 
+      formData, 
+      setFormData, 
+      token, 
+      setToken 
+      }}>
       {children}
     </GeneralContext.Provider>
   )

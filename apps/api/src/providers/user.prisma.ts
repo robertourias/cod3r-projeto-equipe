@@ -27,7 +27,31 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
-        workingHours: true
+        workingHours: true,
+        Profiles: {
+          include: {
+            Profile: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                disabledAt: true,
+              }
+            }
+          }
+        },
+        Permissions: {
+          include: {
+            Permission: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                disabledAt: true
+              }
+            }
+          }
+        }
       }
     })
 
@@ -59,7 +83,31 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
-        workingHours: true
+        workingHours: true,
+        Profiles: {
+          include: {
+            Profile: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                disabledAt: true,
+              }
+            }
+          }
+        },
+        Permissions: {
+          include: {
+            Permission: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                disabledAt: true
+              }
+            }
+          }
+        }
       }
     })
     //prisma salva em UTC - converte de volta para data/hora local
@@ -88,7 +136,31 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
-        workingHours: true
+        workingHours: true,
+        Profiles: {
+          include: {
+            Profile: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                disabledAt: true,
+              }
+            }
+          }
+        },
+        Permissions: {
+          include: {
+            Permission: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                disabledAt: true
+              }
+            }
+          }
+        }
       }
     })
     //array
@@ -118,7 +190,31 @@ export class UserPrisma implements UserRepository {
         createdAt: true,
         updatedAt: true,
         disabledAt: true,
-        workingHours: true
+        workingHours: true,
+        Profiles: {
+          include: {
+            Profile: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                disabledAt: true,
+              }
+            }
+          }
+        },
+        Permissions: {
+          include: {
+            Permission: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                disabledAt: true
+              }
+            }
+          }
+        }
       }
     })
     //prisma salva em UTC - converte de volta para data/hora local

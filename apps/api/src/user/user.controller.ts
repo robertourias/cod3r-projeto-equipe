@@ -1,6 +1,6 @@
-import { BadRequestException, Body, Controller, Delete, Get, Headers, HttpException, HttpStatus, Param, Post, Put, Query, Request, UseFilters, UseGuards, Res} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Headers, HttpException, HttpStatus, Param, Post, Put, Query, Request, UseFilters, UseGuards, Res } from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
-import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, GenerateToken, RecoveryPassword, UserProps} from '@repo/core';
+import { RequestProps, CreateUser, UpdateUser, DeleteUser, FindUsers, ToggleUser, GenerateToken, RecoveryPassword, UserProps } from '@repo/core';
 import { Response } from 'express';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CustomFilter } from 'src/errors/custom/custom.filter';
@@ -37,6 +37,8 @@ export class UserController {
     const usecase = new CreateUser(this.repo, this.crypto, this.tokenProvider, this.auditProvider)
     const result = await usecase.execute(data, { host, userAgent })
 
+    // console.log("result:", result)
+
     if (result.success) {
       res.status(result?.status ?? 200).json({
         status: result.status,
@@ -55,9 +57,9 @@ export class UserController {
       const email = data?.user.email
       const usecase = new GenerateToken(this.repo);
       const user = await usecase.execute(email)
-      if(!user){
+      if (!user) {
         throw new BadRequestException("Email não encontrado");
-      }else{
+      } else {
         await this.sendEmail.sendEmailRecovery(user.email, user.recoveryToken)
         return user
       }
@@ -67,12 +69,12 @@ export class UserController {
   }
 
   @Put("recuperar-senha")
-  async recovery(@Body() data: any,@Query('email') email: string, @Query('token') token: string) {
+  async recovery(@Body() data: any, @Query('email') email: string, @Query('token') token: string) {
     try {
       const usecase = new RecoveryPassword(this.repo, this.crypto);
-      data = {...data, email, token}
+      data = { ...data, email, token }
       await usecase.execute(data)
-      
+
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -166,7 +168,7 @@ export class UserController {
     }
 
   }
-  
+
 
   @Post("toggle/:id")
   @UseGuards(AuthGuard)

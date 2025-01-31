@@ -11,7 +11,7 @@ interface PageTemplate {
 }
 export default function PageTemplate(props: PageTemplate) {
   return (
-    <main className="flex flex-1 w-screen h-screen">
+    <main className="flex w-screen h-screen max-w-7xl mx-auto">
       <SideMenu />
       <div className="flex flex-col w-full h-full">
         <Header />

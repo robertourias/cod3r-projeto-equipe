@@ -5,11 +5,14 @@ import ProfileAvatar from "../../../../public/profile-avatar.png";
 import { poppins400, poppins600 } from "../../../utils/loadFont";
 
 import useToggle from "../../../hooks/useToggle";
+import Link from "next/link";
+import { useContext } from "react";
+import { GeneralContext } from "../../context/context";
 export default function Header() {
 
   const [openSearchInput, setOpenSearchInput] = useToggle(false);
 
-  // console.log("OPEN", openSearchInput);
+  const { selectedUser } = useContext(GeneralContext)
 
   return (
     <header className="flex w-full h-28 p-5 justify-between items-center">
@@ -30,9 +33,13 @@ export default function Header() {
             <img className="ml-2.5" src={ProfileAvatar.src} alt="Profile Avatar" />
           </div>
           <div className="flex flex-col">
-            <p className={`${poppins600.className} text-2xl`}>Eu usuário</p>
-            <p className={poppins400.className}>usuário@gmail.com</p>
+            <p className={`${poppins600.className} text-xl`}>{selectedUser?.name}</p>
+            <p className={`${poppins400.className} text-sm`}>{selectedUser?.email}</p>
+            <Link href="/" className="text-sm font-Poppins text-slate-500 hover:text-slate-400">
+              Sair
+            </Link>
           </div>
+
         </div>
       </div>
     </header>
