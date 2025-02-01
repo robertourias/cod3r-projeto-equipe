@@ -54,14 +54,6 @@ export default function UserTableRow(props: UserTableRowProps) {
           </tr>
         )
       }
-      {/* {Object.keys(props.usersList).length && (
-        <tr className="" key={0}>
-          <td className={`${poppins200.className} opacity-25 p-1`}>{objToArray[0].name}</td>
-          <td className={`${poppins400.className} border-solid border-2 border-sky-500 rounded-xl p-1`}>{''}</td>
-          <td className={`${poppins200.className} opacity-25 p-1`}>A{''}</td>
-          <td className={`${poppins200.className} opacity-25 p-1`}>{objToArray[0].workingHours}</td>
-        </tr>
-      )} */}
     </tbody>
   )
 }
