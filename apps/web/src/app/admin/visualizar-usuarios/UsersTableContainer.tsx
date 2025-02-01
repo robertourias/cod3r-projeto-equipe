@@ -12,10 +12,11 @@ interface UsersTableContainerProps {
 }
 
 export default function UsersTableContainer(props: UsersTableContainerProps) {
-  const { formData, usersList, setUsersList, token, selectedUser } = useContext(GeneralContext);
+  const { formData, usersList, setUsersList, token, selectedUser, userName } = useContext(GeneralContext);
+
+  console.log("userName", userName)
 
   useEffect(() => {
-    // console.log("selectedUser", selectedUser)
 
     if (formData.email === "admin@zmail.com.br") {
       fetch('http://localhost:3333/users', {
@@ -27,7 +28,6 @@ export default function UsersTableContainer(props: UsersTableContainerProps) {
       })
         .then(response => response.json())
         .then(data => {
-          // console.log("DATA ADMIN", data.data);
           setUsersList(data.data);
         });
     } else {
@@ -40,21 +40,18 @@ export default function UsersTableContainer(props: UsersTableContainerProps) {
       })
         .then(response => response.json())
         .then(data => {
-          // console.log("DATA DATA", data);
           setUsersList([data.data]);
         });
     }
   }, []);
 
-  // console.log("usersList", usersList, "TOKEN", token, "formData", formData);
-
   let foundUser: UserProps | undefined = undefined;
 
-  // if (usersList) {
-  //   foundUser = usersList.find((user: UserProps) => {
-  //     return user.name === userName;
-  //   });
-  // }
+  if (usersList) {
+    foundUser = usersList.find((user: UserProps) => {
+      return user.name === userName;
+    });
+  }
 
   return (
     <div className="flex flex-col gap-2 p-6">

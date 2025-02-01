@@ -4,10 +4,9 @@ import { GeneralContext } from "../../context/context";
 
 export default function SearchBar() {
 
-  const { getInputValues, userName } = useContext(GeneralContext);
+  const { getInputValues } = useContext(GeneralContext);
 
   return (
-    // bg-[#09090B]
     <div className="flex items-center justify-center p-2 ">
       <label>Pesquisar Usuários</label>
       <div className="flex gap-4 items-center justify-center">
