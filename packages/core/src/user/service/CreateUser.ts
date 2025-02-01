@@ -84,7 +84,7 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
     }
 
     const profiles = data.Profiles   //armazena o perfil se houver
-    delete data.Profiles            //apagar o perfil do objeto para não ocorrer erro no prisma; TODO: ver como corrigir
+    delete data.Profiles             //apagar o perfil do objeto para não ocorrer erro no prisma; TODO: ver como corrigir
 
 
     //cryptografa a senha
