@@ -57,7 +57,7 @@ export default function Form() {
     }
 
     setFormData(formData);
-    router.push("/criarUsuario")
+    router.push("/")
   }
 
   return (
