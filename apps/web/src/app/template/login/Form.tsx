@@ -125,7 +125,7 @@ export default function Form() {
             })
               .then(response => response.json())
               .then(data => {
-                if (data.data.token) {
+                if (data.data?.token) {
                   const formData = {
                     email: email,
                     confirmPassword: password
