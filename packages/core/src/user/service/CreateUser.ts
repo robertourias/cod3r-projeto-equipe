@@ -3,6 +3,7 @@ import { SaveAudit } from '../../audit/service/SaveAudit';
 import { CoreResponse } from '../../common/CoreResponse';
 import { UseCase } from '../../common/UseCase'
 import { isValidEmail, isValidName, isValidPassword } from '../../common/Validations';
+import { ProfileProps } from '../../profile';
 import { UserProps } from '../model/UserProps';
 import { CryptoProvider } from '../provider/CryptoProvider';
 import { TokenProvider } from '../provider/TokenProvider';
@@ -82,6 +83,9 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
       }
     }
 
+    const profiles = data.Profiles   //armazena o perfil se houver
+    delete data.Profiles            //apagar o perfil do objeto para não ocorrer erro no prisma; TODO: ver como corrigir
+
 
     //cryptografa a senha
     const hash = await this.crypto.encrypt(data.password)
@@ -103,13 +107,21 @@ export class CreateUser implements UseCase<UserProps, CoreResponse> {
         userAgent: user.userAgent
       })
 
+      //vincular perfil ao usuário caso exista
+      let userProfiles: ProfileProps[] = []
+      profiles.forEach(async (profile) => {
+        userProfiles.push(await this.repo.addProfile(+profile.id, newUser.id.toString()))
+      })
+
+      // console.log(JSON.stringify(userProfiles, null, 2))
+
       return {
         success: true,
         status: 201,
         message: "Usuário criado com sucesso",
         data: {
           token,
-          user: newUser
+          user: { ...newUser }
         }
       }
 

@@ -32,12 +32,21 @@ export class UserController {
     @Res() res: Response,
     @Headers("host") host: string,
     @Headers("user-agent") userAgent: string,
+    @Headers("authorization") authorization: string
   ) {
 
-    const usecase = new CreateUser(this.repo, this.crypto, this.tokenProvider, this.auditProvider)
-    const result = await usecase.execute(data, { host, userAgent })
+    let user = undefined
 
-    // console.log("result:", result)
+    if (authorization) {
+      const [tokenType, tokenValue] = authorization?.split(" ")
+      const payload = await JwtProvider.getPayload(tokenValue)
+      user = { email: payload.email, host, userAgent }
+    } else {
+      user = { host, userAgent }
+    }
+
+    const usecase = new CreateUser(this.repo, this.crypto, this.tokenProvider, this.auditProvider)
+    const result = await usecase.execute(data, user)
 
     if (result.success) {
       res.status(result?.status ?? 200).json({
