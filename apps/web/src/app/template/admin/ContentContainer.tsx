@@ -4,6 +4,6 @@ interface ContentContainerProps {
 export default function ContentContainer(props: ContentContainerProps) {
 
   return (
-    <section className="w-full h-4/5 bg-admin-inner-container">{props.children}</section>
+    <section className="w-full h-full bg-admin-inner-container">{props.children}</section>
   )
 }
