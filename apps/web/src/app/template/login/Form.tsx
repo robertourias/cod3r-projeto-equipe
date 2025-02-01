@@ -157,7 +157,7 @@ export default function Form() {
         </Link>
       </div> */}
       <p className="text-skin-innerText text-center">
-        Ainda não possui conta?&nbsp;<br />
+        Ainda não possui conta?<br />
         <Link className="text-skin-linkText underline" href="./cadastro">
           Cadastre-se aqui
         </Link>
