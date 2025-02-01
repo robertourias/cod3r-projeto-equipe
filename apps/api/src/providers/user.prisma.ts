@@ -7,6 +7,15 @@ export class UserPrisma implements UserRepository {
 
   constructor(private readonly prisma: PrismaService) { }
 
+  async addProfile(profileId: number, userId: string): Promise<any> {
+    return await this.prisma.userProfile.create({
+      data: {
+        profileId: profileId,
+        userId: userId
+      }
+    })
+  }
+
   async save(user: UserProps, withPassword: boolean = false): Promise<UserProps> {
 
     // console.log("UserPrisma.save()", user)

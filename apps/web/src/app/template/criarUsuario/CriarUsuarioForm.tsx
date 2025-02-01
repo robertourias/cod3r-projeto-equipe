@@ -4,13 +4,32 @@ import { ChangeEvent, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { poppins400, poppins600 } from "../../../utils/loadFont";
 import { GeneralContext } from "../../context/context";
+import { ProfileProps } from "@repo/core";
 
 export default function Form() {
 
   const router = useRouter();
-  const { formData } = useContext(GeneralContext);
+  const { formData, setFormData, token } = useContext(GeneralContext);
+
+  const [profileList, setProfileList] = useState<ProfileProps[]>([])
+  const [selectedProfile, setSelectedProfile] = useState<ProfileProps>({})
 
   // console.log("PREVIOUS FORM DATA", formData);
+
+  useEffect(() => {
+    fetch('http://localhost:3333/profile', {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        // console.log("ProfileTableContainer data", data.data);
+        setProfileList(data.data);
+      });
+  }, [])
 
   function handleSubmitNewUser(e: any) {
     e.preventDefault();
@@ -20,24 +39,32 @@ export default function Form() {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         "name": name,
         "email": email,
         "password": confirmPassword,
         "phone": phoneNumber,
-        "profileUrl": "https://profile.com/128",
+        "profileUrl": "",
         "recoveryToken": "no-token",
         "tokenExpiration": null,
         "twoFactorAuth": false,
-        "workingHours": "Segunda à sexta das 8:00-12:00 e 13:30-17:30"
+        "workingHours": "",
+        "Profiles": [selectedProfile]
       })
     })
       .then(response => response.json())
       .then(data => {
-        console.log("DATA DATA", data);
-        // setUsersList([data.data]);
-      });
+        // console.log("DATA status", data)
+        if (data.status == "400") {
+          // console.log("errors: ", JSON.stringify(data.errors, null, 2))
+          alert(data.message + "\n" + data.errors)
+        }
+        if (data.status == 201) {
+          router.push("/admin/visualizar-usuarios")
+        }
+      })
   }
 
   return (
@@ -63,7 +90,27 @@ export default function Form() {
             type="text"
             id="nameInput"
             className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
-            placeholder={formData.name}
+            // placeholder={formData.name}
+            onChange={(e) => { setFormData({ ...formData, name: e.target.value }) }}
+          // className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base"
+          />
+        </div>
+
+        <div className="mb-6 w-3/4 pt-2">
+          <div className="relative">
+            <label
+              htmlFor="emailInput"
+              className="block mb-2 text-sm font-medium text-white"
+            >
+              Email
+            </label>
+          </div>
+          <input
+            type="email"
+            id="emailInput"
+            className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
+            // placeholder={formData.name}
+            onChange={(e) => { setFormData({ ...formData, email: e.target.value }) }}
           // className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base"
           />
         </div>
@@ -81,7 +128,8 @@ export default function Form() {
             type="password"
             id="passwordInput"
             className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
-            placeholder={formData.confirmPassword}
+            // placeholder={formData.confirmPassword}
+            onChange={(e) => { setFormData({ ...formData, confirmPassword: e.target.value }) }}
           // className="bg-skin-inputBackground rounded-lg w-full p-2 mb-2 focus:outline-none focus:ring-2 focus:ring-skin-base"
           />
         </div>
@@ -91,16 +139,18 @@ export default function Form() {
           <select
             name="profile"
             id="profile"
-            className="w-1/3 m-auto mr-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
+            className="w-1/3 p-2 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
+            onChange={(e) => { setSelectedProfile({ id: e.target.value }) }}
           >
-            <option value="0" selected>
-              Perfil
-            </option>
-            <option value="1">Perfil 1</option>
-            <option value="2">Perfil 2</option>
-            <option value="3">Perfil 3</option>
+            <option value="0" selected>- Perfil -</option>
+            {
+              profileList.length > 0 && profileList.map((profile) => {
+                return <option value={profile.id}>{profile.name}</option>
+              })
+            }
           </select>
-          <select
+
+          {/* <select
             name="daysWeek"
             id="daysWeek"
             className="w-1/3 m-auto ml-2 mr-2 bg-skin-selectInputBackground p-10 pt-2 pb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-skin-base text-slate-600"
@@ -112,6 +162,7 @@ export default function Form() {
             <option value="2">Segunda à sexta das 9:00-13:00 e 14:30-18:00</option>
             <option value="3">Segunda à sexta das 10:00-14:00 e 15:30-19:00</option>
           </select>
+
           <select
             name="Active"
             id="active"
@@ -122,7 +173,7 @@ export default function Form() {
             </option>
             <option value="1">Sim</option>
             <option value="2">Não</option>
-          </select>
+          </select> */}
         </div>
         <div className="flex w-3/4">
           <button
